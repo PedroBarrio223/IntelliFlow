@@ -1,0 +1,340 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    width: 100%;
+    height: 71px;
+    background: #22395d;
+}
+
+.header-container {
+    width: 100%;
+    height: 71px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 44px 0 49px;
+
+    position: relative;
+}
+
+
+/* LOGO */
+
+.logo {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.logo-text {
+    margin-left: 10px;
+
+    color: #ffffff;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* ÍCONE DO LOGO */
+
+.logo-icon {
+    width: 26px;
+    height: 26px;
+
+    position: relative;
+
+    display: block;
+}
+
+.logo-icon span {
+    position: absolute;
+
+    width: 7px;
+    height: 13px;
+
+    background: #050505;
+
+    border-radius: 100% 0 100% 100%;
+}
+
+.navigation {
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.navigation a {
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+/* BOTÃO LOGIN */
+
+.login-button {
+    margin-left: auto;
+
+    width: 58px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #d2ae36;
+    color: #ffffff;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* =========================================================
+   ÁREA DE LOGIN
+========================================================= */
+
+.login-section {
+    width: 100%;
+    flex: 1;
+
+    display: grid;
+    grid-template-columns: 53% 47%;
+
+    min-height: calc(100vh - 71px);
+}
+
+
+/* =========================================================
+   LADO ESQUERDO - FORMULÁRIO
+========================================================= */
+
+.login-form-area {
+    background: #ffffff;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.login-form-container {
+    width: 100%;
+    max-width: 400px;
+
+    padding-top: 70px;
+}
+
+
+/* TÍTULO LOGIN */
+
+.login-form-container h1 {
+    margin: 0;
+
+    text-align: center;
+
+    color: #000000;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.login-form {
+    width: 100%;
+
+    margin-top: 60px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* CAMPOS */
+
+.login-form input {
+    width: 290px;
+    height: 50px;
+
+    padding: 0 10px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #d9d9d9;
+
+    color: #000000;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+
+    outline: none;
+}
+
+.login-form input::placeholder {
+    color: #111111;
+    opacity: 1;
+}
+
+
+/* SEGUNDO CAMPO */
+
+.login-form input + input {
+    margin-top: 36px;
+}
+
+
+/* =========================================================
+   ESQUECEU A SENHA
+========================================================= */
+
+.forgot-password {
+    margin-top: 30px;
+
+    color: #111111;
+
+    text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.register-button {
+    width: 140px;
+    height: 55px;
+
+    margin-top: 27px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #22395d;
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.register-button:hover {
+    background: #1b304f;
+}
+
+
+/* =========================================================
+   LADO DIREITO - BOAS-VINDAS
+========================================================= */
+
+.login-welcome {
+    background: #22395d;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.welcome-content {
+    margin-top: 143px;
+
+    text-align: center;
+
+    color: #ffffff;
+}
+
+
+/* TÍTULO */
+
+.welcome-content h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+
+/* TEXTO */
+
+.welcome-content p {
+    margin: 24px 0 0;
+
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+
+    line-height: 20px;
+}

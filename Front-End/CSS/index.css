@@ -66,7 +66,7 @@ body {
 
     color: #ffffff;
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
 
     line-height: 1;
@@ -170,7 +170,7 @@ body {
 
     text-decoration: none;
 
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -180,8 +180,8 @@ body {
 .login-button {
     margin-left: auto;
 
-    width: 55px;
-    height: 35px;
+    width: 58px;
+    height: 36px;
 
     display: flex;
     align-items: center;
@@ -260,10 +260,10 @@ body {
 
     color: #ffffff;
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
 
-    line-height: 22px;
+    line-height: 24px;
 }
 
 .footer-company p {
@@ -271,10 +271,10 @@ body {
 
     color: #a7b0bf;
 
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
 
-    line-height: 18px;
+    line-height: 20px;
 }
 
 
@@ -294,10 +294,10 @@ body {
 
     color: #ffffff;
 
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
 
-    line-height: 15px;
+    line-height: 18px;
 }
 
 .footer-column a {
@@ -305,10 +305,10 @@ body {
 
     text-decoration: none;
 
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
 
-    line-height: 18px;
+    line-height: 20px;
 }
 
 .quick-links a:first-of-type,
@@ -372,18 +372,18 @@ body {
     }
 
     .logo-text {
-        font-size: 17px;
+        font-size: 19px;
     }
 
     .navigation a {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .login-button {
-        width: 54px;
-        height: 34px;
+        width: 56px;
+        height: 35px;
 
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .footer {
@@ -405,8 +405,21 @@ body {
             30px;
     }
 
+    .footer-company h2 {
+    font-size: 19px;
+    }
+
     .footer-company p {
-        margin-top: 30px;
+        font-size: 13px;
+        line-height: 19px;
+    }
+
+    .footer-column h3 {
+        font-size: 13px;
+    }
+
+    .footer-column a {
+        font-size: 13px;
     }
 }
 
@@ -437,7 +450,7 @@ body {
     .logo-text {
         margin-left: 7px;
 
-        font-size: 15px;
+        font-size: 17px;
     }
 
     .navigation {
@@ -450,16 +463,16 @@ body {
     }
 
     .navigation a {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .login-button {
-        width: 52px;
-        height: 32px;
+        width: 54px;
+        height: 33px;
 
         border-radius: 8px;
 
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .footer {
@@ -489,14 +502,14 @@ body {
     }
 
     .footer-company h2 {
-        font-size: 17px;
+        font-size: 18px;
     }
 
     .footer-company p {
         margin-top: 20px;
 
-        font-size: 12px;
-        line-height: 17px;
+        font-size: 13px;
+        line-height: 18px;
     }
 
     .quick-links,
@@ -505,11 +518,11 @@ body {
     }
 
     .footer-column h3 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .footer-column a {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .instagram-icon {
