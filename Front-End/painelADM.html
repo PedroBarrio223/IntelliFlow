@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTPRO Capital</title>
+    <!-- Certifique-se de que o caminho do CSS está correto -->
     <link rel="stylesheet" href="CSS/painelADM.css">
 </head>
 
@@ -22,7 +23,6 @@
                     <span></span>
                     <span></span>
                 </span>
-
                 <span class="logo-text">OTPRO Capital</span>
             </a>
 
@@ -35,30 +35,54 @@
         </div>
     </header>
 
-   <aside class="sidebar">
+    <aside class="sidebar">
         <h1>Painel ADM</h1>
         <ul class="nav-links">
-          <li class="has-submenu" id="menu-dashboard">
-            <div class="menu-toggle"><span>🐾</span> Dashboard</div>
-            <ul class="submenu">
-              <li data-dashboard="dashboard" data-view="graficos" class="active"><span>📊</span> sub</li>
-              <li data-dashboard="dashboard" data-view="tabelas"><span>📋</span> sub</li>
-            </ul>
-          </li>
-          <li class="has-submenu" id="menu-documentos">
-            <div class="menu-toggle"><span>🎉</span> Documentos</div>
-            <ul class="submenu">
-              <li data-dashboard="documentos" data-view="tabelas"><span>📋</span> sub</li>
-            </ul>
-          </li>
-          <li class="has-submenu" id="menu-usuarios">
-            <div class="menu-toggle"><span>🚨</span> Usuários</div>
-            <ul class="submenu">
-              <li data-dashboard="usuarios" data-view="graficos"><span>📊</span> sub</li>
-              <li data-dashboard="usuarios" data-view="tabelas"><span>📋</span> sub</li>
-            </ul>
-          </li>
-      </aside>
+            <li class="has-submenu" id="menu-dashboard">
+                <div class="menu-toggle"><span>🐾</span> Dashboard</div>
+                <ul class="submenu">
+                    <li data-dashboard="dashboard" data-view="graficos" class="active"><span>📊</span> Gráficos</li>
+                    <li data-dashboard="dashboard" data-view="tabelas"><span>📋</span> Tabelas</li>
+                </ul>
+            </li>
+            <li class="has-submenu" id="menu-documentos">
+                <div class="menu-toggle"><span>🎉</span> Documentos</div>
+                <ul class="submenu">
+                    <li data-dashboard="documentos" data-view="tabelas"><span>📋</span> Ver Documentos</li>
+                </ul>
+            </li>
+            <li class="has-submenu" id="menu-usuarios">
+                <div class="menu-toggle"><span>🚨</span> Usuários</div>
+                <ul class="submenu">
+                    <li data-dashboard="usuarios" data-view="graficos"><span>📊</span> Relatórios</li>
+                    <li data-dashboard="usuarios" data-view="tabelas"><span>📋</span> Lista de Usuários</li>
+                </ul>
+            </li>
+        </ul> <!-- A tag ul que faltava fechar foi adicionada aqui -->
+    </aside>
 
+    <!-- SCRIPT PARA O MENU FUNCIONAR -->
+    <script>
+        const menuToggles = document.querySelectorAll('.menu-toggle');
+
+        menuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // Seleciona o submenu relacionado ao botão clicado
+                const submenu = this.nextElementSibling; 
+
+                // Lógica de "Sanfona": fecha os outros menus quando abre um novo
+                document.querySelectorAll('.submenu').forEach(outroMenu => {
+                    if(outroMenu !== submenu) {
+                        outroMenu.classList.remove('show');
+                    }
+                });
+
+                // Abre/Fecha o menu clicado
+                if (submenu) {
+                    submenu.classList.toggle('show');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

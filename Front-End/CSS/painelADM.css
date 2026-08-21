@@ -1,7 +1,6 @@
 /* =========================================================
    RESET
 ========================================================= */
-
 * {
     margin: 0;
     padding: 0;
@@ -17,19 +16,15 @@ body {
 body {
     margin: 0;
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
-
     font-family: Arial, Helvetica, sans-serif;
     background: #ffffff;
 }
 
-
 /* =========================================================
    HEADER
 ========================================================= */
-
 .header {
     width: 100%;
     height: 71px;
@@ -39,418 +34,234 @@ body {
 .header-container {
     width: 100%;
     height: 71px;
-
     display: flex;
     align-items: center;
-
     padding: 0 44px 0 49px;
-
     position: relative;
 }
 
-
 /* LOGO */
-
 .logo {
     height: 100%;
-
     display: flex;
     align-items: center;
-
     text-decoration: none;
     color: #ffffff;
 }
 
 .logo-text {
     margin-left: 10px;
-
     color: #ffffff;
-
     font-size: 18px;
     font-weight: 700;
-
     line-height: 1;
 }
 
-
 /* ÍCONE DO LOGO */
-
 .logo-icon {
     width: 26px;
     height: 26px;
-
     position: relative;
-
     display: block;
 }
 
 .logo-icon span {
     position: absolute;
-
     width: 7px;
     height: 13px;
-
     background: #050505;
-
     border-radius: 100% 0 100% 100%;
 }
 
-
 /* pétalas */
-
-.logo-icon span:nth-child(1) {
-    left: 10px;
-    top: 0;
-
-    transform: rotate(0deg);
-}
-
-.logo-icon span:nth-child(2) {
-    left: 17px;
-    top: 5px;
-
-    transform: rotate(50deg);
-}
-
-.logo-icon span:nth-child(3) {
-    left: 18px;
-    top: 13px;
-
-    transform: rotate(100deg);
-}
-
-.logo-icon span:nth-child(4) {
-    left: 11px;
-    top: 16px;
-
-    transform: rotate(155deg);
-}
-
-.logo-icon span:nth-child(5) {
-    left: 3px;
-    top: 13px;
-
-    transform: rotate(205deg);
-}
-
-.logo-icon span:nth-child(6) {
-    left: 1px;
-    top: 5px;
-
-    transform: rotate(255deg);
-}
-
+.logo-icon span:nth-child(1) { left: 10px; top: 0; transform: rotate(0deg); }
+.logo-icon span:nth-child(2) { left: 17px; top: 5px; transform: rotate(50deg); }
+.logo-icon span:nth-child(3) { left: 18px; top: 13px; transform: rotate(100deg); }
+.logo-icon span:nth-child(4) { left: 11px; top: 16px; transform: rotate(155deg); }
+.logo-icon span:nth-child(5) { left: 3px; top: 13px; transform: rotate(205deg); }
+.logo-icon span:nth-child(6) { left: 1px; top: 5px; transform: rotate(255deg); }
 .logo-icon span:nth-child(7) {
     left: 8px;
     top: 8px;
-
     width: 9px;
     height: 9px;
-
     border-radius: 50%;
-
     background: #050505;
-
     transform: none;
 }
 
-
 /* NAVEGAÇÃO */
-
 .navigation {
     position: absolute;
-
     left: 50%;
-
     transform: translateX(-50%);
 }
 
 .navigation a {
     color: #ffffff;
-
     text-decoration: none;
-
     font-size: 12px;
     font-weight: 400;
 }
 
-
 /* BOTÃO LOGIN */
-
 .login-button {
     margin-left: auto;
-
     width: 55px;
     height: 35px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: #d2ae36;
     color: #ffffff;
-
     border-radius: 9px;
-
     text-decoration: none;
-
     font-size: 13px;
     font-weight: 400;
 }
 
 /* =========================================================
-    Painel
+    Painel / Menu Lateral
 ========================================================= */
-
-aside{
-    width:300px;
+aside {
+    width: 300px;
     height: calc(100vh - 71px);
     background: #22395d;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 aside h1 {
-    margin:50px;
+    margin: 40px 0 30px 0;
     color: white;
-    font-size:20px
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.menu-toggle {
-    background-color:white;
-    width:220px;
-    height:45px;
+.nav-links {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    border: 2px solid rgb(168, 168, 168);
-    border-radius:5px;
-    margin-top: 10px;
 }
 
-.has-submenu {
+.has-submenu, li {
     list-style: none;
 }
 
-li {
-    list-style: none;
+/* =========================================================
+   Botões Principais do Menu
+========================================================= */
+.menu-toggle {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    width: 240px;
+    height: 48px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-top: 12px;
+    cursor: pointer; 
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle span {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   Funcionalidade Dropdown / Submenu
+========================================================= */
+.submenu {
+    display: none;
+    width: 240px;
+    margin-top: 5px;
+}
+
+.submenu.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
 }
 
 .submenu li {
-    background-color:rgb(192, 192, 192);
-    width:220px;
-    height:45px;
+    background-color: transparent;
+    color: #cbd5e1;
+    width: 100%;
+    height: 42px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    border: 2px solid rgb(145, 143, 143);
-    border-radius:5px;
-    margin-top: 10px;   
+    padding: 0 20px 0 45px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 4px;   
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
 }
 
+.submenu li:hover, .submenu li.active {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #d2ae36;
+    padding-left: 50px;
+}
 
+.submenu li span {
+    margin-right: 10px;
+    font-size: 16px;
+}
 
-
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* =========================================================
    TABLETS
 ========================================================= */
-
 @media (max-width: 768px) {
-
-    .header {
-        height: 68px;
-    }
-
-    .header-container {
-        height: 68px;
-
-        padding: 0 28px;
-    }
-
-    .logo-text {
-        font-size: 17px;
-    }
-
-    .navigation a {
-        font-size: 12px;
-    }
-
-    .login-button {
-        width: 54px;
-        height: 34px;
-
-        font-size: 12px;
-    }
-
-    .footer {
-        min-height: 270px;
-    }
-
-    .footer-container {
-        min-height: 270px;
-
-        grid-template-columns:
-            1fr
-            130px
-            150px;
-
-        padding:
-            30px
-            30px
-            22px
-            30px;
-    }
-
-    .footer-company p {
-        margin-top: 30px;
-    }
+    .header { height: 68px; }
+    .header-container { height: 68px; padding: 0 28px; }
+    .logo-text { font-size: 17px; }
+    .navigation a { font-size: 12px; }
+    .login-button { width: 54px; height: 34px; font-size: 12px; }
 }
-
 
 /* =========================================================
    CELULARES
 ========================================================= */
-
 @media (max-width: 600px) {
-
-    .header {
-        height: 64px;
-    }
-
-    .header-container {
-        height: 64px;
-
-        padding: 0 20px;
-    }
-
-    .logo-icon {
-        width: 24px;
-        height: 24px;
-
-        transform: scale(0.9);
-    }
-
-    .logo-text {
-        margin-left: 7px;
-
-        font-size: 15px;
-    }
-
-    .navigation {
-        position: static;
-
-        margin-left: auto;
-        margin-right: 18px;
-
-        transform: none;
-    }
-
-    .navigation a {
-        font-size: 11px;
-    }
-
-    .login-button {
-        width: 52px;
-        height: 32px;
-
-        border-radius: 8px;
-
-        font-size: 11px;
-    }
-
-    .footer {
-        min-height: auto;
-    }
-
-    .footer-container {
-        min-height: auto;
-
-        display: grid;
-
-        grid-template-columns: 1fr 1fr;
-
-        row-gap: 35px;
-
-        padding:
-            30px
-            25px
-            25px
-            25px;
-    }
-
-    .footer-company {
-        grid-column: 1 / -1;
-
-        min-height: 145px;
-    }
-
-    .footer-company h2 {
-        font-size: 17px;
-    }
-
-    .footer-company p {
-        margin-top: 20px;
-
-        font-size: 12px;
-        line-height: 17px;
-    }
-
-    .quick-links,
-    .contacts {
-        min-height: 100px;
-    }
-
-    .footer-column h3 {
-        font-size: 12px;
-    }
-
-    .footer-column a {
-        font-size: 12px;
-    }
-
-    .instagram-icon {
-        bottom: 0;
-    }
+    .header { height: 64px; }
+    .header-container { height: 64px; padding: 0 20px; }
+    .logo-icon { width: 24px; height: 24px; transform: scale(0.9); }
+    .logo-text { margin-left: 7px; font-size: 15px; }
+    .navigation { position: static; margin-left: auto; margin-right: 18px; transform: none; }
+    .navigation a { font-size: 11px; }
+    .login-button { width: 52px; height: 32px; border-radius: 8px; font-size: 11px; }
 }
-
 
 /* =========================================================
    CELULARES PEQUENOS
 ========================================================= */
-
 @media (max-width: 380px) {
-
-    .header-container {
-        padding: 0 15px;
-    }
-
-    .logo-text {
-        font-size: 14px;
-    }
-
-    .navigation {
-        margin-right: 12px;
-    }
-
-    .navigation a {
-        font-size: 10px;
-    }
-
-    .login-button {
-        width: 48px;
-        height: 30px;
-
-        font-size: 10px;
-    }
-
-    .main-content {
-        height: 300px;
-    }
-
-    .footer-container {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+    .header-container { padding: 0 15px; }
+    .logo-text { font-size: 14px; }
+    .navigation { margin-right: 12px; }
+    .navigation a { font-size: 10px; }
+    .login-button { width: 48px; height: 30px; font-size: 10px; }
 }
