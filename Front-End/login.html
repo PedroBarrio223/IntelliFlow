@@ -13,14 +13,11 @@
         <div class="header-container">
 
             <a href="index.html" class="logo">
+
                 <span class="logo-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span class="diamond diamond-1"></span>
+                    <span class="diamond diamond-2"></span>
+                    <span class="diamond diamond-3"></span>
                 </span>
 
                 <span class="logo-text">OTPRO Capital</span>
@@ -30,51 +27,191 @@
                 <a href="index.html">Início</a>
             </nav>
 
-            <a href="login.html" class="login-button">Login</a>
+            <a href="#" class="login-button">Criar conta</a>
 
         </div>
     </header>
 
+
     <main class="login-section">
 
-    <!-- LADO ESQUERDO -->
-    <section class="login-form-area">
+        <!-- LADO ESQUERDO -->
+        <section class="login-form-area">
 
-        <div class="login-form-container">
+            <div class="login-form-container">
 
-            <h1>LOGIN</h1>
+                <div class="lock-icon">
+                    🔒
+                </div>
 
-            <form class="login-form">
+                <h1>Bem-vindo de volta!</h1>
 
-                <input type="email" name="email" placeholder="Email" required>
+                <p class="login-subtitle">
+                    Faça login para continuar sua jornada.
+                </p>
 
-                <input type="password" name="senha" placeholder="Senha" required>
+                <form class="login-form">
 
-                <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+                    <label for="email">Email</label>
 
-                <button type="submit"
-                class="register-button">Login</button>
+                    <div class="input-wrapper">
+                        <span class="input-icon">♙</span>
+                        <input 
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="seu@email.com"
+                            required
+                        >
+                    </div>
 
-            </form>
 
-        </div>
+                    <label for="senha">Senha</label>
 
-    </section>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
 
-    <!-- LADO DIREITO -->
-    <section class="login-welcome">
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="••••••••••"
+                            required
+                        >
 
-        <div class="welcome-content">
+                        <button type="button" class="show-password">
+                            ◉
+                        </button>
+                    </div>
 
-            <h2>Olá, Usuário</h2>
 
-            <p>Coloque suas informações para<br>retomar sua jornada conosco!</p>
+                    <div class="login-options">
 
-        </div>
+                        <label class="remember">
+                            <input type="checkbox">
+                            <span>Lembrar-me</span>
+                        </label>
 
-    </section>
+                        <a href="#" class="forgot-password">
+                            Esqueceu sua senha?
+                        </a>
 
-</main>
+                    </div>
+
+
+                    <button type="submit" class="register-button">
+                        Entrar
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+
+
+                <p class="create-account">
+                    Ainda não tem uma conta?
+                    <a href="#">Criar conta</a>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- LADO DIREITO -->
+        <section class="login-welcome">
+
+            <div class="welcome-content">
+
+           
+                <h2>
+                    Olá,
+                    <span>Usuário</span>
+                </h2>
+
+                <p class="welcome-description">
+                    Acesse sua conta para acompanhar seus
+                    investimentos, analisar o mercado e tomar
+                    decisões com mais confiança.
+                </p>
+
+
+                <div class="benefits">
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ♢
+                        </div>
+
+                        <div>
+                            <h3>Segurança</h3>
+                            <p>
+                                Seus dados protegidos com tecnologia de ponta.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ◔
+                        </div>
+
+                        <div>
+                            <h3>Análises exclusivas</h3>
+                            <p>
+                                Informações estratégicas para melhores decisões.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+                            <h3>Acesso rápido</h3>
+                            <p>
+                                Plataforma intuitiva e fácil de usar.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="welcome-footer">
+
+                    <div>
+                        🔒
+                        <span>Dados protegidos</span>
+                    </div>
+
+                    <div>
+                        ☎
+                        <span>Suporte 24/7</span>
+                    </div>
+
+                    <div>
+                        ♢
+                        <span>Confiável e seguro</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </body>
 </html>
