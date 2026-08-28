@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTPRO Capital</title>
-    <!-- Certifique-se de que o caminho do CSS está correto -->
     <link rel="stylesheet" href="CSS/painelADM.css">
+    <title>OTPRO Capital - Painel ADM</title>
 </head>
-
 <body>
 
     <header class="header">
         <div class="header-container">
-
             <a href="index.html" class="logo">
-
                 <span class="logo-icon">
                     <span class="diamond diamond-1"></span>
                     <span class="diamond diamond-2"></span>
                     <span class="diamond diamond-3"></span>
                 </span>
-
                 <span class="logo-text">OTPRO Capital</span>
             </a>
 
@@ -29,55 +24,97 @@
             </nav>
 
             <a href="login.html" class="login-button">Sair</a>
-
         </div>
     </header>
 
-    <aside class="sidebar">
-        <h1>Painel ADM</h1>
-        <ul class="nav-links">
-            <li class="has-submenu" id="menu-dashboard">
-                <div class="menu-toggle"><span>🐾</span> Dashboard</div>
-                <ul class="submenu">
-                    <li data-dashboard="dashboard" data-view="graficos" class="active"><span>📊</span> Gráficos</li>
-                    <li data-dashboard="dashboard" data-view="tabelas"><span>📋</span> Tabelas</li>
-                </ul>
-            </li>
-            <li class="has-submenu" id="menu-documentos">
-                <div class="menu-toggle"><span>🎉</span> Documentos</div>
-                <ul class="submenu">
-                    <li data-dashboard="documentos" data-view="tabelas"><span>📋</span> Ver Documentos</li>
-                </ul>
-            </li>
-            <li class="has-submenu" id="menu-usuarios">
-                <div class="menu-toggle"><span>🚨</span> Usuários</div>
-                <ul class="submenu">
-                    <li data-dashboard="usuarios" data-view="graficos"><span>📊</span> Relatórios</li>
-                    <li data-dashboard="usuarios" data-view="tabelas"><span>📋</span> Lista de Usuários</li>
-                </ul>
-            </li>
-        </ul> <!-- A tag ul que faltava fechar foi adicionada aqui -->
-    </aside>
+    <div class="app-container">
+        <aside>
+            <h1>Painel ADM</h1>
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <div class="menu-toggle"><span>🐾</span> Dashboard</div>
+                    <ul class="submenu show">
+                        <li data-target="view-graficos" class="active"><span>📊</span> Gráficos</li>
+                        <li data-target="view-tabelas"><span>📋</span> Tabelas</li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <div class="menu-toggle"><span>🎉</span> Documentos</div>
+                    <ul class="submenu">
+                        <li data-target="view-documentos"><span>📋</span> Ver Documentos</li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <div class="menu-toggle"><span>🚨</span> Usuários</div>
+                    <ul class="submenu">
+                        <li data-target="view-usuarios-relatorios"><span>📊</span> Relatórios</li>
+                        <li data-target="view-usuarios-lista"><span>📋</span> Lista de Usuários</li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
 
-    <!-- SCRIPT PARA O MENU FUNCIONAR -->
+        <main class="main-content">
+            <div id="view-graficos" class="content-view-dashboard active">
+                <h2>📊 Dashboard - Gráficos</h2>
+                <p style="margin-top: 10px; color: #475569;">Área de exibição dos gráficos e estatísticas gerais.</p>
+            </div>
+
+            <div id="view-tabelas" class="content-view-tabelas" style="background-color: #e8f5e9;">
+                <h2>📋 Dashboard - Tabelas</h2>
+                <p style="margin-top: 10px; color: #475569;">Área de exibição das tabelas de dados do painel.</p>
+            </div>
+
+            <div id="view-documentos" class="content-view-documentos">
+                <h2>Documentos</h2>
+                <input type="number " placeholder="Digite o CPF">
+            </div>
+
+            <div id="view-usuarios-relatorios" class="content-view-relatorios" style="background-color: #f3e5f5;">
+                <h2>🚨 Usuários - Relatórios</h2>
+                <p style="margin-top: 10px; color: #475569;">Relatórios detalhados dos usuários cadastrados.</p>
+            </div>
+
+            <div id="view-usuarios-lista" class="content-view-lista" style="background-color: #ffebee;">
+                <h2>📋 Usuários - Lista</h2>
+                <p style="margin-top: 10px; color: #475569;">Listagem completa dos usuários do sistema.</p>
+            </div>
+        </main>
+    </div>
+
     <script>
+        // 1. Controle da Sanfona do Menu Lateral
         const menuToggles = document.querySelectorAll('.menu-toggle');
 
         menuToggles.forEach(toggle => {
             toggle.addEventListener('click', function() {
-                // Seleciona o submenu relacionado ao botão clicado
-                const submenu = this.nextElementSibling; 
-
-                // Lógica de "Sanfona": fecha os outros menus quando abre um novo
+                const submenu = this.nextElementSibling;
                 document.querySelectorAll('.submenu').forEach(outroMenu => {
-                    if(outroMenu !== submenu) {
+                    if (outroMenu !== submenu) {
                         outroMenu.classList.remove('show');
                     }
                 });
-
-                // Abre/Fecha o menu clicado
                 if (submenu) {
                     submenu.classList.toggle('show');
+                }
+            });
+        });
+
+        // 2. Troca de Telas na Área Direita
+        const subMenuItems = document.querySelectorAll('.submenu li');
+        const views = document.querySelectorAll('.main-content > div');
+
+        subMenuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                subMenuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+
+                views.forEach(v => v.classList.remove('active'));
+
+                const targetId = this.getAttribute('data-target');
+                const targetView = document.getElementById(targetId);
+                if (targetView) {
+                    targetView.classList.add('active');
                 }
             });
         });

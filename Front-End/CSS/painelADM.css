@@ -23,6 +23,16 @@ body {
 }
 
 /* =========================================================
+   LAYOUT PRINCIPAL (CONTAINER)
+========================================================= */
+.app-container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: calc(100vh - 76px);
+}
+
+/* =========================================================
    HEADER
 ========================================================= */
 
@@ -42,7 +52,6 @@ body {
     padding: 0 52px;
 }
 
-
 /* =========================================================
    LOGO
 ========================================================= */
@@ -59,7 +68,6 @@ body {
     font-size: 20px;
     font-weight: 700;
 }
-
 
 /* ÍCONE */
 
@@ -98,7 +106,6 @@ body {
     background: #d7b54a;
 }
 
-
 /* =========================================================
    NAVEGAÇÃO
 ========================================================= */
@@ -119,7 +126,6 @@ body {
 .navigation a:hover {
     opacity: 0.75;
 }
-
 
 /* =========================================================
    BOTÃO HEADER
@@ -151,18 +157,18 @@ body {
     color: #142b50;
 }
 
-
 /* =========================================================
-    Painel / Menu Lateral
+   Painel / Menu Lateral
 ========================================================= */
 aside {
     width: 300px;
-    height: calc(100vh - 71px);
+    min-height: calc(100vh - 76px);
     background: #142b50;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 aside h1 {
@@ -264,6 +270,97 @@ aside h1 {
 }
 
 /* =========================================================
+   ÁREA DE CONTEÚDO PRINCIPAL (DIREITA)
+========================================================= */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #f8fafc;
+}
+
+/* Dashboard */
+
+.content-view-dashboard {
+    display: none;
+    padding: 40px;
+    border: 1px solid black;
+    height: 100%; 
+}
+
+.content-view-dashboard.active {
+    display: block;
+}
+
+/* Tabelas */
+
+.content-view-tabelas {
+    display: none;
+    padding: 40px;
+    border: 1px solid black;
+    height: 100%; 
+    background-color:  #fff3e0;
+}
+
+.content-view-tabelas.active {
+    display: block;
+}
+
+/* Documentos */
+
+.content-view-documentos {
+    display: none;
+    padding: 40px;
+    border: 1px solid black;
+    height: 100%; 
+}
+
+.content-view-documentos.active {
+    display: block;
+}
+
+.content-view-documentos input {
+    width:300px;
+    height:30px;
+    text-align: center;
+    border-radius:8px;
+    border: solid;
+    border-width:2px;
+    border-color:#d7b54a;
+}
+
+.content-view-documentos input:focus {
+    outline: 0.5px solid #d7b54a;
+}
+
+/* Relatorios */
+
+.content-view-relatorios {
+    display: none;
+    padding: 40px;
+    border: 1px solid black;
+    height: 100%; 
+}
+
+.content-view-relatorios.active {
+    display: block;
+}
+
+
+
+
+/* Lista */
+.content-view-lista {
+    display: none;
+    padding: 40px;
+    border: 1px solid black;
+    height: 100%; 
+}
+
+.content-view-lista.active {
+    display: block;
+}
+
+/* =========================================================
    TABLETS
 ========================================================= */
 @media (max-width: 768px) {
@@ -272,6 +369,8 @@ aside h1 {
     .logo-text { font-size: 17px; }
     .navigation a { font-size: 12px; }
     .login-button { width: 54px; height: 34px; font-size: 12px; }
+    .app-container { flex-direction: column; }
+    aside { width: 100%; height: auto; min-height: initial; }
 }
 
 /* =========================================================
