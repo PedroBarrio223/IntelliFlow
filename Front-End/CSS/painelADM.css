@@ -345,9 +345,6 @@ aside h1 {
     display: block;
 }
 
-
-
-
 /* Lista */
 .content-view-lista {
     display: none;
@@ -359,6 +356,108 @@ aside h1 {
 .content-view-lista.active {
     display: block;
 }
+
+/* =========================================================
+   ÁREA DE FILTRAGEM DOS DOCUMENTOS
+========================================================= */
+
+.secao-filtro {
+  background: #fff;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+/* Título */
+.secao-filtro h1 {
+  margin: 0 0 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  color: #2f2f2f;
+}
+
+/* Container dos filtros */
+.filtro-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Campo de busca */
+.campo-busca {
+  flex: 1 1 320px;
+  min-width: 240px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text);
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.campo-busca:focus {
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(121, 86, 166, 0.12);
+}
+
+.filtro-container-principal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  margin-bottom: 35px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Barra Principal (Sempre Visível) */
+.filtro-barra-principal {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.busca-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.icone-busca {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.campo-busca-nome {
+  width: 140vh !important;
+  box-sizing: border-box;
+
+  padding: 14px 14px 14px 44px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  background: #fafafa;
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  color: #444;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.campo-busca-nome:focus {
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(121, 86, 166, 0.1);
+}
+
 
 /* =========================================================
    TABLETS
