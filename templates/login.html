@@ -3,46 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTPRO Capital</title>
-    <link rel="stylesheet" href="CSS/login.css">
+    <title>OTPRO Capital - Login</title>
+    <link rel="stylesheet" href="../static/CSS/login.css">
 </head>
-
-<body>
+<body>  
 
     <header class="header">
         <div class="header-container">
-
-            <a href="index.html" class="logo">
-
-                <span class="logo-icon">
+            <a href="/" class="logo">
+                <span class="logo-icon">    
                     <span class="diamond diamond-1"></span>
                     <span class="diamond diamond-2"></span>
                     <span class="diamond diamond-3"></span>
                 </span>
-
                 <span class="logo-text">OTPRO Capital</span>
             </a>
 
             <nav class="navigation">
-                <a href="index.html">Início</a>
+                <a href="/">Início</a>
             </nav>
 
-            <a href="login.html" class="login-button">Login</a>
-
+            <a href="{{ url_for('login') }}" class="login-button">Login</a>
         </div>
     </header>
-
 
     <main class="login-section">
 
         <!-- LADO ESQUERDO -->
         <section class="login-form-area">
-
             <div class="login-form-container">
 
-                <div class="lock-icon">
-                    🔒
-                </div>
+                <div class="lock-icon">🔒</div>
 
                 <h1>Bem-vindo de volta!</h1>
 
@@ -50,10 +41,9 @@
                     Faça login para continuar sua jornada.
                 </p>
 
-                <form class="login-form">
+                <form class="login-form" action="{{ url_for('login') }}" method="POST">
 
                     <label for="email">Email</label>
-
                     <div class="input-wrapper">
                         <span class="input-icon">♙</span>
                         <input 
@@ -65,12 +55,9 @@
                         >
                     </div>
 
-
                     <label for="senha">Senha</label>
-
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
-
                         <input
                             type="password"
                             id="senha"
@@ -78,26 +65,12 @@
                             placeholder="••••••••••"
                             required
                         >
-
-                        <button type="button" class="show-password">
-                            ◉
-                        </button>
+                        <button type="button" class="show-password">◉</button>
                     </div>
-
 
                     <div class="login-options">
-
-                        <label class="remember">
-                            <input type="checkbox">
-                            <span>Lembrar-me</span>
-                        </label>
-
-                        <a href="#" class="forgot-password">
-                            Esqueceu sua senha?
-                        </a>
-
+                        <a href="#" class="forgot-password">Esqueceu sua senha?</a>
                     </div>
-
 
                     <button type="submit" class="register-button">
                         Entrar
@@ -106,24 +79,12 @@
 
                 </form>
 
-
-
-                <p class="create-account">
-                    Ainda não tem uma conta?
-                    <a href="#">Criar conta</a>
-                </p>
-
             </div>
-
         </section>
-
 
         <!-- LADO DIREITO -->
         <section class="login-welcome">
-
             <div class="welcome-content">
-
-           
                 <h2>
                     Olá,
                     <span>Usuário</span>
@@ -135,80 +96,38 @@
                     decisões com mais confiança.
                 </p>
 
-
                 <div class="benefits">
-
                     <div class="benefit">
-
-                        <div class="benefit-icon">
-                            ♢
-                        </div>
-
+                        <div class="benefit-icon">♢</div>
                         <div>
                             <h3>Segurança</h3>
-                            <p>
-                                Seus dados protegidos com tecnologia de ponta.
-                            </p>
+                            <p>Seus dados protegidos com tecnologia de ponta.</p>
                         </div>
-
                     </div>
 
-
                     <div class="benefit">
-
-                        <div class="benefit-icon">
-                            ◔
-                        </div>
-
+                        <div class="benefit-icon">◔</div>
                         <div>
                             <h3>Análises exclusivas</h3>
-                            <p>
-                                Informações estratégicas para melhores decisões.
-                            </p>
+                            <p>Informações estratégicas para melhores decisões.</p>
                         </div>
-
                     </div>
-
 
                     <div class="benefit">
-
-                        <div class="benefit-icon">
-                            ⚡
-                        </div>
-
+                        <div class="benefit-icon">⚡</div>
                         <div>
                             <h3>Acesso rápido</h3>
-                            <p>
-                                Plataforma intuitiva e fácil de usar.
-                            </p>
+                            <p>Plataforma intuitiva e fácil de usar.</p>
                         </div>
-
                     </div>
-
                 </div>
-
 
                 <div class="welcome-footer">
-
-                    <div>
-                        🔒
-                        <span>Dados protegidos</span>
-                    </div>
-
-                    <div>
-                        ☎
-                        <span>Suporte 24/7</span>
-                    </div>
-
-                    <div>
-                        ♢
-                        <span>Confiável e seguro</span>
-                    </div>
-
+                    <div>🔒 <span>Dados protegidos</span></div>
+                    <div>☎ <span>Suporte 24/7</span></div>
+                    <div>♢ <span>Confiável e seguro</span></div>
                 </div>
-
             </div>
-
         </section>
 
     </main>
