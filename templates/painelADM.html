@@ -87,36 +87,41 @@
             </div>
 
             <div id="view-usuarios-lista" class="content-view-lista" style="background-color: #ffebee;">
+
                 <h2>📋 Usuários - Lista</h2>
-                <img src="../static/img/Captura de tela 2026-09-02 151815.png" alt="">
-                    <table class="tabela-usuarios">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome do Usuário</th>
-                                <th>E-mail</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for usuario in usuarios %}
-                            <tr>
-                                <td>{{ usuario.id_usuario }}</td>
-                                <td>{{ usuario.nome_usuario }}</td>
-                                <td>{{ usuario.email }}</td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td colspan="3">Nenhum usuário cadastrado.</td>
-                            </tr>   
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+                <table class="tabela-usuarios">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome do Usuário</th>
+                            <th>E-mail</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.id_usuario }}</td>
+                            <td>{{ usuario.nome_usuario }}</td>
+                            <td>{{ usuario.email }}</td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="3">Nenhum usuário cadastrado.</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
             </div>
-        </main>
-    </div>
 
     <script>
-        // 1. Controle da Sanfona do Menu Lateral
+    
+    // 1. Controle da Sanfona do Menu Lateral
         const menuToggles = document.querySelectorAll('.menu-toggle');
 
         menuToggles.forEach(toggle => {
@@ -151,6 +156,9 @@
                 }
             });
         });
-    </script>
+
+        </script>
+
+    <link rel="stylesheet" href="..static/js/painelADM.js">
 </body>
 </html>

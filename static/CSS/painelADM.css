@@ -458,6 +458,74 @@ aside h1 {
   box-shadow: 0 0 0 3px rgba(121, 86, 166, 0.1);
 }
 
+/* Área da lista de usuários */
+.content-view-lista {
+    padding: 30px;
+    border-radius: 12px;
+}
+
+/* Título */
+.content-view-lista h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Tabela */
+.tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Cabeçalho */
+.tabela-usuarios thead {
+    background-color: #142b50;
+    color: white;
+}
+
+.tabela-usuarios th {
+    padding: 15px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Células */
+.tabela-usuarios td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eeeeee;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Linhas alternadas */
+.tabela-usuarios tbody tr:nth-child(even) {
+    background-color: #fff5f7;
+}
+
+/* Efeito ao passar o mouse */
+.tabela-usuarios tbody tr:hover {
+    background-color: #d8c998;
+    transition: 0.2s;
+}
+
+/* Remove a borda da última linha */
+.tabela-usuarios tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Mensagem quando não existem usuários */
+.tabela-usuarios td[colspan="3"] {
+    text-align: center;
+    color: #777;
+    padding: 25px;
+    font-style: italic;
+}
+
 
 /* =========================================================
    TABLETS
