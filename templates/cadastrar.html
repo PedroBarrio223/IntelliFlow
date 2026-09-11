@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Cadastro</title>
+    <style>
+        .container-senha {
+            position: relative;
+            display: inline-block;
+        }
+
+        .container-senha input {
+            padding-right: 35px;
+        }
+
+        .btn-toggle {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="formCadastro">
+        <h3>Nome do Usuário</h3>
+        <input type="text" id="nome">
+
+        <h3>Email do Usuário</h3>
+        <input type="email" id="email">
+
+        <h3>Senha do Usuário</h3>
+        <div class="container-senha">
+            <input type="password" id="senha">
+            <button type="button" id="toggleSenha" class="btn-toggle">
+                <i class="ph ph-eye-slash"></i>
+            </button>
+        </div>
+        <br><br>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script>
+        const inputSenha = document.getElementById("senha");
+        const btnToggle = document.getElementById("toggleSenha");
+
+        // Alternar a exibição da senha e trocar o ícone
+        btnToggle.addEventListener("click", function() {
+            if (inputSenha.type === "password") {
+                inputSenha.type = "text";
+                btnToggle.innerHTML = '<i class="ph ph-eye"></i>';
+            } else {
+                inputSenha.type = "password";
+                btnToggle.innerHTML = '<i class="ph ph-eye-slash"></i>';
+            }
+        });
+
+        // Validação da senha (8 caracteres, maiúscula, minúscula, número e caractere especial)
+        function validarSenha(senha) { 
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/; 
+            return regex.test(senha); 
+        } 
+
+        const form = document.getElementById("formCadastro");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const senhaDigitada = inputSenha.value; 
+
+            if (!validarSenha(senhaDigitada)) { 
+                alert("A senha não cumpre os requisitos!\n\nA senha deve conter:\n- No mínimo 8 caracteres\n- 1 letra maiúscula\n- 1 letra minúscula\n- 1 número\n- 1 caractere especial (!@#$%^&*...)"); 
+            } else {
+                alert("Senha válida! Prosseguindo com o cadastro...");
+            } 
+        });
+    </script>
+</body>
+</html>
