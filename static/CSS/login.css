@@ -365,6 +365,20 @@ body {
     font-size: 15px;
 }
 
+/* =========================================================
+   BOTÃO DE TROCAR
+========================================================= */
+
+.btn-toggle {
+    margin-right:15px;
+    background-color: white;
+    border:none;
+    cursor:pointer;
+}
+
+.btn-toggle i {
+    font-size:20px
+}
 
 /* =========================================================
    OPÇÕES
