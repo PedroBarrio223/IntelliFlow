@@ -1,164 +1,351 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../static/CSS/painelADM.css">
+
     <title>OTPRO Capital - Painel ADM</title>
+
 </head>
+
 <body>
 
+
+
     <header class="header">
+
         <div class="header-container">
+
             <a href="/" class="logo">
+
                 <span class="logo-icon">
+
                     <span class="diamond diamond-1"></span>
+
                     <span class="diamond diamond-2"></span>
+
                     <span class="diamond diamond-3"></span>
+
                 </span>
+
                 <span class="logo-text">OTPRO Capital</span>
+
             </a>
 
+
+
             <nav class="navigation">
+
                 <a href="/">Início</a>
+
             </nav>
 
+
+
             <a href="login.html" class="login-button">Sair</a>
+
         </div>
+
     </header>
 
+
+
     <div class="app-container">
+
         <aside>
+
             <h1>Painel ADM</h1>
+
             <ul class="nav-links">
+
                 <li class="has-submenu">
+
                     <div class="menu-toggle"><span>🐾</span> Dashboard</div>
+
                     <ul class="submenu show">
+
                         <li data-target="view-graficos" class="active"><span>📊</span> Gráficos</li>
+
                         <li data-target="view-tabelas"><span>📋</span> Tabelas</li>
+
                     </ul>
+
                 </li>
+
                 <li class="has-submenu">
+
                     <div class="menu-toggle"><span>🎉</span> Documentos</div>
+
                     <ul class="submenu">
+
                         <li data-target="view-documentos"><span>📋</span> Ver Documentos</li>
+
                     </ul>
+
                 </li>
+
                 <li class="has-submenu">
+
                     <div class="menu-toggle"><span>🚨</span> Usuários</div>
+
                     <ul class="submenu">
+
                         <li data-target="view-usuarios-relatorios"><span>📊</span> Relatórios</li>
+
                         <li data-target="view-usuarios-lista"><span>📋</span> Lista de Usuários</li>
+
                     </ul>
+
                 </li>
+
             </ul>
+
         </aside>
 
+
+
         <main class="main-content">
+
             <div id="view-graficos" class="content-view-dashboard active">
+
                 <h2>📊 Dashboard - Gráficos</h2>
+
                 <p style="margin-top: 10px; color: #475569;">Área de exibição dos gráficos e estatísticas gerais.</p>
+
             </div>
+
+
 
             <div id="view-tabelas" class="content-view-tabelas" style="background-color: #e8f5e9;">
+
                 <h2>📋 Dashboard - Tabelas</h2>
+
                 <p style="margin-top: 10px; color: #475569;">Área de exibição das tabelas de dados do painel.</p>
+
             </div>
+
+
 
             <div id="view-documentos" class="content-view-documentos">
+
                 <h2 style="margin-bottom: 15px; text-align: center;">Documentos</h2>
+
                 <section class="secao-filtro">
-                    
+
+                   
+
                     <div class= "filtro-container-principal">
-                        
+
+                       
+
                         <div class="filtro-barra-principal">
+
                             <div class="busca-wrapper">
+
                             <span class="icone-busca">🔍</span>
+
                             <input type="text" inputmode="numeric" maxlength="11" id="inputBusca" placeholder="Pesquisar por CPF" class="campo-busca-nome">
+
                         </div>
-                            
+
+                           
+
                     </div>
+
                 </section>
+
             </div>
 
+
+
             <div id="view-usuarios-relatorios" class="content-view-relatorios" style="background-color: #f3e5f5;">
-                <h2>🚨 Usuários - Relatórios</h2>
+
+                <h2>🚨 Usuários - Cadastro</h2>
+
                 <p style="margin-top: 10px; color: #475569;">Relatórios detalhados dos usuários cadastrados.</p>
+
+
+
+                <div id="modal" class="modalEsqueceuSenha">
+
+                    <form action="" method="" class="formCadastro">
+
+                        <h3>CADASTRO</h3>
+
+                        <p>Para cadastar o usuário, preencha as seguintes informações.</p><br>
+
+                        <input type="text" placeholder="Nome" id="campoNome" required><br>
+
+                        <input type="email" placeholder="Email" id="campoEmail" required><br>
+
+                        <input type="password" placeholder="Senha" id="campoSenha" required><br>
+
+                        <input type="password" placeholder="Confirme sua Senha" id="campoSenhaConfirmacao" required><br>
+
+                        <button type="button" class="btn-cadastro" onclick="irCadastro()">Cadastrar</button>
+
+                    </form>
+
+                </div>
+
             </div>
+
+
 
             <div id="view-usuarios-lista" class="content-view-lista" style="background-color: #ffebee;">
 
+
+
                 <h2>📋 Usuários - Lista</h2>
 
+
+
                 <table class="tabela-usuarios">
+
                     <thead>
+
                         <tr>
+
                             <th>ID</th>
+
                             <th>Nome do Usuário</th>
+
                             <th>E-mail</th>
+
                         </tr>
+
                     </thead>
 
+
+
                     <tbody>
+
                         {% for usuario in usuarios %}
+
                         <tr>
+
                             <td>{{ usuario.id_usuario }}</td>
+
                             <td>{{ usuario.nome_usuario }}</td>
+
                             <td>{{ usuario.email }}</td>
+
                         </tr>
+
+
 
                         {% else %}
 
+
+
                         <tr>
+
                             <td colspan="3">Nenhum usuário cadastrado.</td>
+
                         </tr>
 
+
+
                         {% endfor %}
+
                     </tbody>
+
                 </table>
+
+
 
             </div>
 
+
+
     <script>
-    
+
+   
+
     // 1. Controle da Sanfona do Menu Lateral
+
         const menuToggles = document.querySelectorAll('.menu-toggle');
 
+
+
         menuToggles.forEach(toggle => {
+
             toggle.addEventListener('click', function() {
+
                 const submenu = this.nextElementSibling;
+
                 document.querySelectorAll('.submenu').forEach(outroMenu => {
+
                     if (outroMenu !== submenu) {
+
                         outroMenu.classList.remove('show');
+
                     }
+
                 });
+
                 if (submenu) {
+
                     submenu.classList.toggle('show');
+
                 }
+
             });
+
         });
 
+
+
         // 2. Troca de Telas na Área Direita
+
         const subMenuItems = document.querySelectorAll('.submenu li');
+
         const views = document.querySelectorAll('.main-content > div');
 
+
+
         subMenuItems.forEach(item => {
+
             item.addEventListener('click', function() {
+
                 subMenuItems.forEach(i => i.classList.remove('active'));
+
                 this.classList.add('active');
+
+
 
                 views.forEach(v => v.classList.remove('active'));
 
+
+
                 const targetId = this.getAttribute('data-target');
+
                 const targetView = document.getElementById(targetId);
+
                 if (targetView) {
+
                     targetView.classList.add('active');
+
                 }
+
             });
+
         });
+
+
 
         </script>
 
+
+
     <link rel="stylesheet" href="..static/js/painelADM.js">
+
 </body>
+
 </html>
