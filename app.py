@@ -36,7 +36,19 @@ def login():
 
             if usuario_encontrado:
                 # Redireciona para a rota do painel ADM para carregar os dados da tabela
-                return redirect(url_for("painel_adm"))
+                if usuario_encontrado['cargo'] == 'leitor':
+                    return redirect(url_for("painel_adm_leitor"))
+                
+                elif usuario_encontrado['cargo'] == 'editor':
+                    return redirect(url_for("painel_adm_editor"))
+
+                elif usuario_encontrado['cargo'] == 'administrador':
+                    return redirect(url_for("painel_adm_administrador"))
+
+                else:
+                    return "<script>alert('Cargo não encontrado, consulte seu supervisor!'); window.location.href='/login';</script>"
+
+                
             else:
                 return "<script>alert('E-mail ou senha incorretos!'); window.location.href='/login';</script>"
 
@@ -45,8 +57,8 @@ def login():
 
     return render_template("login.html")
 
-@app.route("/painelADM")
-def painel_adm():
+@app.route("/painel_adm_leitor")
+def painel_adm_leitor():
     try:
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
@@ -60,7 +72,49 @@ def painel_adm():
         db.close()
 
         # Renderiza a pagina do painel passando os dados dos usuarios
-        return render_template("painelADM.html", usuarios=lista_usuarios)
+        return render_template("painelADM_leitor.html", usuarios=lista_usuarios)
+
+    except mysql.connector.Error as err:
+        return f"Erro ao buscar usuarios: {err}"
+
+
+@app.route("/painel_adm_editor")
+def painel_adm_editor():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        # Consulta todos os usuarios cadastrados
+        query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
+        cursor.execute(query)
+        lista_usuarios = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        # Renderiza a pagina do painel passando os dados dos usuarios
+        return render_template("painelADM_editor.html", usuarios=lista_usuarios)
+
+    except mysql.connector.Error as err:
+        return f"Erro ao buscar usuarios: {err}"
+
+
+@app.route("/painel_adm_administrador")
+def painel_adm_administrador():
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        # Consulta todos os usuarios cadastrados
+        query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
+        cursor.execute(query)
+        lista_usuarios = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        # Renderiza a pagina do painel passando os dados dos usuarios
+        return render_template("painelADM_administrador.html", usuarios=lista_usuarios)
 
     except mysql.connector.Error as err:
         return f"Erro ao buscar usuarios: {err}"

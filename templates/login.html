@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <title>OTPRO Capital - Login</title>
     <link rel="stylesheet" href="../static/CSS/login.css">
 </head>
 <body>  
-
+      
     <header class="header">
         <div class="header-container">
             <a href="/" class="logo">
@@ -52,7 +53,13 @@
                     <label for="senha">Senha</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
+                        <!-- Campo de senha único com o id="senha" -->
                         <input type="password" id="senha" name="senha" placeholder="••••••••••" required>
+                        
+                        <!-- Botão de alternar senha posicionado dentro do wrapper -->
+                        <button type="button" id="toggleSenha" class="btn-toggle" >
+                            <i class="ph ph-eye-slash"></i>
+                        </button>
                     </div>
 
                     <button type="submit" class="register-button">
@@ -115,6 +122,21 @@
 
     </main>
 
-    <link rel="stylesheet" href="..static/js/login.js">
+    <script>
+        // Seleciona os elementos corretos pelo ID
+        const btnToggle = document.getElementById("toggleSenha");
+        const inputSenha = document.getElementById("senha");
+
+        btnToggle.addEventListener("click", function() {
+            if (inputSenha.type === "password") {
+                inputSenha.type = "text";
+                btnToggle.innerHTML = '<i class="ph ph-eye"></i>';
+            } else {
+                inputSenha.type = "password";
+                btnToggle.innerHTML = '<i class="ph ph-eye-slash"></i>';
+            }
+        });
+    </script>
+
 </body>
 </html>
