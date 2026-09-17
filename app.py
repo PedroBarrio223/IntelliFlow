@@ -1,15 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import mysql.connector
 
 app = Flask(__name__)
 
-# Conexão com o banco MySQL do XAMPP
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
         password="",
-        database="info.usuarios"  # Utilizando o nome do banco com ponto conforme configurado no seu XAMPP
+        database="info.usuarios"
     )
 
 @app.route("/")
@@ -26,7 +25,6 @@ def login():
             db = get_db_connection()
             cursor = db.cursor(dictionary=True)
 
-            # Valida email e senha no banco de dados
             query = "SELECT * FROM usuarios WHERE email = %s AND senha = %s"
             cursor.execute(query, (email_input, senha_input))
             usuario_encontrado = cursor.fetchone()
@@ -35,20 +33,14 @@ def login():
             db.close()
 
             if usuario_encontrado:
-                # Redireciona para a rota do painel ADM para carregar os dados da tabela
                 if usuario_encontrado['cargo'] == 'leitor':
                     return redirect(url_for("painel_adm_leitor"))
-                
                 elif usuario_encontrado['cargo'] == 'editor':
                     return redirect(url_for("painel_adm_editor"))
-
                 elif usuario_encontrado['cargo'] == 'administrador':
                     return redirect(url_for("painel_adm_administrador"))
-
                 else:
                     return "<script>alert('Cargo não encontrado, consulte seu supervisor!'); window.location.href='/login';</script>"
-
-                
             else:
                 return "<script>alert('E-mail ou senha incorretos!'); window.location.href='/login';</script>"
 
@@ -62,62 +54,85 @@ def painel_adm_leitor():
     try:
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-
-        # Consulta todos os usuarios cadastrados
         query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
         cursor.execute(query)
         lista_usuarios = cursor.fetchall()
-
         cursor.close()
         db.close()
-
-        # Renderiza a pagina do painel passando os dados dos usuarios
         return render_template("painelADM_leitor.html", usuarios=lista_usuarios)
-
     except mysql.connector.Error as err:
         return f"Erro ao buscar usuarios: {err}"
-
 
 @app.route("/painel_adm_editor")
 def painel_adm_editor():
     try:
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-
-        # Consulta todos os usuarios cadastrados
         query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
         cursor.execute(query)
         lista_usuarios = cursor.fetchall()
-
         cursor.close()
         db.close()
-
-        # Renderiza a pagina do painel passando os dados dos usuarios
         return render_template("painelADM_editor.html", usuarios=lista_usuarios)
-
     except mysql.connector.Error as err:
         return f"Erro ao buscar usuarios: {err}"
-
 
 @app.route("/painel_adm_administrador")
 def painel_adm_administrador():
     try:
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-
-        # Consulta todos os usuarios cadastrados
         query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
         cursor.execute(query)
         lista_usuarios = cursor.fetchall()
-
         cursor.close()
         db.close()
-
-        # Renderiza a pagina do painel passando os dados dos usuarios
         return render_template("painelADM_administrador.html", usuarios=lista_usuarios)
-
     except mysql.connector.Error as err:
         return f"Erro ao buscar usuarios: {err}"
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route('/receber-dados', methods=['POST'])
+def receber_dados():
+    dados = request.get_json()
+
+    nome = dados.get('nome')
+    email = dados.get('email')
+    senha = dados.get('senha')
+    cargo = dados.get('cargo')
+
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        query = "SELECT * FROM usuarios WHERE email = %s"
+        cursor.execute(query, (email,))
+        usuario_encontrado = cursor.fetchone()
+
+        if usuario_encontrado:
+            return jsonify({
+                "status": "sucesso", 
+                "mensagem": f"Olá {nome}, Não foi possivel fazer esse cadastro por ja existir esse email"
+            }), 200
+
+            
+        else:
+            query = "INSERT INTO usuarios (nome_usuario, email, senha, cargo) VALUES (%s, %s, %s, %s)"
+            cursor.execute(query, (nome, email, senha, cargo))
+            
+            db.commit()
+            cursor.close()
+            db.close()
+
+            return jsonify({
+                            "status": "sucesso", 
+                            "mensagem": f"Olá {nome}, seus dados foram recebidos e salvos pelo Python!"
+                        }), 200
+           
+    except Exception as e:
+        return jsonify({
+            "status": "erro",
+            "mensagem": str(e)
+        }), 500
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
