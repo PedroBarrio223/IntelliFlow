@@ -10,8 +10,6 @@
 
     <link rel="stylesheet" href="../static/CSS/painelADM.css">
 
-    <script src="{{ url_for('static', filename='js/painelADM.js') }}"></script>
-
     <title>OTPRO Capital - Painel ADM</title>
 
 </head>
@@ -74,8 +72,6 @@
 
                         <li data-target="view-graficos" class="active"><span>📊</span> Gráficos</li>
 
-                        <li data-target="view-tabelas"><span>📋</span> Tabelas</li>
-
                     </ul>
 
                 </li>
@@ -98,9 +94,9 @@
 
                     <ul class="submenu">
 
-                        <li data-target="view-usuarios-relatorios"><span>📊</span> Relatórios</li>
+                        <li data-target="view-usuarios-relatorios"><span>📋</span> Cadastro</li>
 
-                        <li data-target="view-usuarios-lista"><span>📋</span> Lista de Usuários</li>
+                        <li data-target="view-usuarios-lista"><span>📊</span> Lista de Usuários</li>
 
                     </ul>
 
@@ -162,6 +158,94 @@
 
                 </section>
 
+                <button type="button" id="btnAbrirUpload" class="btn-upload-flutuante" title="Adicionar documento" aria-label="Adicionar documento">
+                        +
+                    </button>
+
+
+                    <!-- =====================================================
+                        MODAL DE UPLOAD
+                    ====================================================== -->
+
+                    <div id="modalUpload" class="modal-upload">
+
+                        <div class="modal-upload-conteudo">
+
+                            <!-- Cabeçalho -->
+                            <div class="modal-upload-header">
+
+                                <div>
+                                    <h2>Adicionar Documento</h2>
+                                    <p>Envie uma imagem ou PDF para identificação.</p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    id="btnFecharUpload"
+                                    class="btn-fechar-upload"
+                                    aria-label="Fechar"
+                                >
+                                    &times;
+                                </button>
+
+                            </div>
+
+
+                            <!-- Área de upload -->
+                            <div
+                                class="dropzone-upload"
+                                id="dropzoneUpload"
+                            >
+
+                                <div class="upload-icone">
+                                    ↑
+                                </div>
+
+                                <p>
+                                    Clique ou arraste seu documento aqui
+                                </p>
+
+                                <span>
+                                    Suporta imagens JPG, PNG e PDF
+                                </span>
+
+                                <input
+                                    type="file"
+                                    id="fileInputUpload"
+                                    accept="image/*,.pdf"
+                                >
+
+                            </div>
+
+
+                            <!-- Informações do arquivo -->
+                            <div
+                                class="file-info-upload"
+                                id="fileInfoUpload"
+                            ></div>
+
+
+                            <!-- Botão enviar -->
+                            <button
+                                type="button"
+                                id="btnEnviarUpload"
+                                class="btn-enviar-upload"
+                                disabled
+                            >
+                                Enviar Documento
+                            </button>
+
+
+                            <!-- Status -->
+                            <div
+                                class="status-upload"
+                                id="statusUpload"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
             </div>
 
 
@@ -202,25 +286,91 @@
 
                 <h2>📋 Usuários - Lista</h2>
 
+                <div id="modalCargo" class="modal-cargo">
 
+                    <div class="modal-cargo-conteudo">
+
+                        <button 
+                            type="button" 
+                            class="modal-cargo-fechar"
+                            onclick="fecharModalCargo()"
+                        >
+                            &times;
+                        </button>
+
+                        <h3>Alterar Cargo</h3>
+
+                        <p id="nomeUsuarioCargo">
+                            Usuário
+                        </p>
+
+                        <form id="formAlterarCargo">
+
+                            <input 
+                                type="hidden" 
+                                id="idUsuarioCargo"
+                            >
+
+                            <label for="novoCargo">
+                                Selecione o novo cargo:
+                            </label>
+
+                            <select id="novoCargo" required>
+
+                                <option value="">
+                                    Selecione uma opção...
+                                </option>
+
+                                <option value="leitor">
+                                    Leitor
+                                </option>
+
+                                <option value="editor">
+                                    Editor
+                                </option>
+
+                                <option value="administrador">
+                                    Administrador
+                                </option>
+
+                            </select>
+
+                            <div class="modal-cargo-botoes">
+
+                                <button 
+                                    type="button"
+                                    class="btn-cancelar-cargo"
+                                    onclick="fecharModalCargo()"
+                                >
+                                    Cancelar
+                                </button>
+
+                                <button 
+                                    type="submit"
+                                    class="btn-salvar-cargo"
+                                >
+                                    Salvar alteração
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
                 <table class="tabela-usuarios">
 
                     <thead>
-
                         <tr>
-
                             <th>ID</th>
-
                             <th>Nome do Usuário</th>
-
                             <th>E-mail</th>
-
+                            <th>Cargo</th>
+                            <th>Ações</th>
                         </tr>
-
                     </thead>
-
-
 
                     <tbody>
 
@@ -234,21 +384,34 @@
 
                             <td>{{ usuario.email }}</td>
 
+                            <td>
+                                <span class="cargo-badge cargo-{{ usuario.cargo }}">
+                                    {{ usuario.cargo }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <button 
+                                    type="button"
+                                    class="btn-alterar-cargo"
+                                    data-id="{{ usuario.id_usuario }}"
+                                    data-nome="{{ usuario.nome_usuario }}"
+                                    data-cargo="{{ usuario.cargo }}"
+                                    onclick="abrirModalCargo(this)"
+                                >
+                                    Alterar cargo
+                                </button>
+                            </td>
+
                         </tr>
-
-
 
                         {% else %}
 
-
-
                         <tr>
-
-                            <td colspan="3">Nenhum usuário cadastrado.</td>
-
+                            <td colspan="5">
+                                Nenhum usuário cadastrado.
+                            </td>
                         </tr>
-
-
 
                         {% endfor %}
 
@@ -260,6 +423,8 @@
 
             </div>
 
+
+<script src="{{ url_for('static', filename='js/painelADM.js') }}"></script>
 
 </body>
 </html>

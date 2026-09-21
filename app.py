@@ -53,45 +53,195 @@ def login():
 
 @app.route("/painel_adm_leitor")
 def painel_adm_leitor():
+
     try:
+
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-        query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
+
+        query = """
+            SELECT 
+                id_usuario,
+                nome_usuario,
+                email,
+                cargo
+            FROM usuarios
+        """
+
         cursor.execute(query)
+
         lista_usuarios = cursor.fetchall()
+
         cursor.close()
         db.close()
-        return render_template("painelADM_leitor.html", usuarios=lista_usuarios)
+
+        return render_template(
+            "painelADM_leitor.html",
+            usuarios=lista_usuarios
+        )
+
     except mysql.connector.Error as err:
+
         return f"Erro ao buscar usuarios: {err}"
 
 @app.route("/painel_adm_editor")
 def painel_adm_editor():
+
     try:
+
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-        query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
+
+        query = """
+            SELECT 
+                id_usuario,
+                nome_usuario,
+                email,
+                cargo
+            FROM usuarios
+        """
+
         cursor.execute(query)
+
         lista_usuarios = cursor.fetchall()
+
         cursor.close()
         db.close()
-        return render_template("painelADM_editor.html", usuarios=lista_usuarios)
+
+        return render_template(
+            "painelADM_editor.html",
+            usuarios=lista_usuarios
+        )
+
     except mysql.connector.Error as err:
+
         return f"Erro ao buscar usuarios: {err}"
 
 @app.route("/painel_adm_administrador")
 def painel_adm_administrador():
+
     try:
+
         db = get_db_connection()
         cursor = db.cursor(dictionary=True)
-        query = "SELECT id_usuario, nome_usuario, email FROM usuarios"
+
+        query = """
+            SELECT 
+                id_usuario,
+                nome_usuario,
+                email,
+                cargo
+            FROM usuarios
+        """
+
         cursor.execute(query)
+
         lista_usuarios = cursor.fetchall()
+
         cursor.close()
         db.close()
-        return render_template("painelADM_administrador.html", usuarios=lista_usuarios)
+
+        return render_template(
+            "painelADM_administrador.html",
+            usuarios=lista_usuarios
+        )
+
     except mysql.connector.Error as err:
+
         return f"Erro ao buscar usuarios: {err}"
+
+@app.route("/alterar-cargo", methods=["POST"])
+def alterar_cargo():
+
+    dados = request.get_json()
+
+    id_usuario = dados.get("id_usuario")
+    novo_cargo = dados.get("cargo")
+
+
+    cargos_permitidos = [
+        "leitor",
+        "editor",
+        "administrador"
+    ]
+
+
+    # Verifica se o cargo é válido
+
+    if novo_cargo not in cargos_permitidos:
+
+        return jsonify({
+            "status": "erro",
+            "mensagem": "Cargo inválido."
+        }), 400
+
+
+    # Verifica se recebeu o ID
+
+    if not id_usuario:
+
+        return jsonify({
+            "status": "erro",
+            "mensagem": "Usuário não informado."
+        }), 400
+
+
+    try:
+
+        db = get_db_connection()
+
+        cursor = db.cursor()
+
+
+        query = """
+            UPDATE usuarios
+            SET cargo = %s
+            WHERE id_usuario = %s
+        """
+
+
+        cursor.execute(
+            query,
+            (novo_cargo, id_usuario)
+        )
+
+
+        db.commit()
+
+
+        if cursor.rowcount == 0:
+
+            cursor.close()
+            db.close()
+
+            return jsonify({
+                "status": "erro",
+                "mensagem": "Usuário não encontrado."
+            }), 404
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify({
+
+            "status": "sucesso",
+
+            "mensagem": "Cargo alterado com sucesso!"
+
+        }), 200
+
+
+    except mysql.connector.Error as err:
+
+        return jsonify({
+
+            "status": "erro",
+
+            "mensagem": f"Erro no banco de dados: {err}"
+
+        }), 500
 
 @app.route('/receber-dados', methods=['POST'])
 def receber_dados():
