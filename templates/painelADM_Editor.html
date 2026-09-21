@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="../static/CSS/painelADM.css">
 
+    <script src="{{ url_for('static', filename='js/painelADM.js') }}"></script>
+
     <title>OTPRO Capital - Painel ADM</title>
 
 </head>
@@ -172,33 +174,22 @@
 
 
 
-                <div id="modal" class="modalEsqueceuSenha">
-
-                    <form action="" method="" class="formCadastro">
-
+               <div id="modal" class="modalEsqueceuSenha">
+                    <form id="formCadastro" class="formCadastro">
                         <h3>CADASTRO</h3>
-
-                        <p>Para cadastar o usuário, preencha as seguintes informações.</p><br>
-
+                        <p>Para cadastrar o usuário, preencha as seguintes informações.</p><br>
                         <input type="text" placeholder="Nome" id="nome" required><br>
-
                         <input type="email" placeholder="Email" id="email" required><br>
-
                         <input type="password" placeholder="Senha" id="senha" required><br>
-
                         <input type="password" placeholder="Confirme sua Senha" id="senhaConfirmacao" required><br>
-
                         <select name="" id="cargo">
-                            <option value="">Selecione uma opção...</option>                           
+                            <option value="">Selecione uma opção...</option>                         
                             <option value="leitor">Leitor</option>
                             <option value="editor">Editor</option>
                             <option value="administrador">Administrador</option>
                         </select>
-
                         <button type="submit" class="btn-cadastro">Cadastrar</button>
-
                     </form>
-
                 </div>
 
             </div>
@@ -270,157 +261,5 @@
             </div>
 
 
-
-    <script>
-
-   
-
-    // 1. Controle da Sanfona do Menu Lateral
-
-        const menuToggles = document.querySelectorAll('.menu-toggle');
-
-
-
-        menuToggles.forEach(toggle => {
-
-            toggle.addEventListener('click', function() {
-
-                const submenu = this.nextElementSibling;
-
-                document.querySelectorAll('.submenu').forEach(outroMenu => {
-
-                    if (outroMenu !== submenu) {
-
-                        outroMenu.classList.remove('show');
-
-                    }
-
-                });
-
-                if (submenu) {
-
-                    submenu.classList.toggle('show');
-
-                }
-
-            });
-
-        });
-
-
-
-        // 2. Troca de Telas na Área Direita
-
-        const subMenuItems = document.querySelectorAll('.submenu li');
-
-        const views = document.querySelectorAll('.main-content > div');
-
-
-
-        subMenuItems.forEach(item => {
-
-            item.addEventListener('click', function() {
-
-                subMenuItems.forEach(i => i.classList.remove('active'));
-
-                this.classList.add('active');
-
-
-
-                views.forEach(v => v.classList.remove('active'));
-
-
-
-                const targetId = this.getAttribute('data-target');
-
-                const targetView = document.getElementById(targetId);
-
-                if (targetView) {
-
-                    targetView.classList.add('active');
-
-                }
-
-            });
-
-        });
-
-        const inputNome = document.getElementById("nome");
-        const inputEmail = document.getElementById("email");
-        const inputSenha = document.getElementById("senha");
-        const inputSenha_Confir = document.getElementById("senhaConfirmacao");
-        const inputCargo = document.getElementById("cargo");
-
-
-        const btnToggle = document.getElementById("toggleSenha");
-
-        // Alternar a exibição da senha e trocar o ícone
-        btnToggle.addEventListener("click", function() {
-            if (inputSenha.type === "password") {
-                inputSenha.type = "text";
-                btnToggle.innerHTML = '<i class="ph ph-eye"></i>';
-            } else {
-                inputSenha.type = "password";
-                btnToggle.innerHTML = '<i class="ph ph-eye-slash"></i>';
-            }
-        });
-
-        // Validação da senha (8 caracteres, maiúscula, minúscula, número e caractere especial)
-        function validarSenha(senha) { 
-            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/; 
-            return regex.test(senha); 
-        } 
-
-        const form = document.getElementById("formCadastro");
-
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const senhaDigitada = inputSenha.value; 
-
-            if (!validarSenha(senhaDigitada)) { 
-                alert("A senha não cumpre os requisitos!\n\nA senha deve conter:\n- No mínimo 8 caracteres\n- 1 letra maiúscula\n- 1 letra minúscula\n- 1 número\n- 1 caractere especial (!@#$%^&*...)"); 
-            } else {
-
-                if (senha == senhaConfirmacao) {
-                    const meusDados = {
-                        nome: nome,
-                        email: email,
-                        senha: senha,
-                        cargo: cargo
-                    };
-
-                    // Fazendo a requisição para o Flask
-                    fetch('http://localhost:5000/receber-dados', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json' // Avisa que estamos enviando JSON
-                        },
-                        body: JSON.stringify(meusDados) // Converte o objeto JS para uma string JSON
-                    })
-                    .then(response => response.json()) // Converte a resposta do Python para JSON
-                    .then(data => {
-                        console.log('Resposta do Python:', data);
-                        alert(data.mensagem);
-                    })
-                    .catch(error => {
-                        console.error('Erro ao enviar dados:', error);
-                    }); 
-                } else {
-                    alert('A senha precisa ser igual em ambos dos campos')
-                }
-
-            } 
-        });
-
-
-
-        </script>
-
-
-
-    <link rel="stylesheet" href="..static/js/painelADM.js">
-
 </body>
-
 </html>

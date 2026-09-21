@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import mysql.connector
 
+#
+
 app = Flask(__name__)
 
 def get_db_connection():
@@ -126,7 +128,7 @@ def receber_dados():
             return jsonify({
                             "status": "sucesso", 
                             "mensagem": f"Olá {nome}, seus dados foram recebidos e salvos pelo Python!"
-                        }), 200
+            }), 200
            
     except Exception as e:
         return jsonify({

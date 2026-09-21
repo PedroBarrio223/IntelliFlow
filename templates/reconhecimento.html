@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload e Classificação de Documentos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .dropzone {
+      border: 2px dashed #0066ff;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      background-color: #f8faff;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      background-color: #e6f0ff;
+      border-color: #0044cc;
+    }
+
+    .dropzone p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .dropzone span {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-info {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #333;
+      word-break: break-all;
+      background: #f0f0f0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #0052cc;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: #eef6ff;
+      color: #0052cc;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #b3d1ff;
+      border-top: 3px solid #0052cc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .status.sucesso {
+      display: block;
+      background-color: #e6fffa;
+      border: 1px solid #b2f5ea;
+      color: #234e52;
+    }
+
+    .status.erro {
+      display: block;
+      background-color: #fff5f5;
+      border: 1px solid #fed7d7;
+      color: #9b2c2c;
+    }
+
+    .resultado-item {
+      margin-top: 8px;
+    }
+
+    .resultado-item strong {
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Processador de Documentos</h1>
+
+    <!-- Área de Arrastar/Soltar Arquivo -->
+    <div class="dropzone" id="dropzone">
+      <p>Clique ou arraste seu documento aqui</p>
+      <span>Suporta Imagens (JPG, PNG) e PDF</span>
+      <input type="file" id="fileInput" accept="image/*,.pdf" />
+    </div>
+
+    <!-- Nome do Arquivo Selecionado -->
+    <div class="file-info" id="fileInfo"></div>
+
+    <!-- Botão de Enviar -->
+    <button id="btnEnviar" disabled>Enviar Documento</button>
+
+    <!-- Indicador de Carregamento e Resultado -->
+    <div class="status" id="statusArea"></div>
+  </div>
+
+  <script>
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const statusArea = document.getElementById('statusArea');
+
+    let arquivoSelecionado = null;
+
+    // Clique na dropzone dispara a seleção de arquivo
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    // Eventos de drag and drop
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        tratarArquivo(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        tratarArquivo(e.target.files[0]);
+      }
+    });
+
+    function tratarArquivo(file) {
+      arquivoSelecionado = file;
+      fileInfo.textContent = `Arquivo selecionado: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      fileInfo.style.display = 'block';
+      btnEnviar.disabled = false;
+      limparStatus();
+    }
+
+    function limparStatus() {
+      statusArea.className = 'status';
+      statusArea.innerHTML = '';
+      statusArea.style.display = 'none';
+    }
+
+    // Ação do Botão Enviar
+    btnEnviar.addEventListener('click', async () => {
+      if (!arquivoSelecionado) return;
+
+      // Desabilita botões e mostra carregamento
+      btnEnviar.disabled = true;
+      statusArea.className = 'status loading';
+      statusArea.innerHTML = '<div class="spinner"></div> Processando e identificando documento com IA...';
+      statusArea.style.display = 'flex';
+
+      // Monta os dados do formulário para o backend (espera a chave 'imagem')
+      const formData = new FormData();
+      formData.append('imagem', arquivoSelecionado);
+
+      try {
+        const response = await fetch('http://127.0.0.1:5001/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.sucesso) {
+          statusArea.className = 'status sucesso';
+          statusArea.innerHTML = `
+            <strong>Documento processado com sucesso!</strong>
+            <div class="resultado-item"><strong>Tipo:</strong> ${data.tipo}</div>
+            <div class="resultado-item"><strong>Número Extraído:</strong> ${data.titular}</div>
+            <div class="resultado-item"><strong>Caminho Salvo:</strong> <small>${data.caminho}</small></div>
+          `;
+        } else {
+          throw new Error(data.erro || 'Erro ao processar o arquivo.');
+        }
+      } catch (err) {
+        statusArea.className = 'status erro';
+        statusArea.innerHTML = `<strong>Erro:</strong> ${err.message}`;
+      } finally {
+        btnEnviar.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

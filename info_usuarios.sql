@@ -30,14 +30,14 @@ CREATE TABLE `usuarios` (
   `nome_usuario` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `senha` varchar(70) DEFAULT NULL,
-  `cargo` varchar(75) DEFAULT NULL
+  `cargo` varchar(75) DEFAULT 'leitor'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Inserção dos dados iniciais de usuários
-INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `email`, `senha`) VALUES
-(1, 'pietro', 'pietro@gmail.com', '123'),
-(2, 'bebel', 'bebel@gmail.com', '123'),
-(3, 'melisaSA', 'melissa@gmail.com', '123');
+INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cargo`) VALUES
+(1, 'pietro', 'pietro@gmail.com', '123', 'leitor'),
+(2, 'bebel', 'bebel@gmail.com', '123', 'editor'),
+(3, 'melisaSA', 'melissa@gmail.com', '123', 'administrador');
 
 -- Definição de chaves primárias
 ALTER TABLE `clientes`
