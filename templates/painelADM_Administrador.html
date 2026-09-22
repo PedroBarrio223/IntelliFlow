@@ -1,167 +1,113 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="../static/CSS/painelADM.css">
-
     <title>OTPRO Capital - Painel ADM</title>
-
 </head>
-
 <body>
 
-
-
     <header class="header">
-
         <div class="header-container">
-
             <a href="/" class="logo">
-
                 <span class="logo-icon">
-
                     <span class="diamond diamond-1"></span>
-
                     <span class="diamond diamond-2"></span>
-
                     <span class="diamond diamond-3"></span>
-
                 </span>
-
                 <span class="logo-text">OTPRO Capital</span>
-
             </a>
 
-
-
             <nav class="navigation">
-
                 <a href="/">Início</a>
-
             </nav>
 
-
-
-            <a href="login.html" class="login-button">Sair</a>
-
+            <a href="login" class="login-button">Sair</a>
         </div>
-
     </header>
 
-
-
     <div class="app-container">
-
         <aside>
-
             <h1>Painel ADM</h1>
-
             <ul class="nav-links">
-
                 <li class="has-submenu">
-
                     <div class="menu-toggle"><span>🐾</span> Dashboard</div>
-
                     <ul class="submenu show">
-
                         <li data-target="view-graficos" class="active"><span>📊</span> Gráficos</li>
-
                     </ul>
-
                 </li>
-
                 <li class="has-submenu">
-
                     <div class="menu-toggle"><span>🎉</span> Documentos</div>
-
                     <ul class="submenu">
-
                         <li data-target="view-documentos"><span>📋</span> Ver Documentos</li>
-
                     </ul>
-
                 </li>
-
                 <li class="has-submenu">
-
                     <div class="menu-toggle"><span>🚨</span> Usuários</div>
-
                     <ul class="submenu">
-
                         <li data-target="view-usuarios-relatorios"><span>📋</span> Cadastro</li>
-
                         <li data-target="view-usuarios-lista"><span>📊</span> Lista de Usuários</li>
-
                     </ul>
-
                 </li>
-
             </ul>
-
         </aside>
 
-
-
         <main class="main-content">
-
             <div id="view-graficos" class="content-view-dashboard active">
-
                 <h2>📊 Dashboard - Gráficos</h2>
-
                 <p style="margin-top: 10px; color: #475569;">Área de exibição dos gráficos e estatísticas gerais.</p>
-
             </div>
-
-
 
             <div id="view-tabelas" class="content-view-tabelas" style="background-color: #e8f5e9;">
-
                 <h2>📋 Dashboard - Tabelas</h2>
-
                 <p style="margin-top: 10px; color: #475569;">Área de exibição das tabelas de dados do painel.</p>
-
             </div>
 
-
-
             <div id="view-documentos" class="content-view-documentos">
-
                 <h2 style="margin-bottom: 15px; text-align: center;">Documentos</h2>
-
                 <section class="secao-filtro">
-
-                   
-
-                    <div class= "filtro-container-principal">
-
-                       
-
-                        <div class="filtro-barra-principal">
-
-                            <div class="busca-wrapper">
-
-                            <span class="icone-busca">🔍</span>
-
-                            <input type="text" inputmode="numeric" maxlength="11" id="inputBusca" placeholder="Pesquisar por CPF" class="campo-busca-nome">
-
+                    
+                    <div class="filtro-barra-principal">
+                        <!-- Campo de pesquisa aprimorado -->
+                        <div class="busca-wrapper modern-input">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="inputBusca" placeholder="Digite o nome do arquivo" class="campo-busca-nome" autocomplete="off">
                         </div>
 
-                           
-
+                        <!-- Tipo de busca aprimorado -->
+                        <div class="tipo-busca-wrapper modern-select">
+                            <select id="tipoBusca" class="select-tipo-busca">
+                                <option value="nome_arquivo" selected>Nome do arquivo</option>
+                                <option value="cpf">CPF</option>
+                                <option value="rg">RG</option>
+                                <option value="tipo_documento">Tipo do documento</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
                     </div>
 
+                </section>
+                
+                <section class="secao-documentos">
+                    <table class="tabela-documentos">
+                        <thead>
+                            <tr>
+                                <th>Nome do Arquivo</th>
+                                <th>Tipo</th>
+                                <th>Titular / Número</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaDocumentos">
+                            <!-- O JS insere as linhas (<tr>) aqui -->
+                        </tbody>
+                    </table>
                 </section>
 
                 <button type="button" id="btnAbrirUpload" class="btn-upload-flutuante" title="Adicionar documento" aria-label="Adicionar documento">
                         +
-                    </button>
-
+                </button>
 
                     <!-- =====================================================
                         MODAL DE UPLOAD
@@ -179,68 +125,43 @@
                                     <p>Envie uma imagem ou PDF para identificação.</p>
                                 </div>
 
-                                <button
-                                    type="button"
-                                    id="btnFecharUpload"
-                                    class="btn-fechar-upload"
-                                    aria-label="Fechar"
-                                >
+                                <button type="button" id="btnFecharUpload" class="btn-fechar-upload" aria-label="Fechar">
                                     &times;
                                 </button>
 
                             </div>
 
-
                             <!-- Área de upload -->
-                            <div
-                                class="dropzone-upload"
-                                id="dropzoneUpload"
-                            >
+                            <div class="dropzone-upload" id="dropzoneUpload">
 
                                 <div class="upload-icone">
                                     ↑
                                 </div>
 
-                                <p>
-                                    Clique ou arraste seu documento aqui
-                                </p>
+                                <p>Clique ou arraste seu documento aqui</p>
 
-                                <span>
-                                    Suporta imagens JPG, PNG e PDF
-                                </span>
+                                <span>Suporta imagens JPG, PNG e PDF</span>
 
-                                <input
-                                    type="file"
-                                    id="fileInputUpload"
-                                    accept="image/*,.pdf"
-                                >
+                                <input type="file" id="fileInputUpload" accept="image/*,.pdf">
 
                             </div>
 
-
                             <!-- Informações do arquivo -->
-                            <div
-                                class="file-info-upload"
-                                id="fileInfoUpload"
-                            ></div>
+                            <div class="file-info-upload" id="fileInfoUpload"></div>
 
+                            <!-- Campo para o Nome Personalizado do Arquivo -->
+                            <div class="campo-upload">
+                                <label for="nomeArquivoUpload">Nome do Arquivo:</label>
+                                <input type="text" id="nomeArquivoUpload" class="input-nome-upload" placeholder="Ex: contrato_aluguel_2026" required>
+                            </div>
 
                             <!-- Botão enviar -->
-                            <button
-                                type="button"
-                                id="btnEnviarUpload"
-                                class="btn-enviar-upload"
-                                disabled
-                            >
+                            <button type="button" id="btnEnviarUpload" class="btn-enviar-upload" disabled>
                                 Enviar Documento
                             </button>
 
-
                             <!-- Status -->
-                            <div
-                                class="status-upload"
-                                id="statusUpload"
-                            ></div>
+                            <div class="status-upload" id="statusUpload"></div>
 
                         </div>
 
@@ -248,15 +169,9 @@
 
             </div>
 
-
-
             <div id="view-usuarios-relatorios" class="content-view-relatorios" style="background-color: #f3e5f5;">
-
                 <h2>🚨 Usuários - Cadastro</h2>
-
                 <p style="margin-top: 10px; color: #475569;">Relatórios detalhados dos usuários cadastrados.</p>
-
-
 
                <div id="modal" class="modalEsqueceuSenha">
                     <form id="formCadastro" class="formCadastro">
@@ -267,7 +182,7 @@
                         <input type="password" placeholder="Senha" id="senha" required><br>
                         <input type="password" placeholder="Confirme sua Senha" id="senhaConfirmacao" required><br>
                         <select name="" id="cargo" required>
-                            <option value="">Selecione uma opção...</option>                         
+                            <option value="">Selecione uma opção...</option>                        
                             <option value="leitor">Leitor</option>
                             <option value="editor">Editor</option>
                             <option value="administrador">Administrador</option>
@@ -275,93 +190,36 @@
                         <button type="submit" class="btn-cadastro">Cadastrar</button>
                     </form>
                 </div>
-
             </div>
-
-
 
             <div id="view-usuarios-lista" class="content-view-lista" style="background-color: #ffebee;">
 
-
-
                 <h2>📋 Usuários - Lista</h2>
-
                 <div id="modalCargo" class="modal-cargo">
-
                     <div class="modal-cargo-conteudo">
-
-                        <button 
-                            type="button" 
-                            class="modal-cargo-fechar"
-                            onclick="fecharModalCargo()"
-                        >
+                        <button type="button" class="modal-cargo-fechar" onclick="fecharModalCargo()">
                             &times;
                         </button>
-
                         <h3>Alterar Cargo</h3>
-
-                        <p id="nomeUsuarioCargo">
-                            Usuário
-                        </p>
-
+                        <p id="nomeUsuarioCargo">Usuário</p>
                         <form id="formAlterarCargo">
-
-                            <input 
-                                type="hidden" 
-                                id="idUsuarioCargo"
-                            >
-
-                            <label for="novoCargo">
-                                Selecione o novo cargo:
-                            </label>
-
+                            <input type="hidden" id="idUsuarioCargo">
+                            <label for="novoCargo">Selecione o novo cargo:</label>
                             <select id="novoCargo" required>
-
-                                <option value="">
-                                    Selecione uma opção...
-                                </option>
-
-                                <option value="leitor">
-                                    Leitor
-                                </option>
-
-                                <option value="editor">
-                                    Editor
-                                </option>
-
-                                <option value="administrador">
-                                    Administrador
-                                </option>
-
+                                <option value="">Selecione uma opção...</option>
+                                <option value="leitor">Leitor</option>
+                                <option value="editor">Editor</option>
+                                <option value="administrador">Administrador</option>
                             </select>
-
                             <div class="modal-cargo-botoes">
-
-                                <button 
-                                    type="button"
-                                    class="btn-cancelar-cargo"
-                                    onclick="fecharModalCargo()"
-                                >
-                                    Cancelar
-                                </button>
-
-                                <button 
-                                    type="submit"
-                                    class="btn-salvar-cargo"
-                                >
-                                    Salvar alteração
-                                </button>
-
+                                <button type="button" class="btn-cancelar-cargo" onclick="fecharModalCargo()">Cancelar</button>
+                                <button type="submit" class="btn-salvar-cargo">Salvar alteração</button>
                             </div>
-
                         </form>
-
                     </div>
-
                 </div>
 
                 <table class="tabela-usuarios">
-
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -371,60 +229,35 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         {% for usuario in usuarios %}
-
                         <tr>
-
                             <td>{{ usuario.id_usuario }}</td>
-
                             <td>{{ usuario.nome_usuario }}</td>
-
                             <td>{{ usuario.email }}</td>
-
                             <td>
                                 <span class="cargo-badge cargo-{{ usuario.cargo }}">
                                     {{ usuario.cargo }}
                                 </span>
                             </td>
-
                             <td>
-                                <button 
-                                    type="button"
-                                    class="btn-alterar-cargo"
-                                    data-id="{{ usuario.id_usuario }}"
-                                    data-nome="{{ usuario.nome_usuario }}"
-                                    data-cargo="{{ usuario.cargo }}"
-                                    onclick="abrirModalCargo(this)"
-                                >
+                                <button type="button" class="btn-alterar-cargo" data-id="{{ usuario.id_usuario }}" data-nome="{{ usuario.nome_usuario }}" data-cargo="{{ usuario.cargo }}" onclick="abrirModalCargo(this)">
                                     Alterar cargo
                                 </button>
                             </td>
-
                         </tr>
-
                         {% else %}
-
                         <tr>
                             <td colspan="5">
                                 Nenhum usuário cadastrado.
                             </td>
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
-
 
             </div>
 
-
-<script src="{{ url_for('static', filename='js/painelADM.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/painelADM.js') }}"></script>
 </body>
 </html>

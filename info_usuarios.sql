@@ -41,8 +41,8 @@ CREATE TABLE `usuarios` (
 
 -- Inserção dos dados genéricos para a tabela chavesapi (evita bloqueio no Git)
 INSERT INTO `chavesapi` (`id`, `chave`) VALUES
-(1, 'SUA_CHAVE_API_AQUI_1'),
-(2, 'SUA_CHAVE_API_AQUI_2');
+(1, 'Chave_API'),
+(2, 'Chave_API');
 
 -- Inserção dos dados iniciais de documentos
 INSERT INTO `documentos` (`id`, `tipo`, `caminho`, `titular`) VALUES

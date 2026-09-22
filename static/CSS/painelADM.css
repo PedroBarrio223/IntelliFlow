@@ -304,7 +304,7 @@ aside h1 {
     display: block;
 }
 
-.content-view-documentos input {
+/* .content-view-documentos input {
     width: 300px;
     height: 30px;
     text-align: center;
@@ -316,7 +316,7 @@ aside h1 {
 
 .content-view-documentos input:focus {
     outline: 0.5px solid #d7b54a;
-}
+} */
 
 .content-add-documentos {
     display: none;
@@ -370,6 +370,7 @@ aside h1 {
 /* =========================================================
    ÁREA DE FILTRAGEM DOS DOCUMENTOS
 ========================================================= */
+
 .secao-filtro {
     background: #fff;
     border-radius: 18px;
@@ -378,92 +379,181 @@ aside h1 {
     margin-bottom: 30px;
 }
 
-/* Título */
-.secao-filtro h1 {
-    margin: 0 0 22px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.2rem;
-    line-height: 1.2;
-    color: #2f2f2f;
-}
+/* =========================================================
+   BARRA DE PESQUISA
+========================================================= */
 
-/* Container dos filtros */
-.filtro-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-/* Campo de busca */
-.campo-busca {
-    flex: 1 1 320px;
-    min-width: 240px;
-    padding: 14px 16px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: #fafafa;
-    font-size: 15px;
-    font-family: 'Roboto', sans-serif;
-    color: var(--text);
-    outline: none;
-    transition: 0.3s ease;
-}
-
-.campo-busca:focus {
-    border-color: var(--accent);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(121, 86, 166, 0.12);
-}
-
-.filtro-container-principal {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-    margin-bottom: 35px;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-/* Barra Principal (Sempre Visível) */
 .filtro-barra-principal {
     display: flex;
-    gap: 15px;
     align-items: center;
+    justify-content: center; /* Centraliza os botões */
+    gap: 20px; /* Aumenta o espaçamento */
+    width: 100%;
 }
 
-.busca-wrapper {
-    flex: 1;
+/* =========================================================
+   ESTILIZAÇÃO MODERNA DOS CAMPOS (FOTO)
+========================================================= */
+
+/* Wrapper Input */
+.modern-input {
     position: relative;
-}
-
-.icone-busca {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    pointer-events: none;
+    width: 100%;
+    max-width: 450px;
 }
 
 .campo-busca-nome {
-    width: 140vh !important;
-    box-sizing: border-box;
-    padding: 14px 14px 14px 44px;
-    border: 1px solid #ddd;
-    border-radius: 30px;
-    background: #fafafa;
+    width: 100%;
+    height: 52px;
+    padding: 0 20px 0 50px; /* Espaço para o ícone */
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: #fbfcfd;
+    color: #142b50;
     font-size: 15px;
-    font-family: 'Roboto', sans-serif;
-    color: #444;
     outline: none;
     transition: all 0.2s ease;
 }
 
+.modern-input .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #94a3b8;
+}
+
+.campo-busca-nome::placeholder {
+    color: black;
+}
+
+.campo-busca-nome:hover {
+    border-color:black;
+}
+
 .campo-busca-nome:focus {
-    border-color: var(--accent);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(121, 86, 166, 0.1);
+    border-color:black; /* Cor de destaque ao focar */
+    background-color: #fff;
+}
+
+/* Wrapper Select */
+.modern-select {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.select-tipo-busca {
+    width: 100%;
+    height: 52px;
+    padding: 0 45px 0 20px; /* Espaço para a seta */
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: #fbfcfd;
+    color: #142b50;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    appearance: none; /* Remove a aparência padrão */
+    transition: all 0.2s ease;
+}
+
+.modern-select .select-arrow {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid black; /* Cor da seta gold */
+    pointer-events: none;
+}
+
+.select-tipo-busca:hover {
+    border-color: black;
+}
+
+.select-tipo-busca:focus {
+    border-color: black;
+    background-color: #fff;
+}
+
+/* Opções do select */
+.select-tipo-busca option {
+    background-color: #fff;
+    color: #142b50;
+    padding: 10px;
+}
+
+/* =========================================================
+   ESTILIZAÇÃO DE TABELAS (Usuários e Documentos)
+========================================================= */
+
+/* Estrutura principal da tabela */
+.tabela-usuarios,
+.tabela-documentos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Cabeçalho azul escuro */
+.tabela-usuarios thead,
+.tabela-documentos thead {
+    background-color: #142b50;
+    color: #ffffff;
+}
+
+.tabela-usuarios th,
+.tabela-documentos th {
+    padding: 15px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Células de conteúdo */
+.tabela-usuarios td,
+.tabela-documentos td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eeeeee;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Zebra / Linhas alternadas */
+.tabela-usuarios tbody tr:nth-child(even),
+.tabela-documentos tbody tr:nth-child(even) {
+    background-color: #fff5f7;
+}
+
+/* Efeito ao passar o mouse na linha */
+.tabela-usuarios tbody tr:hover,
+.tabela-documentos tbody tr:hover {
+    background-color: #d8c998;
+    transition: 0.2s ease;
+}
+
+/* Remove a borda da última linha */
+.tabela-usuarios tbody tr:last-child td,
+.tabela-documentos tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Mensagem de lista vazia (Usuários: 5 colunas / Documentos: 4 colunas) */
+.tabela-usuarios td[colspan="5"],
+.tabela-documentos td[colspan="4"] {
+    text-align: center;
+    color: #777;
+    padding: 25px;
+    font-style: italic;
 }
 
 /* =====================================================
@@ -868,19 +958,37 @@ aside h1 {
 }
 
 
-/* =====================================================
-   RESPONSIVIDADE
-===================================================== */
+/* =========================================================
+   RESPONSIVIDADE (Ajustada para o novo design)
+========================================================= */
+
+@media (max-width: 900px) {
+    .filtro-barra-principal {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modern-input, .modern-select {
+        width: 100%;
+        max-width: 100%;
+    }
+}
 
 @media (max-width: 600px) {
+    .secao-filtro {
+        padding: 20px;
+    }
+
+    .campo-busca-nome, .select-tipo-busca {
+        height: 48px;
+        font-size: 14px;
+    }
 
     .btn-upload-flutuante {
         right: 20px;
         bottom: 20px;
-
         width: 52px;
         height: 52px;
-
         font-size: 28px;
     }
 
@@ -891,7 +999,6 @@ aside h1 {
     .modal-upload-conteudo {
         padding: 20px;
     }
-
 }
 
 /* Área da lista de usuários */
@@ -955,7 +1062,7 @@ aside h1 {
 }
 
 /* Mensagem quando não existem usuários */
-.tabela-usuarios td[colspan="3"] {
+.tabela-usuarios td[colspan="5"] { /* Corrigido colspan */
     text-align: center;
     color: #777;
     padding: 25px;
@@ -993,8 +1100,8 @@ aside h1 {
     line-height: 1.5;
 }
 
-/* Campos */
-.formCadastro input, select {
+/* Campos do formulário */
+.formCadastro input, .formCadastro select {
     width: 100%;
     height: 44px;
     box-sizing: border-box;
@@ -1015,10 +1122,10 @@ aside h1 {
 }
 
 /* Campo selecionado */
-.formCadastro input:focus {
-    border-color: #e0ad00;
+.formCadastro input:focus, .formCadastro select:focus {
+    border-color: #d7b54a;
     background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(224, 173, 0, 0.15);
+    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
 }
 
 /* Botão */
@@ -1026,7 +1133,7 @@ aside h1 {
     width: 100%;
     height: 44px;
     margin-top: 6px;
-    border: 1px solid #e0ad00;
+    border: 1px solid #d7b54a;
     border-radius: 6px;
     background-color: #162f55;
     color: #ffffff;
@@ -1038,9 +1145,9 @@ aside h1 {
 
 /* Hover do botão */
 .formCadastro .btn-cadastro:hover {
-    background-color: #e0ad00;
+    background-color: #d7b54a;
     color: #162f55;
-    box-shadow: 0 4px 12px rgba(224, 173, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(215, 181, 74, 0.25);
 }
 
 /* Clique */
@@ -1049,7 +1156,7 @@ aside h1 {
 }
 
 /* =========================================================
-   CARGO DOS USUÁRIOS
+   CARGO DOS USUÁRIOS (Badges e Modais)
 ========================================================= */
 
 .cargo-badge {
@@ -1155,10 +1262,10 @@ aside h1 {
 
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
 
-    animation: aparecerModal 0.2s ease;
+    animation: aparecerModalCargo 0.2s ease;
 }
 
-@keyframes aparecerModal {
+@keyframes aparecerModalCargo { /* Nome da animação único */
 
     from {
         opacity: 0;
@@ -1174,7 +1281,7 @@ aside h1 {
 
 
 /* =========================================================
-   TÍTULO
+   TÍTULO DO MODAL CARGO
 ========================================================= */
 
 .modal-cargo-conteudo h3 {
@@ -1198,7 +1305,7 @@ aside h1 {
 
 
 /* =========================================================
-   LABEL
+   LABEL DO MODAL CARGO
 ========================================================= */
 
 .modal-cargo-conteudo label {
@@ -1215,7 +1322,7 @@ aside h1 {
 
 
 /* =========================================================
-   SELECT
+   SELECT DO MODAL CARGO
 ========================================================= */
 
 .modal-cargo-conteudo select {
@@ -1247,7 +1354,7 @@ aside h1 {
 
 
 /* =========================================================
-   BOTÃO FECHAR
+   BOTÃO FECHAR DO MODAL CARGO
 ========================================================= */
 
 .modal-cargo-fechar {
@@ -1278,7 +1385,7 @@ aside h1 {
 
 
 /* =========================================================
-   BOTÕES DO MODAL
+   BOTÕES DO MODAL CARGO
 ========================================================= */
 
 .modal-cargo-botoes {
@@ -1290,7 +1397,7 @@ aside h1 {
 }
 
 
-/* Cancelar */
+/* Botão Cancelar */
 
 .btn-cancelar-cargo {
     height: 42px;
@@ -1308,6 +1415,7 @@ aside h1 {
     font-weight: 600;
 
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .btn-cancelar-cargo:hover {
@@ -1315,7 +1423,7 @@ aside h1 {
 }
 
 
-/* Salvar */
+/* Botão Salvar */
 
 .btn-salvar-cargo {
     height: 42px;
@@ -1334,7 +1442,7 @@ aside h1 {
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
 .btn-salvar-cargo:hover {
@@ -1345,7 +1453,7 @@ aside h1 {
 
 
 /* =========================================================
-   RESPONSIVO
+   RESPONSIVO (Badges e Modais)
 ========================================================= */
 
 @media (max-width: 600px) {
@@ -1355,19 +1463,23 @@ aside h1 {
     }
 
     .modal-cargo-botoes {
-        flex-direction: column;
+        flex-direction: column-reverse; /* Inverte a ordem para Cancelar ficar embaixo */
+        gap: 8px;
     }
 
     .btn-cancelar-cargo,
     .btn-salvar-cargo {
         width: 100%;
+        margin-left: 0 !important; /* Remove margens do flex antiga */
     }
 
 }
 
 /* =========================================================
-   TABLETS
+   MEDIA QUERIES GERAIS (Layout e Menu)
 ========================================================= */
+
+/* TABLETS */
 @media (max-width: 768px) {
     .header { height: 68px; }
     .header-container { height: 68px; padding: 0 28px; }
@@ -1375,12 +1487,18 @@ aside h1 {
     .navigation a { font-size: 12px; }
     .login-button { width: 54px; height: 34px; font-size: 12px; }
     .app-container { flex-direction: column; }
-    aside { width: 100%; height: auto; min-height: initial; }
+    aside { 
+        width: 100%; 
+        height: auto; 
+        min-height: initial; 
+        padding-bottom: 20px; 
+        border-right: none; 
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .main-content { padding: 25px; }
 }
 
-/* =========================================================
-   CELULARES
-========================================================= */
+/* CELULARES */
 @media (max-width: 600px) {
     .header { height: 64px; }
     .header-container { height: 64px; padding: 0 20px; }
@@ -1389,11 +1507,10 @@ aside h1 {
     .navigation { position: static; margin-left: auto; margin-right: 18px; transform: none; }
     .navigation a { font-size: 11px; }
     .login-button { width: 52px; height: 32px; border-radius: 8px; font-size: 11px; }
+    aside h1 { margin: 25px 0 15px 0; font-size: 19px; }
 }
 
-/* =========================================================
-   CELULARES PEQUENOS
-========================================================= */
+/* CELULARES PEQUENOS */
 @media (max-width: 380px) {
     .header-container { padding: 0 15px; }
     .logo-text { font-size: 14px; }

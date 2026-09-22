@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import mysql.connector
 
-#
+#pip install google-genai pillow flask flask-cors mysql-connector-python
 
 app = Flask(__name__)
 
@@ -149,6 +149,54 @@ def painel_adm_administrador():
     except mysql.connector.Error as err:
 
         return f"Erro ao buscar usuarios: {err}"
+
+@app.route('/documentos', methods=['GET'])
+def listar_documentos():
+    termo = request.args.get('termo', '').strip()
+    tipo_busca = request.args.get('tipo', 'cpf').strip()
+
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True) # dictionary=True retorna dicionários em vez de tuplas
+
+        # SQL base
+        sql = "SELECT id, tipo, caminho, titular, nome_arquivo FROM documentos"
+        filtros = []
+        parametros = []
+
+        if termo:
+            parametro_like = f"%{termo}%"
+            
+            if tipo_busca == 'cpf':
+                filtros.append("tipo = 'CPF' AND titular LIKE %s")
+                parametros.append(parametro_like)
+
+            elif tipo_busca == 'rg':
+                filtros.append("tipo = 'RG' AND titular LIKE %s")
+                parametros.append(parametro_like)
+
+            elif tipo_busca == 'nome_arquivo':
+                filtros.append("nome_arquivo LIKE %s")
+                parametros.append(parametro_like)
+
+            elif tipo_busca == 'tipo_documento':
+                filtros.append("tipo LIKE %s")
+                parametros.append(parametro_like)
+
+        if filtros:
+            sql += " WHERE " + " AND ".join(filtros)
+
+        sql += " ORDER BY id DESC"
+
+        cursor.execute(sql, tuple(parametros))
+        resultados = cursor.fetchall()
+        cursor.close()
+
+        return jsonify(resultados), 200
+
+    except Exception as e:
+        print(f"Erro ao buscar documentos: {e}")
+        return jsonify({'erro': str(e)}), 500
 
 @app.route("/alterar-cargo", methods=["POST"])
 def alterar_cargo():

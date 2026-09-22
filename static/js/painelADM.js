@@ -57,6 +57,131 @@ document.addEventListener("DOMContentLoaded", function() {
         return regex.test(senha); 
     } 
 
+/* =====================================================
+   FILTRO DE DOCUMENTOS
+===================================================== */
+
+const tipoBusca = document.getElementById("tipoBusca");
+const inputBusca = document.getElementById("inputBusca");
+
+if (tipoBusca && inputBusca) {
+
+    tipoBusca.addEventListener("change", function () {
+
+        const tipo = this.value;
+
+        // Limpa o campo
+        inputBusca.value = "";
+
+        // Configura o campo conforme o tipo
+        switch (tipo) {
+
+            case "cpf":
+
+                inputBusca.placeholder = "Digite o CPF...";
+                inputBusca.inputMode = "numeric";
+                inputBusca.maxLength = 14;
+
+                break;
+
+
+            case "rg":
+
+                inputBusca.placeholder = "Digite o RG...";
+                inputBusca.inputMode = "numeric";
+                inputBusca.maxLength = 20;
+
+                break;
+
+
+            case "nome_arquivo":
+
+                inputBusca.placeholder = "Digite o nome do arquivo...";
+                inputBusca.inputMode = "text";
+                inputBusca.removeAttribute("maxlength");
+
+                break;
+
+
+            case "tipo_documento":
+
+                inputBusca.placeholder = "Digite o tipo do documento...";
+                inputBusca.inputMode = "text";
+                inputBusca.removeAttribute("maxlength");
+
+                break;
+        }
+
+    });
+
+}
+
+let timeoutBusca = null;
+
+if (tipoBusca) {
+    tipoBusca.addEventListener('change', () => {
+        const tipoSelecionado = tipoBusca.value;
+        inputBusca.placeholder = placeholders[tipoSelecionado] || 'Digite para buscar...';
+        buscarDocumentos(); // Refaz a busca ao alterar o select
+    });
+}
+
+// 2. Evento para buscar enquanto o usuário digita (com efeito Debounce)
+if (inputBusca) {
+    inputBusca.addEventListener('input', () => {
+        clearTimeout(timeoutBusca);
+        // Aguarda 300ms após o usuário parar de digitar para enviar a requisição
+        timeoutBusca = setTimeout(() => {
+            buscarDocumentos();
+        }, 300);
+    });
+}
+
+// 3. Função principal que faz a requisição para o Flask
+async function buscarDocumentos() {
+    const termo = inputBusca ? inputBusca.value.trim() : '';
+    const tipo = tipoBusca ? tipoBusca.value : 'cpf';
+
+    try {
+        const url = `http://127.0.0.1:5000/documentos?termo=${encodeURIComponent(termo)}&tipo=${encodeURIComponent(tipo)}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Erro ao buscar documentos');
+        }
+
+        const documentos = await response.json();
+        renderizarDocumentos(documentos);
+
+    } catch (erro) {
+        console.error('Erro na filtragem:', erro);
+    }
+}
+
+// 4. Função para renderizar os resultados na tela (ajuste a estrutura/IDs conforme seu HTML)
+function renderizarDocumentos(documentos) {
+    const tbody = document.getElementById('listaDocumentos');
+    if (!tbody) return;
+
+    if (documentos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="sem-resultados">Nenhum documento encontrado.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = documentos.map(doc => `
+        <tr>
+            <td>${doc.nome_arquivo || 'Sem nome'}</td>
+            <td>${doc.tipo}</td>
+            <td>${doc.titular}</td>
+            <td><a href="${doc.caminho}" target="_blank">Visualizar</a></td>
+        </tr>
+    `).join('');
+}
+
+// Executa uma busca inicial ao carregar a página
+document.addEventListener('DOMContentLoaded', buscarDocumentos);
+
+
     /* =====================================================
    UPLOAD / RECONHECIMENTO DE DOCUMENTOS
 ===================================================== */
@@ -278,134 +403,77 @@ function limparStatusUpload() {
 /* =====================================================
    ENVIAR DOCUMENTO
 ===================================================== */
-
 if (btnEnviarUpload) {
+    btnEnviarUpload.addEventListener('click', async () => {
 
-    btnEnviarUpload.addEventListener(
-        'click',
-        async () => {
-
-            if (!arquivoSelecionadoUpload) {
-
-                return;
-
-            }
-
-
-            /* Desabilita botão */
-
-            btnEnviarUpload.disabled = true;
-
-
-            /* Mostra carregamento */
-
-            statusUpload.className =
-                'status-upload loading';
-
-            statusUpload.innerHTML = `
-                <div class="spinner-upload"></div>
-                Processando e identificando documento com IA...
-            `;
-
-
-            /* Cria FormData */
-
-            const formData = new FormData();
-
-            formData.append(
-                'imagem',
-                arquivoSelecionadoUpload
-            );
-
-
-            try {
-
-                const response = await fetch(
-                    'http://127.0.0.1:5001/upload',
-                    {
-                        method: 'POST',
-                        body: formData
-                    }
-                );
-
-
-                const data = await response.json();
-
-
-                /* =================================================
-                   SUCESSO
-                ================================================== */
-
-                if (
-                    response.ok &&
-                    data.sucesso
-                ) {
-
-                    statusUpload.className =
-                        'status-upload sucesso';
-
-                    statusUpload.innerHTML = `
-
-                        <strong>
-                            Documento processado com sucesso!
-                        </strong>
-
-                        <div class="resultado-upload">
-                            <strong>Tipo:</strong>
-                            ${data.tipo}
-                        </div>
-
-                        <div class="resultado-upload">
-                            <strong>Número Extraído:</strong>
-                            ${data.titular}
-                        </div>
-
-                        <div class="resultado-upload">
-                            <strong>Caminho Salvo:</strong>
-                            <small>
-                                ${data.caminho}
-                            </small>
-                        </div>
-
-                    `;
-
-                } else {
-
-                    throw new Error(
-                        data.erro ||
-                        'Erro ao processar o arquivo.'
-                    );
-
-                }
-
-            } catch (erro) {
-
-                /* =================================================
-                   ERRO
-                ================================================== */
-
-                statusUpload.className =
-                    'status-upload erro';
-
-                statusUpload.innerHTML = `
-
-                    <strong>
-                        Erro:
-                    </strong>
-
-                    ${erro.message}
-
-                `;
-
-            } finally {
-
-                btnEnviarUpload.disabled = false;
-
-            }
-
+        if (!arquivoSelecionadoUpload) {
+            return;
         }
-    );
 
+        // Captura o nome informado pelo usuário
+        const inputNomeArquivo = document.getElementById('nomeArquivoUpload');
+        const nomeArquivo = inputNomeArquivo ? inputNomeArquivo.value.trim() : '';
+
+        if (!nomeArquivo) {
+            alert('Por favor, informe um nome para o arquivo.');
+            return;
+        }
+
+        /* Desabilita botão */
+        btnEnviarUpload.disabled = true;
+
+        /* Mostra carregamento */
+        statusUpload.className = 'status-upload loading';
+        statusUpload.innerHTML = `
+            <div class="spinner-upload"></div>
+            Processando e identificando documento com IA...
+        `;
+
+        /* Cria FormData */
+        const formData = new FormData();
+        formData.append('imagem', arquivoSelecionadoUpload);
+        formData.append('nome_arquivo', nomeArquivo); // Envia o nome personalizado
+
+        try {
+            const response = await fetch('http://127.0.0.1:5001/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.sucesso) {
+                statusUpload.className = 'status-upload sucesso';
+                statusUpload.innerHTML = `
+                    <strong>Documento processado com sucesso!</strong>
+                    
+                    <div class="resultado-upload">
+                        <strong>Nome Personalizado:</strong> ${data.nome_arquivo}
+                    </div>
+                    <div class="resultado-upload">
+                        <strong>Tipo:</strong> ${data.tipo}
+                    </div>
+                    <div class="resultado-upload">
+                        <strong>Número Extraído:</strong> ${data.titular}
+                    </div>
+                    <div class="resultado-upload">
+                        <strong>Caminho Salvo:</strong>
+                        <small>${data.caminho}</small>
+                    </div>
+                `;
+            } else {
+                throw new Error(data.erro || 'Erro ao processar o arquivo.');
+            }
+
+        } catch (erro) {
+            statusUpload.className = 'status-upload erro';
+            statusUpload.innerHTML = `
+                <strong>Erro:</strong> ${erro.message}
+            `;
+        } finally {
+            btnEnviarUpload.disabled = false;
+        }
+    });
 }
 
 
