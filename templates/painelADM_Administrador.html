@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../static/CSS/painelADM.css">
     <title>OTPRO Capital - Painel ADM</title>
 </head>
@@ -56,8 +57,14 @@
         <main class="main-content">
             <div id="view-graficos" class="content-view-dashboard active">
                 <h2>📊 Dashboard - Gráficos</h2>
-                <p style="margin-top: 10px; color: #475569;">Área de exibição dos gráficos e estatísticas gerais.</p>
+                <p style="margin-top: 10px; color: #475569;">
+                    Quantidade de documentos armazenados por tipo.
+                </p>
+                <div class="grafico-container">
+                    <canvas id="graficoDocumentos"></canvas>
+                </div>  
             </div>
+
 
             <div id="view-tabelas" class="content-view-tabelas" style="background-color: #e8f5e9;">
                 <h2>📋 Dashboard - Tabelas</h2>
@@ -166,6 +173,43 @@
                         </div>
 
                     </div>
+
+                    
+                <div id="modalVisualizarDocumento" class="modal-visualizar">
+
+                    <div class="modal-visualizar-conteudo">
+
+                        <div class="modal-visualizar-header">
+
+                            <div>
+                                <h2>Visualizar Documento</h2>
+                                <p id="nomeDocumentoVisualizar">Documento</p>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="btnFecharVisualizar"
+                                class="btn-fechar-visualizar"
+                                aria-label="Fechar"
+                            >
+                                &times;
+                            </button>
+
+                        </div>
+
+                        <div class="documento-visualizacao">
+
+                            <img
+                                id="imagemDocumentoVisualizar"
+                                src=""
+                                alt="Documento"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 

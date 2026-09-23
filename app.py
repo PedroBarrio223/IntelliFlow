@@ -198,6 +198,51 @@ def listar_documentos():
         print(f"Erro ao buscar documentos: {e}")
         return jsonify({'erro': str(e)}), 500
 
+@app.route('/estatisticas-documentos', methods=['GET'])
+def estatisticas_documentos():
+
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        query = """
+            SELECT 
+                tipo,
+                COUNT(*) AS quantidade
+            FROM documentos
+            GROUP BY tipo
+            ORDER BY quantidade DESC
+        """
+
+        cursor.execute(query)
+
+        resultados = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        tipos = []
+        quantidades = []
+
+        for documento in resultados:
+
+            tipos.append(documento['tipo'])
+            quantidades.append(documento['quantidade'])
+
+        return jsonify({
+            "tipos": tipos,
+            "quantidades": quantidades
+        }), 200
+
+    except mysql.connector.Error as err:
+
+        print(f"Erro ao buscar estatísticas dos documentos: {err}")
+
+        return jsonify({
+            "erro": "Erro ao buscar estatísticas dos documentos."
+        }), 500
+
 @app.route("/alterar-cargo", methods=["POST"])
 def alterar_cargo():
 

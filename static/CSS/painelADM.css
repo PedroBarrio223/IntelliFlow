@@ -1518,3 +1518,311 @@ aside h1 {
     .navigation a { font-size: 10px; }
     .login-button { width: 48px; height: 30px; font-size: 10px; }
 }
+
+
+
+
+
+
+
+/* =========================================================
+   DASHBOARD - GRÁFICO DE DOCUMENTOS
+========================================================= */
+
+.descricao-dashboard {
+    margin-top: 10px;
+    color: #475569;
+}
+
+
+/* =========================================================
+   CARD DO GRÁFICO
+========================================================= */
+
+.grafico-card {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 30px auto;
+
+    padding: 25px;
+
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(15, 43, 78, 0.10);
+}
+
+
+/* =========================================================
+   CABEÇALHO DO GRÁFICO
+========================================================= */
+
+.grafico-header {
+    margin-bottom: 20px;
+}
+
+.grafico-header h3 {
+    margin: 0;
+
+    color: #142b50;
+
+    font-size: 20px;
+}
+
+.grafico-header p {
+    margin-top: 6px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ÁREA DO GRÁFICO
+========================================================= */
+
+.grafico-container {
+    position: relative;
+
+    width: 100%;
+
+    height: 400px;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .grafico-card {
+        padding: 18px;
+    }
+
+    .grafico-container {
+        height: 300px;
+    }
+
+}
+
+
+
+
+
+
+
+
+/* =========================================================
+   MODAL VISUALIZAR DOCUMENTO
+========================================================= */
+
+.modal-visualizar {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(15, 23, 42, 0.75);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 10000;
+
+    backdrop-filter: blur(4px);
+}
+
+.modal-visualizar.ativo {
+    display: flex;
+}
+
+
+/* =========================================================
+   CONTEÚDO DO MODAL
+========================================================= */
+
+.modal-visualizar-conteudo {
+    position: relative;
+
+    width: 100%;
+    max-width: 1000px;
+    max-height: 95vh;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+    display: flex;
+    flex-direction: column;
+
+    animation: aparecerModalVisualizar 0.2s ease;
+}
+
+@keyframes aparecerModalVisualizar {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.modal-visualizar-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.modal-visualizar-header h2 {
+    margin: 0;
+
+    color: #142b50;
+
+    font-size: 20px;
+}
+
+.modal-visualizar-header p {
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BOTÃO FECHAR
+========================================================= */
+
+.btn-fechar-visualizar {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s;
+}
+
+.btn-fechar-visualizar:hover {
+    background: #e2e8f0;
+
+    color: #142b50;
+}
+
+
+/* =========================================================
+   ÁREA DA IMAGEM
+========================================================= */
+
+.documento-visualizacao {
+    width: 100%;
+
+    max-height: calc(95vh - 120px);
+
+    overflow: auto;
+
+    background: #0f172a;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+#imagemDocumentoVisualizar {
+    display: block;
+
+    max-width: 100%;
+
+    max-height: calc(95vh - 160px);
+
+    width: auto;
+
+    height: auto;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .modal-visualizar {
+        padding: 10px;
+    }
+
+    .modal-visualizar-conteudo {
+        padding: 15px;
+
+        max-height: 95vh;
+    }
+
+    .modal-visualizar-header h2 {
+        font-size: 17px;
+    }
+
+    .modal-visualizar-header p {
+        font-size: 12px;
+    }
+
+    .documento-visualizacao {
+        padding: 8px;
+    }
+
+}
