@@ -1,97 +1,240 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+
     /* =========================================================
-       1. CONTROLE DA SANFONA DO MENU LATERAL
+       1. CONTROLE DO MENU LATERAL
     ========================================================= */
 
-    const menuToggles = document.querySelectorAll(".menu-toggle");
+    const menuToggles =
+        document.querySelectorAll(".menu-toggle");
+
 
     menuToggles.forEach(toggle => {
 
         toggle.addEventListener("click", function () {
 
-            const submenu = this.nextElementSibling;
+            const submenu =
+                this.nextElementSibling;
 
-            document.querySelectorAll(".submenu").forEach(outroMenu => {
 
-                if (outroMenu !== submenu) {
-                    outroMenu.classList.remove("show");
-                }
+            document
+                .querySelectorAll(".submenu")
+                .forEach(outroMenu => {
 
-            });
+                    if (outroMenu !== submenu) {
+
+                        outroMenu.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                });
+
 
             if (submenu) {
-                submenu.classList.toggle("show");
+
+                submenu.classList.toggle(
+                    "show"
+                );
+
             }
 
         });
 
     });
+
 
 
     /* =========================================================
        2. TROCA DE TELAS
+       
+       ALTERADO:
+       - A troca agora identifica somente a view correspondente.
+       - Ao abrir a tela de gráficos, o dashboard é recarregado.
+       - Isso garante que os gráficos apareçam novamente após
+         voltar da tela de documentos.
     ========================================================= */
 
-    const subMenuItems = document.querySelectorAll(".submenu li");
-    const views = document.querySelectorAll(".main-content > div");
+    const subMenuItems =
+        document.querySelectorAll(".submenu li");
 
-    subMenuItems.forEach(item => {
 
-        item.addEventListener("click", function () {
+    function trocarTela(targetId) {
 
-            subMenuItems.forEach(i => {
-                i.classList.remove("active");
-            });
+        if (!targetId) {
 
-            this.classList.add("active");
+            return;
 
-            views.forEach(v => {
-                v.classList.remove("active");
-            });
+        }
 
-            const targetId = this.getAttribute("data-target");
-            const targetView = document.getElementById(targetId);
 
-            if (targetView) {
-                targetView.classList.add("active");
-            }
+        /*
+           Remove active somente das views principais.
+        */
+
+        const views =
+            document.querySelectorAll(
+                ".main-content > div"
+            );
+
+
+        views.forEach(view => {
+
+            view.classList.remove(
+                "active"
+            );
 
         });
 
+
+        /*
+           Procura a view pelo ID informado no data-target.
+        */
+
+        const targetView =
+            document.getElementById(
+                targetId
+            );
+
+
+        if (!targetView) {
+
+            console.warn(
+                "View não encontrada:",
+                targetId
+            );
+
+            return;
+
+        }
+
+
+        targetView.classList.add(
+            "active"
+        );
+
+
+        /*
+           Se a tela aberta for a de gráficos,
+           carregamos novamente os dados.
+
+           IMPORTANTE:
+           Se o ID da sua tela de gráficos for outro,
+           coloque esse ID na lista abaixo.
+        */
+
+        const idsTelaGraficos = [
+
+            "graficos",
+
+            "dashboard",
+
+            "dashboardDocumentos",
+
+            "viewGraficos"
+
+        ];
+
+
+        if (
+            idsTelaGraficos.includes(
+                targetId
+            )
+        ) {
+
+            carregarDashboardDocumentos();
+
+        }
+
+    }
+
+
+    subMenuItems.forEach(item => {
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                subMenuItems.forEach(i => {
+
+                    i.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                const targetId =
+                    this.getAttribute(
+                        "data-target"
+                    );
+
+
+                trocarTela(
+                    targetId
+                );
+
+            }
+        );
+
     });
+
 
 
     /* =========================================================
        3. MOSTRAR / ESCONDER SENHA
     ========================================================= */
 
-    const btnToggle = document.getElementById("toggleSenha");
-    const inputSenha = document.getElementById("senha");
+    const btnToggle =
+        document.getElementById(
+            "toggleSenha"
+        );
+
+
+    const inputSenha =
+        document.getElementById(
+            "senha"
+        );
+
 
     if (btnToggle && inputSenha) {
 
-        btnToggle.addEventListener("click", function () {
+        btnToggle.addEventListener(
+            "click",
+            function () {
 
-            if (inputSenha.type === "password") {
+                if (
+                    inputSenha.type ===
+                    "password"
+                ) {
 
-                inputSenha.type = "text";
+                    inputSenha.type =
+                        "text";
 
-                btnToggle.innerHTML =
-                    '<i class="ph ph-eye"></i>';
+                    btnToggle.innerHTML =
+                        '<i class="ph ph-eye"></i>';
 
-            } else {
+                } else {
 
-                inputSenha.type = "password";
+                    inputSenha.type =
+                        "password";
 
-                btnToggle.innerHTML =
-                    '<i class="ph ph-eye-slash"></i>';
+                    btnToggle.innerHTML =
+                        '<i class="ph ph-eye-slash"></i>';
+
+                }
 
             }
-
-        });
+        );
 
     }
+
 
 
     /* =========================================================
@@ -103,200 +246,747 @@ document.addEventListener("DOMContentLoaded", function () {
         const regex =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
+
         return regex.test(senha);
 
     }
 
 
+
     /* =========================================================
-       5. GRÁFICO DE DOCUMENTOS
+       5. DASHBOARD - DOCUMENTOS
     ========================================================= */
 
-    let graficoDocumentos = null;
-
-    async function carregarGraficoDocumentos() {
+    async function carregarDashboardDocumentos() {
 
         try {
 
-            const canvas =
-                document.getElementById("graficoDocumentos");
-
-            if (!canvas) {
-                console.warn("Canvas graficoDocumentos não encontrado.");
-                return;
-            }
-
             const resposta =
-                await fetch("/estatisticas-documentos");
+                await fetch(
+                    "/estatisticas-documentos"
+                );
+
 
             if (!resposta.ok) {
 
                 throw new Error(
-                    `Erro HTTP ${resposta.status} ao buscar estatísticas.`
+                    `Erro HTTP ${resposta.status}`
                 );
 
             }
+
 
             const dados =
                 await resposta.json();
 
-            console.log("Dados do gráfico:", dados);
+
+            console.log(
+                "Dados do dashboard:",
+                dados
+            );
 
 
-            if (!dados.tipos || !dados.quantidades) {
-
-                throw new Error(
-                    "A API não retornou 'tipos' e 'quantidades'."
-                );
-
-            }
-
-
-            /* Destrói gráfico anterior */
-
-            if (graficoDocumentos) {
-                graficoDocumentos.destroy();
-            }
+            const tipos =
+                Array.isArray(
+                    dados.tipos
+                )
+                    ? dados.tipos
+                    : [];
 
 
-            /* Cria gráfico */
+            const quantidades =
+                Array.isArray(
+                    dados.quantidades
+                )
+                    ? dados.quantidades
+                    : [];
 
-            graficoDocumentos = new Chart(canvas, {
 
-                type: "bar",
+            /* =====================================================
+               CALCULAR TOTAL DE DOCUMENTOS
+            ===================================================== */
 
-                data: {
+            const totalDocumentos =
+                quantidades.reduce(
+                    (total, quantidade) => {
 
-                    labels: dados.tipos,
-
-                    datasets: [
-                        {
-                            label: "Quantidade",
-
-                            data: dados.quantidades,
-
-                            backgroundColor: [
-                                "#142b50",
-                                "#d7b54a",
-                                "#0066ff",
-                                "#16a34a",
-                                "#9333ea",
-                                "#dc2626"
-                            ],
-
-                            borderRadius: 8,
-
-                            borderSkipped: false
-                        }
-                    ]
-
-                },
-
-                options: {
-
-                    responsive: true,
-
-                    maintainAspectRatio: false,
-
-                    plugins: {
-
-                        legend: {
-                            display: false
-                        },
-
-                        tooltip: {
-
-                            callbacks: {
-
-                                label: function (context) {
-
-                                    return (
-                                        " " +
-                                        context.raw +
-                                        " documento(s)"
-                                    );
-
-                                }
-
-                            }
-
-                        }
+                        return total +
+                            Number(
+                                quantidade || 0
+                            );
 
                     },
+                    0
+                );
 
-                    scales: {
 
-                        y: {
+            /* =====================================================
+               TOTAL DE TIPOS
+            ===================================================== */
 
-                            beginAtZero: true,
+            const totalTipos =
+                tipos.length;
 
-                            ticks: {
-                                precision: 0
-                            },
 
-                            title: {
+            /* =====================================================
+               TOTAL DE TITULARES
+            ===================================================== */
 
-                                display: true,
+            const totalTitulares =
+                Number(
+                    dados.total_titulares ||
+                    dados.titulares ||
+                    0
+                );
 
-                                text:
-                                    "Quantidade de documentos"
 
-                            }
+            /* =====================================================
+               ATUALIZAR CARDS
+            ===================================================== */
 
-                        },
+            const elementoTotalDocumentos =
+                document.getElementById(
+                    "totalDocumentos"
+                );
 
-                        x: {
 
-                            title: {
+            const elementoTotalTipos =
+                document.getElementById(
+                    "totalTipos"
+                );
 
-                                display: true,
 
-                                text:
-                                    "Tipo de documento"
+            const elementoTotalTitulares =
+                document.getElementById(
+                    "totalTitulares"
+                );
 
-                            }
 
-                        }
+            if (
+                elementoTotalDocumentos
+            ) {
 
-                    }
+                elementoTotalDocumentos
+                    .textContent =
+                        totalDocumentos
+                            .toLocaleString(
+                                "pt-BR"
+                            );
 
-                }
+            }
 
-            });
+
+            if (
+                elementoTotalTipos
+            ) {
+
+                elementoTotalTipos
+                    .textContent =
+                        totalTipos
+                            .toLocaleString(
+                                "pt-BR"
+                            );
+
+            }
+
+
+            if (
+                elementoTotalTitulares
+            ) {
+
+                elementoTotalTitulares
+                    .textContent =
+                        totalTitulares
+                            .toLocaleString(
+                                "pt-BR"
+                            );
+
+            }
+
+
+            /* =====================================================
+               DOCUMENTOS POR TIPO
+            ===================================================== */
+
+            renderizarGraficoTipos(
+                tipos,
+                quantidades
+            );
+
+
+            /* =====================================================
+               TIPOS DISPONÍVEIS
+            ===================================================== */
+
+            renderizarTiposDisponiveis(
+                tipos,
+                quantidades
+            );
+
+
+            /* =====================================================
+               ÚLTIMOS DOCUMENTOS
+            ===================================================== */
+
+            carregarUltimosDocumentos();
+
 
         } catch (erro) {
 
             console.error(
-                "Erro ao carregar gráfico:",
+                "Erro ao carregar dashboard:",
                 erro
             );
+
+
+            mostrarErroDashboard();
 
         }
 
     }
 
 
-    /* Chama o gráfico */
 
-    carregarGraficoDocumentos();
+    /* =========================================================
+       6. BARRAS DE DOCUMENTOS POR TIPO
+    ========================================================= */
+
+    function renderizarGraficoTipos(
+        tipos,
+        quantidades
+    ) {
+
+        const container =
+            document.getElementById(
+                "graficoDocumentosLista"
+            );
+
+
+        if (!container) {
+
+            console.warn(
+                "Container graficoDocumentosLista não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !tipos.length ||
+            !quantidades.length
+        ) {
+
+            container.innerHTML = `
+
+                <div class="dashboard-vazio">
+
+                    Nenhum documento encontrado.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const maiorQuantidade =
+            Math.max(
+                ...quantidades.map(
+                    quantidade =>
+                        Number(
+                            quantidade || 0
+                        )
+                )
+            );
+
+
+        container.innerHTML =
+            tipos.map(
+                (tipo, indice) => {
+
+                    const quantidade =
+                        Number(
+                            quantidades[indice] ||
+                            0
+                        );
+
+
+                    const percentual =
+                        maiorQuantidade > 0
+                            ? (
+                                quantidade /
+                                maiorQuantidade
+                            ) * 100
+                            : 0;
+
+
+                    return `
+
+                        <div
+                            class="grafico-documento-item"
+                        >
+
+                            <div
+                                class="grafico-documento-nome"
+                            >
+                                ${escaparHTML(tipo)}
+                            </div>
+
+
+                            <div
+                                class="grafico-documento-barra"
+                            >
+
+                                <div
+                                    class="
+                                        grafico-documento-barra-preenchida
+                                    "
+                                    style="
+                                        width: ${percentual}%;
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <div
+                                class="
+                                    grafico-documento-quantidade
+                                "
+                            >
+                                ${quantidade.toLocaleString("pt-BR")}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
 
 
     /* =========================================================
-       6. FILTRO DE DOCUMENTOS
+       7. TIPOS DISPONÍVEIS
+    ========================================================= */
+
+    function renderizarTiposDisponiveis(
+        tipos,
+        quantidades
+    ) {
+
+        const container =
+            document.getElementById(
+                "tiposDisponiveis"
+            );
+
+
+        if (!container) {
+
+            return;
+
+        }
+
+
+        if (!tipos.length) {
+
+            container.innerHTML = `
+
+                <div class="dashboard-vazio">
+
+                    Nenhum tipo disponível.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const quantidadeTipos =
+            Math.min(
+                tipos.length,
+                6
+            );
+
+
+        let html = "";
+
+
+        for (
+            let i = 0;
+            i < quantidadeTipos;
+            i++
+        ) {
+
+            const tipo =
+                tipos[i];
+
+
+            const quantidade =
+                Number(
+                    quantidades[i] ||
+                    0
+                );
+
+
+            html += `
+
+                <div
+                    class="tipo-disponivel"
+                >
+
+                    <span
+                        class="
+                            tipo-disponivel-nome
+                        "
+                    >
+                        ${escaparHTML(tipo)}
+                    </span>
+
+
+                    <span
+                        class="
+                            tipo-disponivel-quantidade
+                        "
+                    >
+                        ${quantidade.toLocaleString("pt-BR")}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+        container.innerHTML =
+            html;
+
+    }
+
+
+
+    /* =========================================================
+       8. ÚLTIMOS DOCUMENTOS
+    ========================================================= */
+
+    async function carregarUltimosDocumentos() {
+
+        const container =
+            document.getElementById(
+                "ultimosDocumentos"
+            );
+
+
+        if (!container) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const resposta =
+                await fetch(
+                    "/documentos?termo=&tipo=nome_arquivo"
+                );
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Erro ao buscar documentos."
+                );
+
+            }
+
+
+            const documentos =
+                await resposta.json();
+
+
+            if (
+                !Array.isArray(
+                    documentos
+                ) ||
+                documentos.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="dashboard-vazio">
+
+                        Nenhum documento encontrado.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const ultimos =
+                documentos.slice(
+                    0,
+                    5
+                );
+
+
+            container.innerHTML =
+                ultimos.map(
+                    documento => {
+
+                        const tipo =
+                            documento.tipo ||
+                            "-";
+
+
+                        const nome =
+                            documento.nome_arquivo ||
+                            "Documento";
+
+
+                        let identificacao =
+                            documento.titular ||
+                            "";
+
+
+                        if (
+                            identificacao
+                        ) {
+
+                            identificacao =
+                                String(
+                                    identificacao
+                                );
+
+
+                            if (
+                                identificacao.length > 5
+                            ) {
+
+                                identificacao =
+                                    "•••••" +
+                                    identificacao.slice(
+                                        -4
+                                    );
+
+                            }
+
+                        }
+
+
+                        return `
+
+                            <div
+                                class="ultimo-documento"
+                            >
+
+                                <div
+                                    class="
+                                        ultimo-documento-info
+                                    "
+                                >
+
+                                    <span
+                                        class="
+                                            ultimo-documento-tipo
+                                        "
+                                    >
+                                        ${escaparHTML(tipo)}
+                                    </span>
+
+
+                                    <span
+                                        class="
+                                            ultimo-documento-nome
+                                        "
+                                        title="${escaparHTML(nome)}"
+                                    >
+                                        ${
+                                            identificacao
+                                                ? escaparHTML(
+                                                    identificacao
+                                                )
+                                                : escaparHTML(
+                                                    nome
+                                                )
+                                        }
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("");
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar últimos documentos:",
+                erro
+            );
+
+
+            container.innerHTML = `
+
+                <div class="dashboard-vazio">
+
+                    Não foi possível carregar
+                    os documentos.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       9. ERRO DO DASHBOARD
+    ========================================================= */
+
+    function mostrarErroDashboard() {
+
+        const containers = [
+
+            "graficoDocumentosLista",
+
+            "ultimosDocumentos",
+
+            "tiposDisponiveis"
+
+        ];
+
+
+        containers.forEach(
+            id => {
+
+                const elemento =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (elemento) {
+
+                    elemento.innerHTML = `
+
+                        <div
+                            class="dashboard-vazio"
+                        >
+
+                            Não foi possível
+                            carregar os dados.
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =========================================================
+       10. BOTÃO "VER TODOS"
+    ========================================================= */
+
+    const btnVerTodosDocumentos =
+        document.getElementById(
+            "btnVerTodosDocumentos"
+        );
+
+
+    if (btnVerTodosDocumentos) {
+
+        btnVerTodosDocumentos
+            .addEventListener(
+                "click",
+                function () {
+
+                    const itemLista =
+                        document.querySelector(
+                            '.submenu li[data-target="documentos"]'
+                        );
+
+
+                    if (itemLista) {
+
+                        itemLista.click();
+
+                        return;
+
+                    }
+
+
+                    const viewLista =
+                        document.querySelector(
+                            ".content-view-documentos"
+                        );
+
+
+                    if (viewLista) {
+
+                        trocarTela(
+                            viewLista.id
+                        );
+
+                    }
+
+                }
+            );
+
+    }
+
+
+
+    /* =========================================================
+       11. FILTRO
     ========================================================= */
 
     const tipoBusca =
-        document.getElementById("tipoBusca");
+        document.getElementById(
+            "tipoBusca"
+        );
+
 
     const inputBusca =
-        document.getElementById("inputBusca");
+        document.getElementById(
+            "inputBusca"
+        );
 
 
     const placeholders = {
 
-        cpf: "Digite o CPF...",
+        cpf:
+            "Digite o CPF...",
 
-        rg: "Digite o RG...",
+        rg:
+            "Digite o RG...",
 
         nome_arquivo:
             "Digite o nome do arquivo...",
@@ -310,13 +1000,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function atualizarPlaceholder() {
 
         if (!tipoBusca || !inputBusca) {
+
             return;
+
         }
+
 
         const tipo =
             tipoBusca.value;
 
+
         inputBusca.value = "";
+
 
         inputBusca.placeholder =
             placeholders[tipo] ||
@@ -327,32 +1022,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
             case "cpf":
 
-                inputBusca.inputMode = "numeric";
-                inputBusca.maxLength = 14;
+                inputBusca.inputMode =
+                    "numeric";
+
+                inputBusca.maxLength =
+                    14;
 
                 break;
 
 
             case "rg":
 
-                inputBusca.inputMode = "numeric";
-                inputBusca.maxLength = 20;
+                inputBusca.inputMode =
+                    "numeric";
+
+                inputBusca.maxLength =
+                    20;
 
                 break;
 
 
             case "nome_arquivo":
 
-                inputBusca.inputMode = "text";
-                inputBusca.removeAttribute("maxlength");
+                inputBusca.inputMode =
+                    "text";
+
+                inputBusca.removeAttribute(
+                    "maxlength"
+                );
 
                 break;
 
 
             case "tipo_documento":
 
-                inputBusca.inputMode = "text";
-                inputBusca.removeAttribute("maxlength");
+                inputBusca.inputMode =
+                    "text";
+
+                inputBusca.removeAttribute(
+                    "maxlength"
+                );
 
                 break;
 
@@ -377,8 +1086,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       7. BUSCA COM DEBOUNCE
+       12. DEBOUNCE
     ========================================================= */
 
     let timeoutBusca = null;
@@ -390,12 +1100,17 @@ document.addEventListener("DOMContentLoaded", function () {
             "input",
             function () {
 
-                clearTimeout(timeoutBusca);
+                clearTimeout(
+                    timeoutBusca
+                );
+
 
                 timeoutBusca =
                     setTimeout(
                         function () {
+
                             buscarDocumentos();
+
                         },
                         300
                     );
@@ -406,8 +1121,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       8. BUSCAR DOCUMENTOS
+       13. BUSCAR DOCUMENTOS
     ========================================================= */
 
     async function buscarDocumentos() {
@@ -416,6 +1132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputBusca
                 ? inputBusca.value.trim()
                 : "";
+
 
         const tipo =
             tipoBusca
@@ -446,7 +1163,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 await response.json();
 
 
-            renderizarDocumentos(documentos);
+            renderizarDocumentos(
+                documentos
+            );
 
 
         } catch (erro) {
@@ -461,11 +1180,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       9. RENDERIZAR DOCUMENTOS
+       14. ESCAPAR HTML
     ========================================================= */
 
-    function renderizarDocumentos(documentos) {
+    function escaparHTML(valor) {
+
+        if (
+            valor === null ||
+            valor === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(valor)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =========================================================
+       15. RENDERIZAR DOCUMENTOS
+    ========================================================= */
+
+    function renderizarDocumentos(
+        documentos
+    ) {
 
         const tbody =
             document.getElementById(
@@ -474,21 +1238,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (!tbody) {
+
             return;
+
         }
 
 
         if (
-            !Array.isArray(documentos) ||
+            !Array.isArray(
+                documentos
+            ) ||
             documentos.length === 0
         ) {
 
             tbody.innerHTML = `
+
                 <tr>
-                    <td colspan="4" class="sem-resultados">
+
+                    <td
+                        colspan="4"
+                        class="sem-resultados"
+                    >
+
                         Nenhum documento encontrado.
+
                     </td>
+
                 </tr>
+
             `;
 
             return;
@@ -497,44 +1274,92 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         tbody.innerHTML =
-            documentos.map(doc => `
+            documentos.map(doc => {
 
-                <tr>
+                const id =
+                    escaparHTML(
+                        doc.id
+                    );
 
-                    <td>
-                        ${doc.nome_arquivo || "Sem nome"}
-                    </td>
 
-                    <td>
-                        ${doc.tipo || "-"}
-                    </td>
+                const nome =
+                    escaparHTML(
+                        doc.nome_arquivo ||
+                        "Documento"
+                    );
 
-                    <td>
-                        ${doc.titular || "-"}
-                    </td>
 
-                    <td>
+                const tipo =
+                    escaparHTML(
+                        doc.tipo ||
+                        "-"
+                    );
 
-                        <a
-                            href="#"
-                            class="btn-visualizar-documento"
-                            data-caminho="${doc.caminho || ""}"
-                            data-nome="${doc.nome_arquivo || "Documento"}"
-                        >
-                            Visualizar
-                        </a>
 
-                    </td>
+                const titular =
+                    escaparHTML(
+                        doc.titular ||
+                        "-"
+                    );
 
-                </tr>
 
-            `).join("");
+                const extensao =
+                    escaparHTML(
+                        doc.extensao ||
+                        ""
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${nome}
+                        </td>
+
+
+                        <td>
+                            ${tipo}
+                        </td>
+
+
+                        <td>
+                            ${titular}
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="#"
+                                class="
+                                    btn-visualizar-documento
+                                "
+                                data-id="${id}"
+                                data-nome="${nome}"
+                                data-tipo="${tipo}"
+                                data-extensao="${extensao}"
+                            >
+
+                                Visualizar
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
 
     }
 
 
+
     /* =========================================================
-       9.1 MODAL DE VISUALIZAÇÃO DO DOCUMENTO
+       16. MODAL VISUALIZAÇÃO
     ========================================================= */
 
     const modalVisualizarDocumento =
@@ -542,20 +1367,30 @@ document.addEventListener("DOMContentLoaded", function () {
             "modalVisualizarDocumento"
         );
 
+
     const btnFecharVisualizar =
         document.getElementById(
             "btnFecharVisualizar"
         );
+
 
     const imagemDocumentoVisualizar =
         document.getElementById(
             "imagemDocumentoVisualizar"
         );
 
+
+    const pdfDocumentoVisualizar =
+        document.getElementById(
+            "pdfDocumentoVisualizar"
+        );
+
+
     const nomeDocumentoVisualizar =
         document.getElementById(
             "nomeDocumentoVisualizar"
         );
+
 
     const listaDocumentos =
         document.getElementById(
@@ -563,8 +1398,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+
     /* =========================================================
-       ABRIR MODAL AO CLICAR EM "VISUALIZAR"
+       17. ABRIR DOCUMENTO
     ========================================================= */
 
     if (listaDocumentos) {
@@ -579,41 +1415,42 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                /* Se não clicou no botão Visualizar,
-                   não faz nada */
-
                 if (!link) {
+
                     return;
+
                 }
 
-
-                /* Impede o href="#" de alterar a página */
 
                 event.preventDefault();
 
 
-                /* Pega os dados do <a> */
+                const id =
+                    link.dataset.id;
 
-                const caminho =
-                    link.dataset.caminho;
 
                 const nome =
                     link.dataset.nome ||
                     "Documento";
 
 
+                const extensao =
+                    (
+                        link.dataset.extensao ||
+                        ""
+                    ).toLowerCase();
+
+
                 console.log(
                     "Documento selecionado:",
-                    caminho
+                    id
                 );
 
 
-                /* Verifica se existe caminho */
-
-                if (!caminho) {
+                if (!id) {
 
                     alert(
-                        "O caminho do documento não foi encontrado."
+                        "ID do documento não encontrado."
                     );
 
                     return;
@@ -621,36 +1458,126 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* Coloca o nome no modal */
+                if (
+                    nomeDocumentoVisualizar
+                ) {
 
-                if (nomeDocumentoVisualizar) {
-
-                    nomeDocumentoVisualizar.textContent =
-                        nome;
-
-                }
-
-
-                /* Coloca o caminho da imagem */
-
-                if (imagemDocumentoVisualizar) {
-
-                    imagemDocumentoVisualizar.src =
-                        caminho;
-
-                    imagemDocumentoVisualizar.alt =
-                        nome;
+                    nomeDocumentoVisualizar
+                        .textContent =
+                            nome;
 
                 }
 
 
-                /* Abre o modal */
+                if (
+                    imagemDocumentoVisualizar
+                ) {
 
-                if (modalVisualizarDocumento) {
+                    imagemDocumentoVisualizar
+                        .style.display =
+                            "none";
 
-                    modalVisualizarDocumento.classList.add(
-                        "ativo"
-                    );
+
+                    imagemDocumentoVisualizar
+                        .src = "";
+
+                }
+
+
+                if (
+                    pdfDocumentoVisualizar
+                ) {
+
+                    pdfDocumentoVisualizar
+                        .style.display =
+                            "none";
+
+
+                    pdfDocumentoVisualizar
+                        .src = "";
+
+                }
+
+
+                const urlDocumento =
+                    `/documento/${id}/visualizar`;
+
+
+                console.log(
+                    "URL:",
+                    urlDocumento
+                );
+
+
+                if (
+                    extensao === ".pdf" ||
+                    extensao === "pdf"
+                ) {
+
+                    if (
+                        pdfDocumentoVisualizar
+                    ) {
+
+                        pdfDocumentoVisualizar
+                            .src =
+                                urlDocumento;
+
+
+                        pdfDocumentoVisualizar
+                            .style.display =
+                                "block";
+
+                    }
+
+                } else {
+
+                    if (
+                        imagemDocumentoVisualizar
+                    ) {
+
+                        imagemDocumentoVisualizar
+                            .src =
+                                urlDocumento;
+
+
+                        imagemDocumentoVisualizar
+                            .alt =
+                                nome;
+
+
+                        imagemDocumentoVisualizar
+                            .style.display =
+                                "block";
+
+
+                        imagemDocumentoVisualizar
+                            .onerror =
+                                function () {
+
+                                    console.error(
+                                        "Erro ao carregar imagem."
+                                    );
+
+
+                                    alert(
+                                        "Não foi possível carregar o documento."
+                                    );
+
+                                };
+
+                    }
+
+                }
+
+
+                if (
+                    modalVisualizarDocumento
+                ) {
+
+                    modalVisualizarDocumento
+                        .classList.add(
+                            "ativo"
+                        );
 
                 }
 
@@ -660,84 +1587,121 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       FECHAR MODAL DE VISUALIZAÇÃO
+       18. FECHAR MODAL VISUALIZAÇÃO
     ========================================================= */
 
     function fecharModalVisualizar() {
 
-        if (!modalVisualizarDocumento) {
+        if (
+            !modalVisualizarDocumento
+        ) {
+
             return;
-        }
-
-
-        modalVisualizarDocumento.classList.remove(
-            "ativo"
-        );
-
-
-        /* Limpa a imagem */
-
-        if (imagemDocumentoVisualizar) {
-
-            imagemDocumentoVisualizar.src = "";
 
         }
 
 
-        /* Limpa o nome */
+        modalVisualizarDocumento
+            .classList.remove(
+                "ativo"
+            );
 
-        if (nomeDocumentoVisualizar) {
 
-            nomeDocumentoVisualizar.textContent =
-                "Documento";
+        if (
+            imagemDocumentoVisualizar
+        ) {
+
+            imagemDocumentoVisualizar
+                .src = "";
+
+
+            imagemDocumentoVisualizar
+                .style.display =
+                    "none";
+
+        }
+
+
+        if (
+            pdfDocumentoVisualizar
+        ) {
+
+            pdfDocumentoVisualizar
+                .src = "";
+
+
+            pdfDocumentoVisualizar
+                .style.display =
+                    "none";
+
+        }
+
+
+        if (
+            nomeDocumentoVisualizar
+        ) {
+
+            nomeDocumentoVisualizar
+                .textContent =
+                    "Documento";
 
         }
 
     }
 
 
+
     /* =========================================================
-       BOTÃO X DO MODAL
+       19. BOTÃO X
     ========================================================= */
 
-    if (btnFecharVisualizar) {
+    if (
+        btnFecharVisualizar
+    ) {
 
-        btnFecharVisualizar.addEventListener(
-            "click",
-            fecharModalVisualizar
-        );
+        btnFecharVisualizar
+            .addEventListener(
+                "click",
+                fecharModalVisualizar
+            );
 
     }
 
 
+
     /* =========================================================
-       CLICAR FORA DO MODAL
+       20. CLICAR FORA
     ========================================================= */
 
-    if (modalVisualizarDocumento) {
+    if (
+        modalVisualizarDocumento
+    ) {
 
-        modalVisualizarDocumento.addEventListener(
-            "click",
-            function (event) {
+        modalVisualizarDocumento
+            .addEventListener(
+                "click",
+                function (event) {
 
-                if (
-                    event.target ===
-                    modalVisualizarDocumento
-                ) {
+                    if (
+                        event.target ===
+                        modalVisualizarDocumento
+                    ) {
 
-                    fecharModalVisualizar();
+                        fecharModalVisualizar();
+
+                    }
 
                 }
-
-            }
-        );
+            );
 
     }
 
 
+
     /* =========================================================
-       TECLA ESC
+       21. ESC
     ========================================================= */
 
     document.addEventListener(
@@ -747,7 +1711,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (
                 event.key === "Escape" &&
                 modalVisualizarDocumento &&
-                modalVisualizarDocumento.classList.contains("ativo")
+                modalVisualizarDocumento
+                    .classList.contains(
+                        "ativo"
+                    )
             ) {
 
                 fecharModalVisualizar();
@@ -758,72 +1725,112 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
+
     /* =========================================================
-       BUSCA INICIAL
+       22. BUSCA INICIAL
     ========================================================= */
+
+    atualizarPlaceholder();
 
     buscarDocumentos();
 
 
+
     /* =========================================================
-       10. UPLOAD / RECONHECIMENTO
+       23. UPLOAD
     ========================================================= */
 
     const btnAbrirUpload =
-        document.getElementById("btnAbrirUpload");
+        document.getElementById(
+            "btnAbrirUpload"
+        );
+
 
     const btnFecharUpload =
-        document.getElementById("btnFecharUpload");
+        document.getElementById(
+            "btnFecharUpload"
+        );
+
 
     const modalUpload =
-        document.getElementById("modalUpload");
+        document.getElementById(
+            "modalUpload"
+        );
+
 
     const dropzoneUpload =
-        document.getElementById("dropzoneUpload");
+        document.getElementById(
+            "dropzoneUpload"
+        );
+
 
     const fileInputUpload =
-        document.getElementById("fileInputUpload");
+        document.getElementById(
+            "fileInputUpload"
+        );
+
 
     const fileInfoUpload =
-        document.getElementById("fileInfoUpload");
+        document.getElementById(
+            "fileInfoUpload"
+        );
+
 
     const btnEnviarUpload =
-        document.getElementById("btnEnviarUpload");
+        document.getElementById(
+            "btnEnviarUpload"
+        );
+
 
     const statusUpload =
-        document.getElementById("statusUpload");
+        document.getElementById(
+            "statusUpload"
+        );
 
 
-    let arquivoSelecionadoUpload = null;
+    let arquivoSelecionadoUpload =
+        null;
+
 
 
     /* =========================================================
-       ABRIR MODAL UPLOAD
+       24. ABRIR UPLOAD
     ========================================================= */
 
-    if (btnAbrirUpload && modalUpload) {
+    if (
+        btnAbrirUpload &&
+        modalUpload
+    ) {
 
-        btnAbrirUpload.addEventListener(
-            "click",
-            function () {
+        btnAbrirUpload
+            .addEventListener(
+                "click",
+                function () {
 
-                modalUpload.classList.add("ativo");
+                    modalUpload
+                        .classList.add(
+                            "ativo"
+                        );
 
-            }
-        );
+                }
+            );
 
     }
 
 
+
     /* =========================================================
-       FECHAR MODAL UPLOAD
+       25. FECHAR UPLOAD
     ========================================================= */
 
     function fecharModalUpload() {
 
         if (modalUpload) {
 
-            modalUpload.classList.remove("ativo");
+            modalUpload
+                .classList.remove(
+                    "ativo"
+                );
 
         }
 
@@ -832,41 +1839,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (btnFecharUpload) {
 
-        btnFecharUpload.addEventListener(
-            "click",
-            fecharModalUpload
-        );
+        btnFecharUpload
+            .addEventListener(
+                "click",
+                fecharModalUpload
+            );
 
     }
 
 
     if (modalUpload) {
 
-        modalUpload.addEventListener(
-            "click",
-            function (event) {
+        modalUpload
+            .addEventListener(
+                "click",
+                function (event) {
 
-                if (event.target === modalUpload) {
+                    if (
+                        event.target ===
+                        modalUpload
+                    ) {
 
-                    fecharModalUpload();
+                        fecharModalUpload();
+
+                    }
 
                 }
-
-            }
-        );
+            );
 
     }
 
 
+
     /* =========================================================
-       ESC PARA FECHAR MODAL UPLOAD
+       26. ESC UPLOAD
     ========================================================= */
 
     document.addEventListener(
         "keydown",
         function (event) {
 
-            if (event.key === "Escape") {
+            if (
+                event.key === "Escape"
+            ) {
 
                 fecharModalUpload();
 
@@ -876,104 +1891,131 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
+
     /* =========================================================
-       DROPZONE
+       27. DROPZONE
     ========================================================= */
 
-    if (dropzoneUpload && fileInputUpload) {
+    if (
+        dropzoneUpload &&
+        fileInputUpload
+    ) {
 
-        dropzoneUpload.addEventListener(
-            "click",
-            function () {
+        dropzoneUpload
+            .addEventListener(
+                "click",
+                function () {
 
-                fileInputUpload.click();
-
-            }
-        );
-
-
-        dropzoneUpload.addEventListener(
-            "dragover",
-            function (event) {
-
-                event.preventDefault();
-
-                dropzoneUpload.classList.add(
-                    "dragover"
-                );
-
-            }
-        );
-
-
-        dropzoneUpload.addEventListener(
-            "dragleave",
-            function () {
-
-                dropzoneUpload.classList.remove(
-                    "dragover"
-                );
-
-            }
-        );
-
-
-        dropzoneUpload.addEventListener(
-            "drop",
-            function (event) {
-
-                event.preventDefault();
-
-                dropzoneUpload.classList.remove(
-                    "dragover"
-                );
-
-
-                if (
-                    event.dataTransfer.files.length > 0
-                ) {
-
-                    tratarArquivoUpload(
-                        event.dataTransfer.files[0]
-                    );
+                    fileInputUpload.click();
 
                 }
-
-            }
-        );
+            );
 
 
-        fileInputUpload.addEventListener(
-            "change",
-            function (event) {
+        dropzoneUpload
+            .addEventListener(
+                "dragover",
+                function (event) {
 
-                if (
-                    event.target.files.length > 0
-                ) {
+                    event.preventDefault();
 
-                    tratarArquivoUpload(
-                        event.target.files[0]
-                    );
+                    dropzoneUpload
+                        .classList.add(
+                            "dragover"
+                        );
 
                 }
+            );
 
-            }
-        );
+
+        dropzoneUpload
+            .addEventListener(
+                "dragleave",
+                function () {
+
+                    dropzoneUpload
+                        .classList.remove(
+                            "dragover"
+                        );
+
+                }
+            );
+
+
+        dropzoneUpload
+            .addEventListener(
+                "drop",
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    dropzoneUpload
+                        .classList.remove(
+                            "dragover"
+                        );
+
+
+                    if (
+                        event.dataTransfer
+                            .files
+                            .length > 0
+                    ) {
+
+                        tratarArquivoUpload(
+                            event
+                                .dataTransfer
+                                .files[0]
+                        );
+
+                    }
+
+                }
+            );
+
+
+        fileInputUpload
+            .addEventListener(
+                "change",
+                function (event) {
+
+                    if (
+                        event.target.files
+                            .length > 0
+                    ) {
+
+                        tratarArquivoUpload(
+                            event
+                                .target
+                                .files[0]
+                        );
+
+                    }
+
+                }
+            );
 
     }
 
 
+
     /* =========================================================
-       TRATAR ARQUIVO
+       28. TRATAR ARQUIVO
     ========================================================= */
 
-    function tratarArquivoUpload(file) {
+    function tratarArquivoUpload(
+        file
+    ) {
 
-        arquivoSelecionadoUpload = file;
+        arquivoSelecionadoUpload =
+            file;
 
 
         const tamanhoKB =
-            (file.size / 1024).toFixed(1);
+            (
+                file.size /
+                1024
+            ).toFixed(1);
 
 
         if (fileInfoUpload) {
@@ -981,14 +2023,19 @@ document.addEventListener("DOMContentLoaded", function () {
             fileInfoUpload.textContent =
                 `Arquivo selecionado: ${file.name} (${tamanhoKB} KB)`;
 
-            fileInfoUpload.classList.add("ativo");
+
+            fileInfoUpload
+                .classList.add(
+                    "ativo"
+                );
 
         }
 
 
         if (btnEnviarUpload) {
 
-            btnEnviarUpload.disabled = false;
+            btnEnviarUpload.disabled =
+                false;
 
         }
 
@@ -998,200 +2045,279 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       LIMPAR STATUS
+       29. LIMPAR STATUS
     ========================================================= */
 
     function limparStatusUpload() {
 
         if (!statusUpload) {
+
             return;
+
         }
+
 
         statusUpload.className =
             "status-upload";
 
-        statusUpload.innerHTML = "";
+
+        statusUpload.innerHTML =
+            "";
 
     }
 
 
+
     /* =========================================================
-       ENVIAR DOCUMENTO
+       30. ENVIAR DOCUMENTO
     ========================================================= */
 
     if (btnEnviarUpload) {
 
-        btnEnviarUpload.addEventListener(
-            "click",
-            async function () {
-
-                if (!arquivoSelecionadoUpload) {
-                    return;
-                }
-
-
-                const inputNomeArquivo =
-                    document.getElementById(
-                        "nomeArquivoUpload"
-                    );
-
-
-                const nomeArquivo =
-                    inputNomeArquivo
-                        ? inputNomeArquivo.value.trim()
-                        : "";
-
-
-                if (!nomeArquivo) {
-
-                    alert(
-                        "Por favor, informe um nome para o arquivo."
-                    );
-
-                    return;
-
-                }
-
-
-                btnEnviarUpload.disabled = true;
-
-
-                if (statusUpload) {
-
-                    statusUpload.className =
-                        "status-upload loading";
-
-                    statusUpload.innerHTML = `
-                        <div class="spinner-upload"></div>
-                        Processando e identificando documento com IA...
-                    `;
-
-                }
-
-
-                const formData =
-                    new FormData();
-
-
-                formData.append(
-                    "imagem",
-                    arquivoSelecionadoUpload
-                );
-
-
-                formData.append(
-                    "nome_arquivo",
-                    nomeArquivo
-                );
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            "http://127.0.0.1:5001/upload",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
+        btnEnviarUpload
+            .addEventListener(
+                "click",
+                async function () {
 
                     if (
-                        response.ok &&
-                        data.sucesso
+                        !arquivoSelecionadoUpload
                     ) {
 
-                        statusUpload.className =
-                            "status-upload sucesso";
-
-
-                        statusUpload.innerHTML = `
-
-                            <strong>
-                                Documento processado com sucesso!
-                            </strong>
-
-                            <div class="resultado-upload">
-                                <strong>
-                                    Nome Personalizado:
-                                </strong>
-                                ${data.nome_arquivo || "-"}
-                            </div>
-
-                            <div class="resultado-upload">
-                                <strong>
-                                    Tipo:
-                                </strong>
-                                ${data.tipo || "-"}
-                            </div>
-
-                            <div class="resultado-upload">
-                                <strong>
-                                    Número Extraído:
-                                </strong>
-                                ${data.titular || "-"}
-                            </div>
-
-                            <div class="resultado-upload">
-                                <strong>
-                                    Caminho Salvo:
-                                </strong>
-                                <small>
-                                    ${data.caminho || "-"}
-                                </small>
-                            </div>
-
-                        `;
-
-
-                        /* Atualiza tabela */
-
-                        buscarDocumentos();
-
-                    } else {
-
-                        throw new Error(
-                            data.erro ||
-                            "Erro ao processar o arquivo."
-                        );
+                        return;
 
                     }
 
 
-                } catch (erro) {
+                    const inputNomeArquivo =
+                        document.getElementById(
+                            "nomeArquivoUpload"
+                        );
+
+
+                    const nomeArquivo =
+                        inputNomeArquivo
+                            ? inputNomeArquivo
+                                .value
+                                .trim()
+                            : "";
+
+
+                    if (!nomeArquivo) {
+
+                        alert(
+                            "Por favor, informe um nome para o arquivo."
+                        );
+
+                        return;
+
+                    }
+
+
+                    btnEnviarUpload.disabled =
+                        true;
+
 
                     if (statusUpload) {
 
                         statusUpload.className =
-                            "status-upload erro";
+                            "status-upload loading";
+
 
                         statusUpload.innerHTML = `
-                            <strong>Erro:</strong>
-                            ${erro.message}
+
+                            <div
+                                class="spinner-upload"
+                            ></div>
+
+                            Processando e
+                            identificando documento
+                            com IA...
+
                         `;
 
                     }
 
-                } finally {
 
-                    btnEnviarUpload.disabled = false;
+                    const formData =
+                        new FormData();
+
+
+                    formData.append(
+                        "imagem",
+                        arquivoSelecionadoUpload
+                    );
+
+
+                    formData.append(
+                        "nome_arquivo",
+                        nomeArquivo
+                    );
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "http://127.0.0.1:5001/upload",
+                                {
+                                    method: "POST",
+                                    body: formData
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (
+                            response.ok &&
+                            data.sucesso
+                        ) {
+
+                            statusUpload
+                                .className =
+                                    "status-upload sucesso";
+
+
+                            statusUpload
+                                .innerHTML = `
+
+                                    <strong>
+                                        Documento processado
+                                        com sucesso!
+                                    </strong>
+
+                                    <div
+                                        class="resultado-upload"
+                                    >
+
+                                        <strong>
+                                            Nome Personalizado:
+                                        </strong>
+
+                                        ${escaparHTML(
+                                            data.nome_arquivo ||
+                                            "-"
+                                        )}
+
+                                    </div>
+
+
+                                    <div
+                                        class="resultado-upload"
+                                    >
+
+                                        <strong>
+                                            Tipo:
+                                        </strong>
+
+                                        ${escaparHTML(
+                                            data.tipo ||
+                                            "-"
+                                        )}
+
+                                    </div>
+
+
+                                    <div
+                                        class="resultado-upload"
+                                    >
+
+                                        <strong>
+                                            Número Extraído:
+                                        </strong>
+
+                                        ${escaparHTML(
+                                            data.titular ||
+                                            "-"
+                                        )}
+
+                                    </div>
+
+
+                                    <div
+                                        class="resultado-upload"
+                                    >
+
+                                        <strong>
+                                            Caminho Salvo:
+                                        </strong>
+
+                                        <small>
+                                            ${escaparHTML(
+                                                data.caminho ||
+                                                "-"
+                                            )}
+                                        </small>
+
+                                    </div>
+
+                                `;
+
+
+                            buscarDocumentos();
+
+
+                            /*
+                               Atualiza também o dashboard.
+                               Assim, quando voltar para gráficos,
+                               os números estarão atualizados.
+                            */
+
+                            carregarDashboardDocumentos();
+
+
+                        } else {
+
+                            throw new Error(
+                                data.erro ||
+                                "Erro ao processar o arquivo."
+                            );
+
+                        }
+
+
+                    } catch (erro) {
+
+                        if (statusUpload) {
+
+                            statusUpload.className =
+                                "status-upload erro";
+
+
+                            statusUpload.innerHTML = `
+
+                                <strong>
+                                    Erro:
+                                </strong>
+
+                                ${escaparHTML(
+                                    erro.message
+                                )}
+
+                            `;
+
+                        }
+
+                    } finally {
+
+                        btnEnviarUpload.disabled =
+                            false;
+
+                    }
 
                 }
-
-            }
-        );
+            );
 
     }
 
 
+
     /* =========================================================
-       11. CADASTRO DE USUÁRIO
+       31. CADASTRO DE USUÁRIO
     ========================================================= */
 
     const formCadastro =
@@ -1210,21 +2336,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 const inputNome =
-                    document.getElementById("nome");
+                    document.getElementById(
+                        "nome"
+                    );
+
 
                 const inputEmail =
-                    document.getElementById("email");
+                    document.getElementById(
+                        "email"
+                    );
+
 
                 const inputSenhaCadastro =
-                    document.getElementById("senha");
+                    document.getElementById(
+                        "senha"
+                    );
+
 
                 const inputSenhaConfirmacao =
                     document.getElementById(
                         "senhaConfirmacao"
                     );
 
+
                 const inputCargo =
-                    document.getElementById("cargo");
+                    document.getElementById(
+                        "cargo"
+                    );
 
 
                 const senhaDigitada =
@@ -1294,8 +2432,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         method: "POST",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
                         body:
@@ -1322,15 +2462,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 .then(data => {
 
-                    console.log(
-                        "Resposta do Python:",
-                        data
-                    );
-
                     alert(
                         data.mensagem ||
                         "Usuário cadastrado com sucesso."
                     );
+
 
                     formCadastro.reset();
 
@@ -1342,6 +2478,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Erro ao enviar dados:",
                         error
                     );
+
 
                     alert(
                         "Erro ao cadastrar usuário."
@@ -1355,8 +2492,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       12. MODAL ALTERAR CARGO
+       32. MODAL ALTERAR CARGO
     ========================================================= */
 
     window.abrirModalCargo =
@@ -1369,15 +2507,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (!modal) {
+
                 return;
+
             }
 
 
             const idUsuario =
                 botao.dataset.id;
 
+
             const nomeUsuario =
                 botao.dataset.nome;
+
 
             const cargoAtual =
                 botao.dataset.cargo;
@@ -1388,10 +2530,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     "idUsuarioCargo"
                 );
 
+
             const campoNome =
                 document.getElementById(
                     "nomeUsuarioCargo"
                 );
+
 
             const campoCargo =
                 document.getElementById(
@@ -1400,8 +2544,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (campoId) {
+
                 campoId.value =
                     idUsuario;
+
             }
 
 
@@ -1429,8 +2575,9 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
 
+
     /* =========================================================
-       FECHAR MODAL CARGO
+       33. FECHAR MODAL CARGO
     ========================================================= */
 
     window.fecharModalCargo =
@@ -1453,8 +2600,9 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
 
+
     /* =========================================================
-       FECHAR CLICANDO FORA
+       34. CLICAR FORA DO MODAL CARGO
     ========================================================= */
 
     const modalCargo =
@@ -1484,8 +2632,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =========================================================
-       FORM ALTERAR CARGO
+       35. ALTERAR CARGO
     ========================================================= */
 
     const formAlterarCargo =
@@ -1536,8 +2685,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 method: "POST",
 
                                 headers: {
+
                                     "Content-Type":
                                         "application/json"
+
                                 },
 
                                 body:
@@ -1601,6 +2752,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         erro
                     );
 
+
                     alert(
                         "Erro ao alterar o cargo."
                     );
@@ -1611,5 +2763,18 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+
+
+
+    /* =========================================================
+       36. INICIALIZAÇÃO DO DASHBOARD
+       
+       Mantemos a primeira carga.
+       Depois, sempre que a tela de gráficos for aberta,
+       trocarTela() chama carregarDashboardDocumentos()
+       novamente.
+    ========================================================= */
+
+    carregarDashboardDocumentos();
 
 });
