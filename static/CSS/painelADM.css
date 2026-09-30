@@ -1,13 +1,15 @@
 /* =========================================================
-   RESET
+   1. RESET / BASE
 ========================================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     min-height: 100%;
 }
@@ -21,24 +23,16 @@ body {
     background: #ffffff;
 }
 
-/* =========================================================
-   LAYOUT PRINCIPAL (CONTAINER)
-========================================================= */
-.app-container {
-    display: flex;
-    flex: 1;
-    width: 100%;
-    min-height: calc(100vh - 76px);
-}
 
 /* =========================================================
-   HEADER
+   2. HEADER
 ========================================================= */
+
 .header {
     width: 100%;
     height: 76px;
     background: #142b50;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .header-container {
@@ -50,9 +44,11 @@ body {
     padding: 0 52px;
 }
 
+
 /* =========================================================
-   LOGO
+   3. LOGO
 ========================================================= */
+
 .logo {
     display: flex;
     align-items: center;
@@ -66,7 +62,6 @@ body {
     font-weight: 700;
 }
 
-/* ÍCONE */
 .logo-icon {
     position: relative;
     width: 32px;
@@ -102,9 +97,11 @@ body {
     background: #d7b54a;
 }
 
+
 /* =========================================================
-   NAVEGAÇÃO
+   4. NAVEGAÇÃO DO HEADER
 ========================================================= */
+
 .navigation {
     position: absolute;
     left: 50%;
@@ -122,9 +119,11 @@ body {
     opacity: 0.75;
 }
 
+
 /* =========================================================
-   BOTÃO HEADER
+   5. BOTÃO SAIR / LOGIN
 ========================================================= */
+
 .login-button {
     height: 40px;
     padding: 0 20px;
@@ -146,9 +145,23 @@ body {
     color: #142b50;
 }
 
+
 /* =========================================================
-   Painel / Menu Lateral
+   6. LAYOUT PRINCIPAL
 ========================================================= */
+
+.app-container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: calc(100vh - 76px);
+}
+
+
+/* =========================================================
+   7. MENU LATERAL
+========================================================= */
+
 aside {
     width: 300px;
     min-height: calc(100vh - 76px);
@@ -175,13 +188,16 @@ aside h1 {
     align-items: center;
 }
 
-.has-submenu, li {
+.has-submenu,
+li {
     list-style: none;
 }
 
+
 /* =========================================================
-   Botões Principais do Menu
+   8. BOTÕES PRINCIPAIS DO MENU
 ========================================================= */
+
 .menu-toggle {
     background-color: rgba(255, 255, 255, 0.05);
     color: #ffffff;
@@ -211,9 +227,11 @@ aside h1 {
     transform: translateX(4px);
 }
 
+
 /* =========================================================
-   Funcionalidade Dropdown / Submenu
+   9. SUBMENU
 ========================================================= */
+
 .submenu {
     display: none;
     width: 240px;
@@ -236,13 +254,14 @@ aside h1 {
     padding: 0 20px 0 45px;
     border: none;
     border-radius: 8px;
-    margin-top: 4px;  
+    margin-top: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s ease;
 }
 
-.submenu li:hover, .submenu li.active {
+.submenu li:hover,
+.submenu li.active {
     background-color: rgba(0, 0, 0, 0.2);
     color: #d2ae36;
     padding-left: 50px;
@@ -254,70 +273,38 @@ aside h1 {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+
 /* =========================================================
-   ÁREA DE CONTEÚDO PRINCIPAL (DIREITA)
+   10. CONTEÚDO PRINCIPAL
 ========================================================= */
+
 .main-content {
     flex: 1;
     padding: 40px;
     background-color: #f8fafc;
 }
 
-/* Dashboard */
-.content-view-dashboard {
-    display: none;
-    padding: 40px;
-    border: 1px solid black;
-    height: 100%;
-}
 
-.content-view-dashboard.active {
-    display: block;
-}
+/* =========================================================
+   11. VIEWS DO SISTEMA
+========================================================= */
 
-/* Tabelas */
-.content-view-tabelas {
-    display: none;
-    padding: 40px;
-    border: 1px solid black;
-    height: 100%;
-    background-color: #fff3e0;
-}
-
-.content-view-tabelas.active {
-    display: block;
-}
-
-/* Documentos */
-.content-view-documentos {
-    display: none;
-    padding: 40px;
-    border: 1px solid black;
-    height: 100%;
-}
-
-.content-view-documentos.active {
-    display: block;
-}
-
-/* .content-view-documentos input {
-    width: 300px;
-    height: 30px;
-    text-align: center;
-    border-radius: 8px;
-    border: solid;
-    border-width: 2px;
-    border-color: #d7b54a;
-}
-
-.content-view-documentos input:focus {
-    outline: 0.5px solid #d7b54a;
-} */
-
+.content-view-dashboard,
+.content-view-tabelas,
+.content-view-documentos,
+.content-view-relatorios,
+.content-view-lista,
 .content-add-documentos {
     display: none;
     padding: 40px;
@@ -325,8 +312,17 @@ aside h1 {
     height: 100%;
 }
 
+.content-view-dashboard.active,
+.content-view-tabelas.active,
+.content-view-documentos.active,
+.content-view-relatorios.active,
+.content-view-lista.active,
 .content-add-documentos.active {
     display: block;
+}
+
+.content-view-tabelas {
+    background-color: #fff3e0;
 }
 
 .content-add-documentos input {
@@ -343,33 +339,309 @@ aside h1 {
     outline: 0.5px solid #d7b54a;
 }
 
-/* Relatorios */
-.content-view-relatorios {
-    display: none;
-    padding: 40px;
-    border: 1px solid black;
-    height: 100%;
-}
-
-.content-view-relatorios.active {
-    display: block;
-}
-
-/* Lista */
-.content-view-lista {
-    display: none;
-    padding: 40px;
-    border: 1px solid black;
-    height: 100%;
-}
-
-.content-view-lista.active {
-    display: block;
-}
 
 /* =========================================================
-   ÁREA DE FILTRAGEM DOS DOCUMENTOS
+   12. DASHBOARD
 ========================================================= */
+
+.dashboard-documentos {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ---------------------------------------------------------
+   Cabeçalho do Dashboard
+--------------------------------------------------------- */
+
+.dashboard-header {
+    margin-bottom: 28px;
+}
+
+.dashboard-header h2 {
+    margin: 0;
+    color: #142b50;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-header p {
+    margin-top: 7px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   Cards de resumo
+--------------------------------------------------------- */
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.dashboard-card {
+    min-height: 115px;
+    padding: 22px 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(15, 43, 78, 0.07);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-card-valor {
+    color: #142b50;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.dashboard-card-label {
+    margin-top: 9px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   Gráfico
+--------------------------------------------------------- */
+
+.dashboard-grafico-card {
+    max-width: none;
+    margin: 0 0 25px 0;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(15, 43, 78, 0.07);
+}
+
+.dashboard-grafico-card .grafico-header {
+    margin-bottom: 22px;
+}
+
+.dashboard-grafico-card .grafico-header h3 {
+    color: #142b50;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.grafico-documentos-lista {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.grafico-documento-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 55px;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.grafico-documento-nome {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.grafico-documento-barra {
+    width: 100%;
+    height: 14px;
+    background: #edf2f7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.grafico-documento-barra-preenchida {
+    height: 100%;
+    min-width: 3px;
+    background: #142b50;
+    border-radius: 20px;
+    transition: width 0.6s ease;
+}
+
+.grafico-documento-quantidade {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+}
+
+
+/* ---------------------------------------------------------
+   Botão Ver Todos
+--------------------------------------------------------- */
+
+.btn-ver-todos {
+    margin-top: 22px;
+    border: none;
+    background: transparent;
+    color: #142b50;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 5px 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ver-todos:hover {
+    color: #d7b54a;
+    transform: translateX(3px);
+}
+
+
+/* ---------------------------------------------------------
+   Grid inferior
+--------------------------------------------------------- */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.dashboard-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 5px 18px rgba(15, 43, 78, 0.07);
+    min-height: 260px;
+}
+
+.dashboard-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dashboard-box-header h3 {
+    margin: 0;
+    color: #142b50;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   Últimos documentos
+--------------------------------------------------------- */
+
+.ultimos-documentos {
+    display: flex;
+    flex-direction: column;
+}
+
+.ultimo-documento {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.ultimo-documento:last-child {
+    border-bottom: none;
+}
+
+.ultimo-documento-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.ultimo-documento-tipo {
+    min-width: 48px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #edf2f7;
+    color: #142b50;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.ultimo-documento-nome {
+    color: #475569;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ---------------------------------------------------------
+   Tipos disponíveis
+--------------------------------------------------------- */
+
+.tipos-disponiveis {
+    display: flex;
+    flex-direction: column;
+}
+
+.tipo-disponivel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.tipo-disponivel:last-child {
+    border-bottom: none;
+}
+
+.tipo-disponivel-nome {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tipo-disponivel-quantidade {
+    min-width: 40px;
+    text-align: right;
+    color: #142b50;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   Estado vazio
+--------------------------------------------------------- */
+
+.dashboard-vazio {
+    width: 100%;
+    padding: 30px 10px;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   13. DOCUMENTOS
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   Área de filtragem
+--------------------------------------------------------- */
 
 .secao-filtro {
     background: #fff;
@@ -379,23 +651,19 @@ aside h1 {
     margin-bottom: 30px;
 }
 
-/* =========================================================
-   BARRA DE PESQUISA
-========================================================= */
-
 .filtro-barra-principal {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza os botões */
-    gap: 20px; /* Aumenta o espaçamento */
+    justify-content: center;
+    gap: 20px;
     width: 100%;
 }
 
-/* =========================================================
-   ESTILIZAÇÃO MODERNA DOS CAMPOS (FOTO)
-========================================================= */
 
-/* Wrapper Input */
+/* ---------------------------------------------------------
+   Campo de busca
+--------------------------------------------------------- */
+
 .modern-input {
     position: relative;
     width: 100%;
@@ -405,7 +673,7 @@ aside h1 {
 .campo-busca-nome {
     width: 100%;
     height: 52px;
-    padding: 0 20px 0 50px; /* Espaço para o ícone */
+    padding: 0 20px 0 50px;
     border: 2px solid black;
     border-radius: 8px;
     background-color: #fbfcfd;
@@ -429,15 +697,19 @@ aside h1 {
 }
 
 .campo-busca-nome:hover {
-    border-color:black;
+    border-color: black;
 }
 
 .campo-busca-nome:focus {
-    border-color:black; /* Cor de destaque ao focar */
+    border-color: black;
     background-color: #fff;
 }
 
-/* Wrapper Select */
+
+/* ---------------------------------------------------------
+   Select de busca
+--------------------------------------------------------- */
+
 .modern-select {
     position: relative;
     width: 100%;
@@ -447,7 +719,7 @@ aside h1 {
 .select-tipo-busca {
     width: 100%;
     height: 52px;
-    padding: 0 45px 0 20px; /* Espaço para a seta */
+    padding: 0 45px 0 20px;
     border: 2px solid black;
     border-radius: 8px;
     background-color: #fbfcfd;
@@ -456,7 +728,7 @@ aside h1 {
     font-weight: 500;
     outline: none;
     cursor: pointer;
-    appearance: none; /* Remove a aparência padrão */
+    appearance: none;
     transition: all 0.2s ease;
 }
 
@@ -465,11 +737,11 @@ aside h1 {
     right: 18px;
     top: 50%;
     transform: translateY(-50%);
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid black; /* Cor da seta gold */
+    border-top: 6px solid black;
     pointer-events: none;
 }
 
@@ -482,18 +754,17 @@ aside h1 {
     background-color: #fff;
 }
 
-/* Opções do select */
 .select-tipo-busca option {
     background-color: #fff;
     color: #142b50;
     padding: 10px;
 }
 
-/* =========================================================
-   ESTILIZAÇÃO DE TABELAS (Usuários e Documentos)
-========================================================= */
 
-/* Estrutura principal da tabela */
+/* ---------------------------------------------------------
+   Tabelas
+--------------------------------------------------------- */
+
 .tabela-usuarios,
 .tabela-documentos {
     width: 100%;
@@ -504,7 +775,6 @@ aside h1 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Cabeçalho azul escuro */
 .tabela-usuarios thead,
 .tabela-documentos thead {
     background-color: #142b50;
@@ -519,7 +789,6 @@ aside h1 {
     font-weight: 600;
 }
 
-/* Células de conteúdo */
 .tabela-usuarios td,
 .tabela-documentos td {
     padding: 14px 15px;
@@ -528,26 +797,22 @@ aside h1 {
     font-size: 14px;
 }
 
-/* Zebra / Linhas alternadas */
 .tabela-usuarios tbody tr:nth-child(even),
 .tabela-documentos tbody tr:nth-child(even) {
     background-color: #fff5f7;
 }
 
-/* Efeito ao passar o mouse na linha */
 .tabela-usuarios tbody tr:hover,
 .tabela-documentos tbody tr:hover {
     background-color: #d8c998;
     transition: 0.2s ease;
 }
 
-/* Remove a borda da última linha */
 .tabela-usuarios tbody tr:last-child td,
 .tabela-documentos tbody tr:last-child td {
     border-bottom: none;
 }
 
-/* Mensagem de lista vazia (Usuários: 5 colunas / Documentos: 4 colunas) */
 .tabela-usuarios td[colspan="5"],
 .tabela-documentos td[colspan="4"] {
     text-align: center;
@@ -556,37 +821,29 @@ aside h1 {
     font-style: italic;
 }
 
-/* =====================================================
-   BOTÃO FLUTUANTE - UPLOAD
-===================================================== */
+
+/* =========================================================
+   14. BOTÃO FLUTUANTE DE UPLOAD
+========================================================= */
 
 .btn-upload-flutuante {
     position: fixed;
     right: 30px;
     bottom: 30px;
-
     width: 58px;
     height: 58px;
-
     border: none;
     border-radius: 50%;
-
     background: #0066ff;
     color: #ffffff;
-
     font-size: 32px;
     font-weight: 300;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
     box-shadow: 0 6px 20px rgba(0, 102, 255, 0.35);
-
     z-index: 9998;
-
     transition:
         transform 0.2s ease,
         background-color 0.2s ease,
@@ -595,9 +852,7 @@ aside h1 {
 
 .btn-upload-flutuante:hover {
     background: #0052cc;
-
     transform: scale(1.08);
-
     box-shadow: 0 8px 25px rgba(0, 102, 255, 0.45);
 }
 
@@ -606,29 +861,21 @@ aside h1 {
 }
 
 
-/* =====================================================
-   MODAL
-===================================================== */
+/* =========================================================
+   15. MODAL DE UPLOAD
+========================================================= */
 
 .modal-upload {
     position: fixed;
-
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     background: rgba(15, 23, 42, 0.55);
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     z-index: 9999;
-
     backdrop-filter: blur(3px);
 }
 
@@ -637,27 +884,21 @@ aside h1 {
 }
 
 
-/* =====================================================
-   CONTEÚDO DO MODAL
-===================================================== */
+/* ---------------------------------------------------------
+   Conteúdo
+--------------------------------------------------------- */
 
 .modal-upload-conteudo {
     width: 100%;
     max-width: 520px;
-
     background: #ffffff;
-
     border-radius: 16px;
-
     padding: 25px;
-
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
-
     animation: aparecerModal 0.2s ease;
 }
 
 @keyframes aparecerModal {
-
     from {
         opacity: 0;
         transform: translateY(15px) scale(0.98);
@@ -667,86 +908,64 @@ aside h1 {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-
 }
 
 
-/* =====================================================
-   CABEÇALHO DO MODAL
-===================================================== */
+/* ---------------------------------------------------------
+   Cabeçalho
+--------------------------------------------------------- */
 
 .modal-upload-header {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-start;
-
     margin-bottom: 22px;
 }
 
 .modal-upload-header h2 {
     margin: 0;
-
     color: #1e293b;
-
     font-size: 1.35rem;
 }
 
 .modal-upload-header p {
     margin-top: 6px;
-
     color: #64748b;
-
     font-size: 0.9rem;
 }
 
 .btn-fechar-upload {
     width: 35px;
     height: 35px;
-
     border: none;
-
     border-radius: 50%;
-
     background: #f1f5f9;
-
     color: #475569;
-
     font-size: 25px;
-
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: 0.2s;
 }
 
 .btn-fechar-upload:hover {
     background: #e2e8f0;
-
     color: #0f172a;
 }
 
 
-/* =====================================================
-   DROPZONE
-===================================================== */
+/* ---------------------------------------------------------
+   Dropzone
+--------------------------------------------------------- */
 
 .dropzone-upload {
     border: 2px dashed #0066ff;
-
     border-radius: 12px;
-
     padding: 35px 20px;
-
     text-align: center;
-
     background: #f8faff;
-
     cursor: pointer;
-
     transition:
         background-color 0.2s,
         border-color 0.2s,
@@ -756,24 +975,17 @@ aside h1 {
 .dropzone-upload:hover,
 .dropzone-upload.dragover {
     background: #e6f0ff;
-
     border-color: #0044cc;
 }
 
 .upload-icone {
     width: 50px;
     height: 50px;
-
     margin: 0 auto 15px;
-
     border-radius: 50%;
-
     background: #e6f0ff;
-
     color: #0066ff;
-
     font-size: 28px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -781,21 +993,15 @@ aside h1 {
 
 .dropzone-upload p {
     margin: 0;
-
     color: #334155;
-
     font-size: 0.95rem;
-
     font-weight: 600;
 }
 
 .dropzone-upload span {
     display: block;
-
     margin-top: 8px;
-
     color: #94a3b8;
-
     font-size: 0.8rem;
 }
 
@@ -804,25 +1010,54 @@ aside h1 {
 }
 
 
-/* =====================================================
-   INFORMAÇÕES DO ARQUIVO
-===================================================== */
+/* ---------------------------------------------------------
+   Nome do arquivo
+--------------------------------------------------------- */
+
+.campo-upload {
+    margin-top: 18px;
+}
+
+.campo-upload label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-nome-upload {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-nome-upload:focus {
+    border-color: #d7b54a;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
+}
+
+
+/* ---------------------------------------------------------
+   Informações do arquivo
+--------------------------------------------------------- */
 
 .file-info-upload {
     display: none;
-
     margin-top: 15px;
-
     padding: 10px 12px;
-
     border-radius: 8px;
-
     background: #f1f5f9;
-
     color: #334155;
-
     font-size: 0.9rem;
-
     word-break: break-word;
 }
 
@@ -831,31 +1066,21 @@ aside h1 {
 }
 
 
-/* =====================================================
-   BOTÃO ENVIAR
-===================================================== */
+/* ---------------------------------------------------------
+   Botão enviar
+--------------------------------------------------------- */
 
 .btn-enviar-upload {
     width: 100%;
-
     margin-top: 18px;
-
     padding: 12px;
-
     border: none;
-
     border-radius: 8px;
-
     background: #0066ff;
-
     color: #ffffff;
-
     font-size: 0.95rem;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition: background-color 0.2s;
 }
 
@@ -865,57 +1090,42 @@ aside h1 {
 
 .btn-enviar-upload:disabled {
     background: #cbd5e1;
-
     cursor: not-allowed;
 }
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+/* ---------------------------------------------------------
+   Status
+--------------------------------------------------------- */
 
 .status-upload {
     display: none;
-
     margin-top: 18px;
-
     padding: 14px;
-
     border-radius: 8px;
-
     font-size: 0.9rem;
 }
 
 .status-upload.loading {
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     gap: 10px;
-
     background: #eef6ff;
-
     color: #0052cc;
 }
 
 .status-upload.sucesso {
     display: block;
-
     background: #e6fffa;
-
     border: 1px solid #b2f5ea;
-
     color: #234e52;
 }
 
 .status-upload.erro {
     display: block;
-
     background: #fff5f5;
-
     border: 1px solid #fed7d7;
-
     color: #9b2c2c;
 }
 
@@ -928,25 +1138,20 @@ aside h1 {
 }
 
 
-/* =====================================================
-   SPINNER
-===================================================== */
+/* ---------------------------------------------------------
+   Spinner
+--------------------------------------------------------- */
 
 .spinner-upload {
     width: 20px;
     height: 20px;
-
     border: 3px solid #b3d1ff;
-
     border-top: 3px solid #0052cc;
-
     border-radius: 50%;
-
     animation: spinUpload 1s linear infinite;
 }
 
 @keyframes spinUpload {
-
     0% {
         transform: rotate(0deg);
     }
@@ -954,35 +1159,618 @@ aside h1 {
     100% {
         transform: rotate(360deg);
     }
-
 }
 
 
 /* =========================================================
-   RESPONSIVIDADE (Ajustada para o novo design)
+   16. MODAL VISUALIZAR DOCUMENTO
+========================================================= */
+
+.modal-visualizar {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-visualizar.ativo {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+   Conteúdo
+--------------------------------------------------------- */
+
+.modal-visualizar-conteudo {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 95vh;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    animation: aparecerModalVisualizar 0.2s ease;
+}
+
+@keyframes aparecerModalVisualizar {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   Cabeçalho
+--------------------------------------------------------- */
+
+.modal-visualizar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-visualizar-header h2 {
+    margin: 0;
+    color: #142b50;
+    font-size: 20px;
+}
+
+.modal-visualizar-header p {
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   Botão fechar
+--------------------------------------------------------- */
+
+.btn-fechar-visualizar {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.btn-fechar-visualizar:hover {
+    background: #e2e8f0;
+    color: #142b50;
+}
+
+
+/* ---------------------------------------------------------
+   Área da imagem / PDF
+--------------------------------------------------------- */
+
+.documento-visualizacao {
+    width: 100%;
+    max-height: calc(95vh - 120px);
+    overflow: auto;
+    background: #0f172a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+#imagemDocumentoVisualizar {
+    display: block;
+    max-width: 100%;
+    max-height: calc(95vh - 160px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+#pdfDocumentoVisualizar {
+    width: 100%;
+    height: 70vh;
+    border: none;
+}
+
+
+/* =========================================================
+   17. USUÁRIOS — CADASTRO
+========================================================= */
+
+.formCadastro {
+    width: 100%;
+    max-width: 430px;
+    margin: 30px auto;
+    padding: 32px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(15, 43, 78, 0.12);
+}
+
+.formCadastro h3 {
+    margin: 0 0 8px;
+    color: #162f55;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.formCadastro p {
+    margin: 0 0 24px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.formCadastro input,
+.formCadastro select {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f8fafc;
+    color: #162f55;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.formCadastro input::placeholder {
+    color: #94a3b8;
+}
+
+.formCadastro input:focus,
+.formCadastro select:focus {
+    border-color: #d7b54a;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
+}
+
+.formCadastro .btn-cadastro {
+    width: 100%;
+    height: 44px;
+    margin-top: 6px;
+    border: 1px solid #d7b54a;
+    border-radius: 6px;
+    background-color: #162f55;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.formCadastro .btn-cadastro:hover {
+    background-color: #d7b54a;
+    color: #162f55;
+    box-shadow: 0 4px 12px rgba(215, 181, 74, 0.25);
+}
+
+.formCadastro .btn-cadastro:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   18. USUÁRIOS — LISTA
+========================================================= */
+
+.content-view-lista {
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.content-view-lista h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+
+/* ---------------------------------------------------------
+   Cargos / Badges
+--------------------------------------------------------- */
+
+.cargo-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.cargo-leitor {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.cargo-editor {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.cargo-administrador {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+
+/* ---------------------------------------------------------
+   Botão alterar cargo
+--------------------------------------------------------- */
+
+.btn-alterar-cargo {
+    border: 1px solid #d7b54a;
+    background-color: #142b50;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-alterar-cargo:hover {
+    background-color: #d7b54a;
+    color: #142b50;
+}
+
+
+/* =========================================================
+   19. MODAL ALTERAR CARGO
+========================================================= */
+
+.modal-cargo {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-cargo.ativo {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+   Conteúdo
+--------------------------------------------------------- */
+
+.modal-cargo-conteudo {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    animation: aparecerModalCargo 0.2s ease;
+}
+
+@keyframes aparecerModalCargo {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   Título
+--------------------------------------------------------- */
+
+.modal-cargo-conteudo h3 {
+    margin: 0 0 8px;
+    color: #142b50;
+    font-size: 23px;
+}
+
+#nomeUsuarioCargo {
+    margin-bottom: 25px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   Label
+--------------------------------------------------------- */
+
+.modal-cargo-conteudo label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ---------------------------------------------------------
+   Select
+--------------------------------------------------------- */
+
+.modal-cargo-conteudo select {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f8fafc;
+    color: #162f55;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 25px;
+}
+
+.modal-cargo-conteudo select:focus {
+    border-color: #d7b54a;
+    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
+}
+
+
+/* ---------------------------------------------------------
+   Botão fechar
+--------------------------------------------------------- */
+
+.modal-cargo-fechar {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-cargo-fechar:hover {
+    color: #142b50;
+}
+
+
+/* ---------------------------------------------------------
+   Botões
+--------------------------------------------------------- */
+
+.modal-cargo-botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancelar-cargo {
+    height: 42px;
+    padding: 0 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancelar-cargo:hover {
+    background-color: #f1f5f9;
+}
+
+.btn-salvar-cargo {
+    height: 42px;
+    padding: 0 18px;
+    border: 1px solid #d7b54a;
+    border-radius: 6px;
+    background-color: #142b50;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-salvar-cargo:hover {
+    background-color: #d7b54a;
+    color: #142b50;
+}
+
+
+/* =========================================================
+   20. RESPONSIVIDADE — DOCUMENTOS / UPLOAD
 ========================================================= */
 
 @media (max-width: 900px) {
+
     .filtro-barra-principal {
         flex-direction: column;
         gap: 15px;
     }
 
-    .modern-input, .modern-select {
+    .modern-input,
+    .modern-select {
         width: 100%;
         max-width: 100%;
     }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        padding: 18px;
+    }
+
+    .dashboard-card-valor {
+        font-size: 25px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
+
+/* =========================================================
+   21. RESPONSIVIDADE — LAYOUT PRINCIPAL
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .header {
+        height: 68px;
+    }
+
+    .header-container {
+        height: 68px;
+        padding: 0 28px;
+    }
+
+    .logo-text {
+        font-size: 17px;
+    }
+
+    .navigation a {
+        font-size: 12px;
+    }
+
+    .login-button {
+        width: 54px;
+        height: 34px;
+        font-size: 12px;
+    }
+
+    .app-container {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100%;
+        height: auto;
+        min-height: initial;
+        padding-bottom: 20px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .main-content {
+        padding: 25px;
+    }
+}
+
+
+/* =========================================================
+   22. RESPONSIVIDADE — CELULARES
+========================================================= */
+
 @media (max-width: 600px) {
+
+    /* Header */
+
+    .header {
+        height: 64px;
+    }
+
+    .header-container {
+        height: 64px;
+        padding: 0 20px;
+    }
+
+    .logo-icon {
+        width: 24px;
+        height: 24px;
+        transform: scale(0.9);
+    }
+
+    .logo-text {
+        margin-left: 7px;
+        font-size: 15px;
+    }
+
+    .navigation {
+        position: static;
+        margin-left: auto;
+        margin-right: 18px;
+        transform: none;
+    }
+
+    .navigation a {
+        font-size: 11px;
+    }
+
+    .login-button {
+        width: 52px;
+        height: 32px;
+        border-radius: 8px;
+        font-size: 11px;
+    }
+
+
+    /* Sidebar */
+
+    aside h1 {
+        margin: 25px 0 15px 0;
+        font-size: 19px;
+    }
+
+
+    /* Filtros */
+
     .secao-filtro {
         padding: 20px;
     }
 
-    .campo-busca-nome, .select-tipo-busca {
+    .campo-busca-nome,
+    .select-tipo-busca {
         height: 48px;
         font-size: 14px;
     }
+
+
+    /* Upload */
 
     .btn-upload-flutuante {
         right: 20px;
@@ -999,1003 +1787,9 @@ aside h1 {
     .modal-upload-conteudo {
         padding: 20px;
     }
-}
 
-/* Área da lista de usuários */
-.content-view-lista {
-    padding: 30px;
-    border-radius: 12px;
-}
 
-/* Título */
-.content-view-lista h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-/* Tabela */
-.tabela-usuarios {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* Cabeçalho */
-.tabela-usuarios thead {
-    background-color: #142b50;
-    color: white;
-}
-
-.tabela-usuarios th {
-    padding: 15px;
-    text-align: left;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-/* Células */
-.tabela-usuarios td {
-    padding: 14px 15px;
-    border-bottom: 1px solid #eeeeee;
-    color: #444;
-    font-size: 14px;
-}
-
-/* Linhas alternadas */
-.tabela-usuarios tbody tr:nth-child(even) {
-    background-color: #fff5f7;
-}
-
-/* Efeito ao passar o mouse */
-.tabela-usuarios tbody tr:hover {
-    background-color: #d8c998;
-    transition: 0.2s;
-}
-
-/* Remove a borda da última linha */
-.tabela-usuarios tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Mensagem quando não existem usuários */
-.tabela-usuarios td[colspan="5"] { /* Corrigido colspan */
-    text-align: center;
-    color: #777;
-    padding: 25px;
-    font-style: italic;
-}
-
-/* =========================
-   FORMULÁRIO DE CADASTRO
-   ========================= */
-.formCadastro {
-    width: 100%;
-    max-width: 430px;
-    margin: 30px auto;
-    padding: 32px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border: 1px solid #dbe3ee;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(15, 43, 78, 0.12);
-}
-
-/* Título */
-.formCadastro h3 {
-    margin: 0 0 8px;
-    color: #162f55;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-/* Texto de descrição */
-.formCadastro p {
-    margin: 0 0 24px;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* Campos do formulário */
-.formCadastro input, .formCadastro select {
-    width: 100%;
-    height: 44px;
-    box-sizing: border-box;
-    margin-bottom: 14px;
-    padding: 0 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    background-color: #f8fafc;
-    color: #162f55;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-/* Placeholder */
-.formCadastro input::placeholder {
-    color: #94a3b8;
-}
-
-/* Campo selecionado */
-.formCadastro input:focus, .formCadastro select:focus {
-    border-color: #d7b54a;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
-}
-
-/* Botão */
-.formCadastro .btn-cadastro {
-    width: 100%;
-    height: 44px;
-    margin-top: 6px;
-    border: 1px solid #d7b54a;
-    border-radius: 6px;
-    background-color: #162f55;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-/* Hover do botão */
-.formCadastro .btn-cadastro:hover {
-    background-color: #d7b54a;
-    color: #162f55;
-    box-shadow: 0 4px 12px rgba(215, 181, 74, 0.25);
-}
-
-/* Clique */
-.formCadastro .btn-cadastro:active {
-    transform: translateY(1px);
-}
-
-/* =========================================================
-   CARGO DOS USUÁRIOS (Badges e Modais)
-========================================================= */
-
-.cargo-badge {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-/* Leitor */
-.cargo-leitor {
-    background-color: #e0f2fe;
-    color: #0369a1;
-}
-
-/* Editor */
-.cargo-editor {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-/* Administrador */
-.cargo-administrador {
-    background-color: #fee2e2;
-    color: #b91c1c;
-}
-
-
-/* =========================================================
-   BOTÃO ALTERAR CARGO
-========================================================= */
-
-.btn-alterar-cargo {
-    border: 1px solid #d7b54a;
-    background-color: #142b50;
-    color: #ffffff;
-
-    padding: 8px 14px;
-
-    border-radius: 6px;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.btn-alterar-cargo:hover {
-    background-color: #d7b54a;
-    color: #142b50;
-}
-
-
-/* =========================================================
-   MODAL ALTERAR CARGO
-========================================================= */
-
-.modal-cargo {
-    display: none;
-
-    position: fixed;
-
-    z-index: 9999;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.55);
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-}
-
-.modal-cargo.ativo {
-    display: flex;
-}
-
-
-/* =========================================================
-   CONTEÚDO DO MODAL
-========================================================= */
-
-.modal-cargo-conteudo {
-    position: relative;
-
-    width: 100%;
-    max-width: 430px;
-
-    background-color: #ffffff;
-
-    border-radius: 12px;
-
-    padding: 30px;
-
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-
-    animation: aparecerModalCargo 0.2s ease;
-}
-
-@keyframes aparecerModalCargo { /* Nome da animação único */
-
-    from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-
-}
-
-
-/* =========================================================
-   TÍTULO DO MODAL CARGO
-========================================================= */
-
-.modal-cargo-conteudo h3 {
-    margin: 0 0 8px;
-
-    color: #142b50;
-
-    font-size: 23px;
-}
-
-
-/* Nome do usuário */
-
-#nomeUsuarioCargo {
-    margin-bottom: 25px;
-
-    color: #64748b;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   LABEL DO MODAL CARGO
-========================================================= */
-
-.modal-cargo-conteudo label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #334155;
-
-    font-size: 14px;
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   SELECT DO MODAL CARGO
-========================================================= */
-
-.modal-cargo-conteudo select {
-    width: 100%;
-    height: 44px;
-
-    padding: 0 12px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 6px;
-
-    background-color: #f8fafc;
-
-    color: #162f55;
-
-    font-size: 14px;
-
-    outline: none;
-
-    margin-bottom: 25px;
-}
-
-.modal-cargo-conteudo select:focus {
-    border-color: #d7b54a;
-
-    box-shadow: 0 0 0 3px rgba(215, 181, 74, 0.15);
-}
-
-
-/* =========================================================
-   BOTÃO FECHAR DO MODAL CARGO
-========================================================= */
-
-.modal-cargo-fechar {
-    position: absolute;
-
-    top: 12px;
-    right: 15px;
-
-    width: 32px;
-    height: 32px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #64748b;
-
-    font-size: 28px;
-
-    cursor: pointer;
-
-    line-height: 1;
-}
-
-.modal-cargo-fechar:hover {
-    color: #142b50;
-}
-
-
-/* =========================================================
-   BOTÕES DO MODAL CARGO
-========================================================= */
-
-.modal-cargo-botoes {
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-}
-
-
-/* Botão Cancelar */
-
-.btn-cancelar-cargo {
-    height: 42px;
-
-    padding: 0 18px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 6px;
-
-    background-color: #ffffff;
-
-    color: #475569;
-
-    font-weight: 600;
-
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.btn-cancelar-cargo:hover {
-    background-color: #f1f5f9;
-}
-
-
-/* Botão Salvar */
-
-.btn-salvar-cargo {
-    height: 42px;
-
-    padding: 0 18px;
-
-    border: 1px solid #d7b54a;
-
-    border-radius: 6px;
-
-    background-color: #142b50;
-
-    color: #ffffff;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.btn-salvar-cargo:hover {
-    background-color: #d7b54a;
-
-    color: #142b50;
-}
-
-
-/* =========================================================
-   RESPONSIVO (Badges e Modais)
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .modal-cargo-conteudo {
-        padding: 25px 20px;
-    }
-
-    .modal-cargo-botoes {
-        flex-direction: column-reverse; /* Inverte a ordem para Cancelar ficar embaixo */
-        gap: 8px;
-    }
-
-    .btn-cancelar-cargo,
-    .btn-salvar-cargo {
-        width: 100%;
-        margin-left: 0 !important; /* Remove margens do flex antiga */
-    }
-
-}
-
-/* =========================================================
-   MEDIA QUERIES GERAIS (Layout e Menu)
-========================================================= */
-
-/* TABLETS */
-@media (max-width: 768px) {
-    .header { height: 68px; }
-    .header-container { height: 68px; padding: 0 28px; }
-    .logo-text { font-size: 17px; }
-    .navigation a { font-size: 12px; }
-    .login-button { width: 54px; height: 34px; font-size: 12px; }
-    .app-container { flex-direction: column; }
-    aside { 
-        width: 100%; 
-        height: auto; 
-        min-height: initial; 
-        padding-bottom: 20px; 
-        border-right: none; 
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .main-content { padding: 25px; }
-}
-
-/* CELULARES */
-@media (max-width: 600px) {
-    .header { height: 64px; }
-    .header-container { height: 64px; padding: 0 20px; }
-    .logo-icon { width: 24px; height: 24px; transform: scale(0.9); }
-    .logo-text { margin-left: 7px; font-size: 15px; }
-    .navigation { position: static; margin-left: auto; margin-right: 18px; transform: none; }
-    .navigation a { font-size: 11px; }
-    .login-button { width: 52px; height: 32px; border-radius: 8px; font-size: 11px; }
-    aside h1 { margin: 25px 0 15px 0; font-size: 19px; }
-}
-
-/* CELULARES PEQUENOS */
-@media (max-width: 380px) {
-    .header-container { padding: 0 15px; }
-    .logo-text { font-size: 14px; }
-    .navigation { margin-right: 12px; }
-    .navigation a { font-size: 10px; }
-    .login-button { width: 48px; height: 30px; font-size: 10px; }
-}
-
-
-
-
-
-
-
-/* =========================================================
-   DASHBOARD DE DOCUMENTOS
-========================================================= */
-
-.dashboard-documentos {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-
-/* =========================================================
-   CABEÇALHO
-========================================================= */
-
-.dashboard-header {
-    margin-bottom: 28px;
-}
-
-.dashboard-header h2 {
-    margin: 0;
-
-    color: #142b50;
-
-    font-size: 26px;
-    font-weight: 700;
-
-    letter-spacing: 0.5px;
-}
-
-.dashboard-header p {
-    margin-top: 7px;
-
-    color: #64748b;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   CARDS DE RESUMO
-========================================================= */
-
-.dashboard-cards {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 20px;
-
-    margin-bottom: 25px;
-}
-
-
-.dashboard-card {
-    min-height: 115px;
-
-    padding: 22px 25px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 5px 18px rgba(15, 43, 78, 0.07);
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-}
-
-
-.dashboard-card-valor {
-    color: #142b50;
-
-    font-size: 30px;
-
-    font-weight: 700;
-
-    line-height: 1;
-}
-
-
-.dashboard-card-label {
-    margin-top: 9px;
-
-    color: #64748b;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   CARD DO GRÁFICO
-========================================================= */
-
-.dashboard-grafico-card {
-    max-width: none;
-
-    margin: 0 0 25px 0;
-
-    padding: 25px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 5px 18px rgba(15, 43, 78, 0.07);
-}
-
-
-.dashboard-grafico-card .grafico-header {
-    margin-bottom: 22px;
-}
-
-
-.dashboard-grafico-card .grafico-header h3 {
-    color: #142b50;
-
-    font-size: 18px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   BARRAS HORIZONTAIS
-========================================================= */
-
-.grafico-documentos-lista {
-    width: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 17px;
-}
-
-
-.grafico-documento-item {
-    display: grid;
-
-    grid-template-columns: 100px 1fr 55px;
-
-    align-items: center;
-
-    gap: 12px;
-
-    width: 100%;
-}
-
-
-.grafico-documento-nome {
-    color: #334155;
-
-    font-size: 14px;
-
-    font-weight: 600;
-}
-
-
-.grafico-documento-barra {
-    width: 100%;
-
-    height: 14px;
-
-    background: #edf2f7;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-}
-
-
-.grafico-documento-barra-preenchida {
-    height: 100%;
-
-    min-width: 3px;
-
-    background: #142b50;
-
-    border-radius: 20px;
-
-    transition:
-        width 0.6s ease;
-}
-
-
-.grafico-documento-quantidade {
-    color: #475569;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    text-align: right;
-}
-
-
-/* =========================================================
-   BOTÃO VER TODOS
-========================================================= */
-
-.btn-ver-todos {
-    margin-top: 22px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #142b50;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    padding: 5px 0;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.btn-ver-todos:hover {
-    color: #d7b54a;
-
-    transform: translateX(3px);
-}
-
-
-/* =========================================================
-   GRID INFERIOR
-========================================================= */
-
-.dashboard-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 25px;
-}
-
-
-/* =========================================================
-   BOXES INFERIORES
-========================================================= */
-
-.dashboard-box {
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    padding: 24px;
-
-    box-shadow:
-        0 5px 18px rgba(15, 43, 78, 0.07);
-
-    min-height: 260px;
-}
-
-
-.dashboard-box-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-}
-
-
-.dashboard-box-header h3 {
-    margin: 0;
-
-    color: #142b50;
-
-    font-size: 17px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   ÚLTIMOS DOCUMENTOS
-========================================================= */
-
-.ultimos-documentos {
-    display: flex;
-
-    flex-direction: column;
-}
-
-
-.ultimo-documento {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-
-    padding: 13px 0;
-
-    border-bottom:
-        1px solid #eef2f7;
-}
-
-
-.ultimo-documento:last-child {
-    border-bottom: none;
-}
-
-
-.ultimo-documento-info {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    min-width: 0;
-}
-
-
-.ultimo-documento-tipo {
-    min-width: 48px;
-
-    padding: 5px 8px;
-
-    border-radius: 6px;
-
-    background: #edf2f7;
-
-    color: #142b50;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    text-align: center;
-}
-
-
-.ultimo-documento-nome {
-    color: #475569;
-
-    font-size: 13px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-}
-
-
-/* =========================================================
-   TIPOS DISPONÍVEIS
-========================================================= */
-
-.tipos-disponiveis {
-    display: flex;
-
-    flex-direction: column;
-}
-
-
-.tipo-disponivel {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 13px 0;
-
-    border-bottom:
-        1px solid #eef2f7;
-}
-
-
-.tipo-disponivel:last-child {
-    border-bottom: none;
-}
-
-
-.tipo-disponivel-nome {
-    color: #475569;
-
-    font-size: 14px;
-
-    font-weight: 600;
-}
-
-
-.tipo-disponivel-quantidade {
-    min-width: 40px;
-
-    text-align: right;
-
-    color: #142b50;
-
-    font-size: 14px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   ESTADO VAZIO
-========================================================= */
-
-.dashboard-vazio {
-    width: 100%;
-
-    padding: 30px 10px;
-
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    text-align: center;
-}
-
-
-/* =========================================================
-   RESPONSIVIDADE
-========================================================= */
-
-@media (max-width: 900px) {
-
-    .dashboard-cards {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-        gap: 12px;
-    }
-
-    .dashboard-card {
-        padding: 18px;
-    }
-
-    .dashboard-card-valor {
-        font-size: 25px;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-@media (max-width: 600px) {
+    /* Dashboard */
 
     .dashboard-documentos {
         width: 100%;
@@ -2019,9 +1813,7 @@ aside h1 {
     }
 
     .grafico-documento-item {
-        grid-template-columns:
-            65px 1fr 45px;
-
+        grid-template-columns: 65px 1fr 45px;
         gap: 8px;
     }
 
@@ -2037,202 +1829,8 @@ aside h1 {
         max-width: 150px;
     }
 
-}
 
-
-
-
-
-
-
-
-
-/* =========================================================
-   MODAL VISUALIZAR DOCUMENTO
-========================================================= */
-
-.modal-visualizar {
-    position: fixed;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(15, 23, 42, 0.75);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 10000;
-
-    backdrop-filter: blur(4px);
-}
-
-.modal-visualizar.ativo {
-    display: flex;
-}
-
-
-/* =========================================================
-   CONTEÚDO DO MODAL
-========================================================= */
-
-.modal-visualizar-conteudo {
-    position: relative;
-
-    width: 100%;
-    max-width: 1000px;
-    max-height: 95vh;
-
-    background: #ffffff;
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-
-    display: flex;
-    flex-direction: column;
-
-    animation: aparecerModalVisualizar 0.2s ease;
-}
-
-@keyframes aparecerModalVisualizar {
-
-    from {
-        opacity: 0;
-        transform: scale(0.96);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-}
-
-
-/* =========================================================
-   CABEÇALHO
-========================================================= */
-
-.modal-visualizar-header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 15px;
-}
-
-.modal-visualizar-header h2 {
-    margin: 0;
-
-    color: #142b50;
-
-    font-size: 20px;
-}
-
-.modal-visualizar-header p {
-    margin-top: 5px;
-
-    color: #64748b;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   BOTÃO FECHAR
-========================================================= */
-
-.btn-fechar-visualizar {
-    width: 38px;
-    height: 38px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: #f1f5f9;
-
-    color: #475569;
-
-    font-size: 28px;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    transition: 0.2s;
-}
-
-.btn-fechar-visualizar:hover {
-    background: #e2e8f0;
-
-    color: #142b50;
-}
-
-
-/* =========================================================
-   ÁREA DA IMAGEM
-========================================================= */
-
-.documento-visualizacao {
-    width: 100%;
-
-    max-height: calc(95vh - 120px);
-
-    overflow: auto;
-
-    background: #0f172a;
-
-    border-radius: 10px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 15px;
-}
-
-
-/* =========================================================
-   IMAGEM
-========================================================= */
-
-#imagemDocumentoVisualizar {
-    display: block;
-
-    max-width: 100%;
-
-    max-height: calc(95vh - 160px);
-
-    width: auto;
-
-    height: auto;
-
-    object-fit: contain;
-
-    border-radius: 5px;
-}
-
-
-/* =========================================================
-   RESPONSIVO
-========================================================= */
-
-@media (max-width: 600px) {
+    /* Modal visualizar */
 
     .modal-visualizar {
         padding: 10px;
@@ -2240,7 +1838,6 @@ aside h1 {
 
     .modal-visualizar-conteudo {
         padding: 15px;
-
         max-height: 95vh;
     }
 
@@ -2256,4 +1853,51 @@ aside h1 {
         padding: 8px;
     }
 
+
+    /* Modal cargo */
+
+    .modal-cargo-conteudo {
+        padding: 25px 20px;
+    }
+
+    .modal-cargo-botoes {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .btn-cancelar-cargo,
+    .btn-salvar-cargo {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+}
+
+
+/* =========================================================
+   23. RESPONSIVIDADE — CELULARES PEQUENOS
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .header-container {
+        padding: 0 15px;
+    }
+
+    .logo-text {
+        font-size: 14px;
+    }
+
+    .navigation {
+        margin-right: 12px;
+    }
+
+    .navigation a {
+        font-size: 10px;
+    }
+
+    .login-button {
+        width: 48px;
+        height: 30px;
+        font-size: 10px;
+    }
 }
