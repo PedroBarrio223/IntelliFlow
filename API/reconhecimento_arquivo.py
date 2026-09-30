@@ -200,6 +200,8 @@ def processar_upload():
 
         titular = response_numero.text.strip()
 
+        caminho_salvo = "API/" + caminho_salvo
+
         # 4. Inserir no Banco de Dados
         cursor = db.cursor()
         sql = "INSERT INTO documentos (tipo, caminho, titular, nome_arquivo) VALUES (%s, %s, %s, %s)"

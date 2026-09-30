@@ -27,7 +27,8 @@ CREATE TABLE `documentos` (
   `id` int(11) NOT NULL,
   `tipo` varchar(50) DEFAULT NULL,
   `caminho` text DEFAULT NULL,
-  `titular` varchar(255) DEFAULT NULL
+  `titular` varchar(255) DEFAULT NULL,
+  `nome_arquivo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Criação da tabela usuarios

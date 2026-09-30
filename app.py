@@ -11,7 +11,7 @@ from flask import (
 import mysql.connector
 import os
 import mimetypes
-
+from flask import Flask, request, jsonify, send_file
 
 # =========================================================
 # CONFIGURAÇÃO DO FLASK
@@ -27,6 +27,99 @@ app = Flask(__name__)
 BASE_DIR = os.path.dirname(
     os.path.abspath(__file__)
 )
+
+# =========================================================
+# VISUALIZAR DOCUMENTO
+# =========================================================
+
+@app.route("/documento/<int:id_documento>/visualizar")
+def visualizar_documento(id_documento):
+    db = None
+    cursor = None
+
+    try:
+        print("\n========================================")
+        print("SOLICITAÇÃO DE VISUALIZAÇÃO DE DOCUMENTO")
+        print("ID:", id_documento)
+        print("========================================")
+
+        # 1. BUSCA O CAMINHO NA TABELA 'documentos' PELO ID
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        query = """
+            SELECT
+                id,
+                caminho,
+                nome_arquivo,
+                tipo
+            FROM documentos
+            WHERE id = %s
+        """
+
+        cursor.execute(query, (id_documento,))
+        documento = cursor.fetchone()
+
+        cursor.close()
+        db.close()
+
+        # 2. VALIDAÇÃO DO REGISTRO
+        if not documento:
+            print("Erro: Documento não encontrado no banco de dados.")
+            return jsonify({"erro": "Documento não encontrado no banco de dados."}), 404
+
+        caminho_banco = documento.get("caminho")
+
+        if not caminho_banco:
+            print("Erro: O campo 'caminho' no banco está vazio.")
+            return jsonify({"erro": "O documento não possui caminho armazenado no banco."}), 404
+
+        # 3. CORRIGE BARRAS E MONTA O CAMINHO ABSOLUTO
+        caminho_normalizado = caminho_banco.replace("\\", os.sep).replace("/", os.sep)
+
+        if not os.path.isabs(caminho_normalizado):
+            # BASE_DIR precisa estar definido no seu código (ex: BASE_DIR = os.path.dirname(os.path.abspath(__file__)))
+            caminho_absoluto = os.path.join(BASE_DIR, caminho_normalizado)
+        else:
+            caminho_absoluto = caminho_normalizado
+
+        caminho_absoluto = os.path.abspath(caminho_absoluto)
+
+        print(f"Caminho vindo do Banco: {caminho_banco}")
+        print(f"Caminho absoluto final: {caminho_absoluto}")
+
+        # 4. VERIFICA SE O ARQUIVO FÍSICO EXISTE NO DISCO
+        if not os.path.isfile(caminho_absoluto):
+            print("ARQUIVO FÍSICO NÃO ENCONTRADO NO DISCO!")
+            return jsonify({
+                "erro": "Arquivo físico não encontrado na pasta do servidor.",
+                "caminho_banco": caminho_banco,
+                "caminho_procurado": caminho_absoluto
+            }), 404
+
+        # 5. DETECTA O TIPO MIME DO ARQUIVO
+        mime_type, _ = mimetypes.guess_type(caminho_absoluto)
+        if not mime_type:
+            mime_type = "application/octet-stream"
+
+        print(f"Tipo MIME detectado: {mime_type}")
+
+        # 6. RETORNA O ARQUIVO ENCONTRADO NO CAMINHO PARA O FRONTEND
+        return send_file(
+            caminho_absoluto,
+            mimetype=mime_type,
+            as_attachment=False
+        )
+
+    except Exception as e:
+        print(f"Erro no servidor ao visualizar documento: {e}")
+        return jsonify({"erro": f"Erro interno no servidor: {str(e)}"}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if db and db.is_connected():
+            db.close()
 
 
 # =========================================================
@@ -477,290 +570,6 @@ def listar_documentos():
 
         return jsonify({
             "erro": str(e)
-        }), 500
-
-
-    finally:
-
-        if cursor:
-
-            cursor.close()
-
-
-        if db:
-
-            db.close()
-
-
-# =========================================================
-# VISUALIZAR DOCUMENTO
-# =========================================================
-
-@app.route(
-    "/documento/<int:id_documento>/visualizar"
-)
-def visualizar_documento(
-    id_documento
-):
-
-    db = None
-
-    cursor = None
-
-
-    try:
-
-        print("")
-        print(
-            "========================================"
-        )
-
-        print(
-            "SOLICITAÇÃO DE VISUALIZAÇÃO"
-        )
-
-        print(
-            "ID:",
-            id_documento
-        )
-
-        print(
-            "========================================"
-        )
-
-
-        # -------------------------------------------------
-        # BUSCA DOCUMENTO NO BANCO
-        # -------------------------------------------------
-
-        db = get_db_connection()
-
-        cursor = db.cursor(
-            dictionary=True
-        )
-
-
-        query = """
-            SELECT
-                id,
-                caminho,
-                nome_arquivo,
-                tipo
-            FROM documentos
-            WHERE id = %s
-        """
-
-
-        cursor.execute(
-            query,
-            (id_documento,)
-        )
-
-
-        documento = cursor.fetchone()
-
-
-        # -------------------------------------------------
-        # FECHA BANCO
-        # -------------------------------------------------
-
-        cursor.close()
-
-        cursor = None
-
-        db.close()
-
-        db = None
-
-
-        # -------------------------------------------------
-        # VERIFICA DOCUMENTO
-        # -------------------------------------------------
-
-        if not documento:
-
-            print(
-                "Documento não encontrado no banco."
-            )
-
-
-            return jsonify({
-                "erro": "Documento não encontrado."
-            }), 404
-
-
-        print(
-            "Documento encontrado:",
-            documento
-        )
-
-
-        # -------------------------------------------------
-        # PEGA CAMINHO
-        # -------------------------------------------------
-
-        caminho = documento.get(
-            "caminho"
-        )
-
-
-        if not caminho:
-
-            print(
-                "O campo caminho está vazio."
-            )
-
-
-            return jsonify({
-                "erro":
-                    "O documento não possui caminho armazenado."
-            }), 404
-
-
-        # -------------------------------------------------
-        # CORRIGE BARRAS
-        # -------------------------------------------------
-
-        caminho = caminho.replace(
-            "\\",
-            os.sep
-        )
-
-
-        # -------------------------------------------------
-        # SE O CAMINHO FOR RELATIVO
-        # adiciona a pasta do projeto
-        # -------------------------------------------------
-
-        if not os.path.isabs(caminho):
-
-            caminho_absoluto = os.path.join(
-                BASE_DIR,
-                caminho
-            )
-
-        else:
-
-            caminho_absoluto = caminho
-
-
-        # -------------------------------------------------
-        # NORMALIZA O CAMINHO
-        # -------------------------------------------------
-
-        caminho_absoluto = os.path.abspath(
-            caminho_absoluto
-        )
-
-
-        # -------------------------------------------------
-        # DEBUG
-        # -------------------------------------------------
-
-        print(
-            "Caminho salvo no banco:"
-        )
-
-        print(
-            documento["caminho"]
-        )
-
-
-        print(
-            "Caminho convertido:"
-        )
-
-        print(
-            caminho_absoluto
-        )
-
-
-        print(
-            "Arquivo existe:"
-        )
-
-        print(
-            os.path.isfile(
-                caminho_absoluto
-            )
-        )
-
-
-        # -------------------------------------------------
-        # VERIFICA ARQUIVO FÍSICO
-        # -------------------------------------------------
-
-        if not os.path.isfile(
-            caminho_absoluto
-        ):
-
-            print(
-                "ARQUIVO NÃO ENCONTRADO!"
-            )
-
-
-            return jsonify({
-
-                "erro":
-                    "Arquivo físico não encontrado.",
-
-                "caminho_banco":
-                    documento["caminho"],
-
-                "caminho_procurado":
-                    caminho_absoluto
-
-            }), 404
-
-
-        # -------------------------------------------------
-        # DESCOBRE MIME TYPE
-        # -------------------------------------------------
-
-        mime_type, _ = (
-            mimetypes.guess_type(
-                caminho_absoluto
-            )
-        )
-
-
-        if not mime_type:
-
-            mime_type = (
-                "application/octet-stream"
-            )
-
-
-        print(
-            "Tipo MIME:",
-            mime_type
-        )
-
-
-        # -------------------------------------------------
-        # ENVIA ARQUIVO
-        # -------------------------------------------------
-
-        return send_file(
-            caminho_absoluto,
-            mimetype=mime_type
-        )
-
-
-    except Exception as e:
-
-        print("")
-        print(
-            "ERRO AO VISUALIZAR DOCUMENTO:"
-        )
-
-        print(e)
-
-
-        return jsonify({
-
-            "erro": str(e)
-
         }), 500
 
 

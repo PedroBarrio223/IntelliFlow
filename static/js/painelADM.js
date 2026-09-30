@@ -459,117 +459,117 @@ document.addEventListener("DOMContentLoaded",function(){
     }
 
     /* 16. MODAL VISUALIZAÇÃO */
-    const modalVisualizarDocumento=document.getElementById("modalVisualizarDocumento");
-    const btnFecharVisualizar=document.getElementById("btnFecharVisualizar");
-    const imagemDocumentoVisualizar=document.getElementById("imagemDocumentoVisualizar");
-    const pdfDocumentoVisualizar=document.getElementById("pdfDocumentoVisualizar");
-    const nomeDocumentoVisualizar=document.getElementById("nomeDocumentoVisualizar");
-    const listaDocumentos=document.getElementById("listaDocumentos");
+    const modalVisualizarDocumento = document.getElementById("modalVisualizarDocumento");
+    const btnFecharVisualizar = document.getElementById("btnFecharVisualizar");
+    const imagemDocumentoVisualizar = document.getElementById("imagemDocumentoVisualizar");
+    const pdfDocumentoVisualizar = document.getElementById("pdfDocumentoVisualizar");
+    const nomeDocumentoVisualizar = document.getElementById("nomeDocumentoVisualizar");
+    const listaDocumentos = document.getElementById("listaDocumentos");
 
     /* 17. ABRIR DOCUMENTO */
-    if(listaDocumentos){
-        listaDocumentos.addEventListener("click",function(event){
-            const link=event.target.closest(".btn-visualizar-documento");
+    if (listaDocumentos) {
+        listaDocumentos.addEventListener("click", function (event) {
+            const link = event.target.closest(".btn-visualizar-documento");
 
-            if(!link)return;
+            if (!link) return;
 
             event.preventDefault();
 
-            const id=link.dataset.id;
-            const nome=link.dataset.nome||"Documento";
-            const extensao=(link.dataset.extensao||"").toLowerCase();
+            const id = link.dataset.id;
+            const nome = link.dataset.nome || "Documento";
+            const extensao = (link.dataset.extensao || "").toLowerCase();
 
-            console.log("Documento selecionado:",id);
+            console.log("Documento selecionado:", id);
 
-            if(!id){
+            if (!id) {
                 alert("ID do documento não encontrado.");
                 return;
             }
 
-            if(nomeDocumentoVisualizar){
-                nomeDocumentoVisualizar.textContent=nome;
+            if (nomeDocumentoVisualizar) {
+                nomeDocumentoVisualizar.textContent = nome;
             }
 
-            if(imagemDocumentoVisualizar){
-                imagemDocumentoVisualizar.style.display="none";
-                imagemDocumentoVisualizar.src="";
+            if (imagemDocumentoVisualizar) {
+                imagemDocumentoVisualizar.style.display = "none";
+                imagemDocumentoVisualizar.src = "";
             }
 
-            if(pdfDocumentoVisualizar){
-                pdfDocumentoVisualizar.style.display="none";
-                pdfDocumentoVisualizar.src="";
+            if (pdfDocumentoVisualizar) {
+                pdfDocumentoVisualizar.style.display = "none";
+                pdfDocumentoVisualizar.src = "";
             }
 
-            const urlDocumento=`/documento/${id}/visualizar`;
+            const urlDocumento = `/documento/${id}/visualizar`;
 
-            console.log("URL:",urlDocumento);
+            console.log("URL:", urlDocumento);
 
-            if(extensao===".pdf"||extensao==="pdf"){
-                if(pdfDocumentoVisualizar){
-                    pdfDocumentoVisualizar.src=urlDocumento;
-                    pdfDocumentoVisualizar.style.display="block";
+            if (extensao === ".pdf" || extensao === "pdf") {
+                if (pdfDocumentoVisualizar) {
+                    pdfDocumentoVisualizar.src = urlDocumento;
+                    pdfDocumentoVisualizar.style.display = "block";
                 }
-            }else{
-                if(imagemDocumentoVisualizar){
-                    imagemDocumentoVisualizar.src=urlDocumento;
-                    imagemDocumentoVisualizar.alt=nome;
-                    imagemDocumentoVisualizar.style.display="block";
+            } else {
+                if (imagemDocumentoVisualizar) {
+                    imagemDocumentoVisualizar.src = urlDocumento;
+                    imagemDocumentoVisualizar.alt = nome;
+                    imagemDocumentoVisualizar.style.display = "block";
 
-                    imagemDocumentoVisualizar.onerror=function(){
+                    imagemDocumentoVisualizar.onerror = function () {
                         console.error("Erro ao carregar imagem.");
                         alert("Não foi possível carregar o documento.");
                     };
                 }
             }
 
-            if(modalVisualizarDocumento){
+            if (modalVisualizarDocumento) {
                 modalVisualizarDocumento.classList.add("ativo");
             }
         });
     }
 
     /* 18. FECHAR MODAL VISUALIZAÇÃO */
-    function fecharModalVisualizar(){
-        if(!modalVisualizarDocumento)return;
+    function fecharModalVisualizar() {
+        if (!modalVisualizarDocumento) return;
 
         modalVisualizarDocumento.classList.remove("ativo");
 
-        if(imagemDocumentoVisualizar){
-            imagemDocumentoVisualizar.src="";
-            imagemDocumentoVisualizar.style.display="none";
+        if (imagemDocumentoVisualizar) {
+            imagemDocumentoVisualizar.src = "";
+            imagemDocumentoVisualizar.style.display = "none";
         }
 
-        if(pdfDocumentoVisualizar){
-            pdfDocumentoVisualizar.src="";
-            pdfDocumentoVisualizar.style.display="none";
+        if (pdfDocumentoVisualizar) {
+            pdfDocumentoVisualizar.src = "";
+            pdfDocumentoVisualizar.style.display = "none";
         }
 
-        if(nomeDocumentoVisualizar){
-            nomeDocumentoVisualizar.textContent="Documento";
+        if (nomeDocumentoVisualizar) {
+            nomeDocumentoVisualizar.textContent = "Documento";
         }
     }
 
     /* 19. BOTÃO X */
-    if(btnFecharVisualizar){
-        btnFecharVisualizar.addEventListener("click",fecharModalVisualizar);
+    if (btnFecharVisualizar) {
+        btnFecharVisualizar.addEventListener("click", fecharModalVisualizar);
     }
 
     /* 20. CLICAR FORA */
-    if(modalVisualizarDocumento){
-        modalVisualizarDocumento.addEventListener("click",function(event){
-            if(event.target===modalVisualizarDocumento){
+    if (modalVisualizarDocumento) {
+        modalVisualizarDocumento.addEventListener("click", function (event) {
+            if (event.target === modalVisualizarDocumento) {
                 fecharModalVisualizar();
             }
         });
     }
 
     /* 21. ESC */
-    document.addEventListener("keydown",function(event){
-        if(
-            event.key==="Escape"&&
-            modalVisualizarDocumento&&
+    document.addEventListener("keydown", function (event) {
+        if (
+            event.key === "Escape" &&
+            modalVisualizarDocumento &&
             modalVisualizarDocumento.classList.contains("ativo")
-        ){
+        ) {
             fecharModalVisualizar();
         }
     });
