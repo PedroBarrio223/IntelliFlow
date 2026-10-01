@@ -596,9 +596,7 @@ def listar_documentos():
 def estatisticas_documentos():
 
     db = None
-
     cursor = None
-
 
     try:
 
@@ -608,6 +606,9 @@ def estatisticas_documentos():
             dictionary=True
         )
 
+        # -------------------------------------------------
+        # DOCUMENTOS POR TIPO
+        # -------------------------------------------------
 
         query = """
             SELECT
@@ -618,17 +619,12 @@ def estatisticas_documentos():
             ORDER BY quantidade DESC
         """
 
-
         cursor.execute(query)
-
 
         resultados = cursor.fetchall()
 
-
         tipos = []
-
         quantidades = []
-
 
         for documento in resultados:
 
@@ -640,15 +636,39 @@ def estatisticas_documentos():
                 documento["quantidade"]
             )
 
+        # -------------------------------------------------
+        # TITULARES DIFERENTES
+        # -------------------------------------------------
+
+        query_titulares = """
+            SELECT
+                COUNT(DISTINCT titular) AS total_titulares
+            FROM documentos
+            WHERE titular IS NOT NULL
+              AND TRIM(titular) <> ''
+        """
+
+        cursor.execute(query_titulares)
+
+        resultado_titulares = cursor.fetchone()
+
+        total_titulares = int(
+            resultado_titulares["total_titulares"] or 0
+        )
+
+        # -------------------------------------------------
+        # RETORNO
+        # -------------------------------------------------
 
         return jsonify({
 
             "tipos": tipos,
 
-            "quantidades": quantidades
+            "quantidades": quantidades,
+
+            "total_titulares": total_titulares
 
         }), 200
-
 
     except mysql.connector.Error as err:
 
@@ -657,7 +677,6 @@ def estatisticas_documentos():
             err
         )
 
-
         return jsonify({
 
             "erro":
@@ -665,16 +684,12 @@ def estatisticas_documentos():
 
         }), 500
 
-
     finally:
 
         if cursor:
-
             cursor.close()
 
-
         if db:
-
             db.close()
 
 

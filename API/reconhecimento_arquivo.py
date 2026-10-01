@@ -160,13 +160,13 @@ def processar_upload():
         # Chamada com suporte a Retry
         response_tipo = executar_com_retry(
             lambda: client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.8-flash",
                 contents=contents_classificacao,
                 config=types.GenerateContentConfig(
                     system_instruction=prompt_sistema,
                     response_mime_type="text/x.enum",
-                    response_schema=TipoDocumento,
-                    temperature=0.0
+                    response_schema=TipoDocumento
+                    
                 )
             )
         )
@@ -193,7 +193,7 @@ def processar_upload():
         # Chamada com suporte a Retry
         response_numero = executar_com_retry(
             lambda: client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.8-flash",
                 contents=[documento_analise, prompt_extracao]
             )
         )
@@ -218,6 +218,7 @@ def processar_upload():
             'caminho': caminho_salvo,
             'nome_arquivo': nome_arquivo_usuario
         }), 200
+
 
     except Exception as e:
         print(f"Erro ao processar o arquivo: {e}")

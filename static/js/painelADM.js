@@ -515,10 +515,6 @@ document.addEventListener("DOMContentLoaded",function(){
                     imagemDocumentoVisualizar.alt = nome;
                     imagemDocumentoVisualizar.style.display = "block";
 
-                    imagemDocumentoVisualizar.onerror = function () {
-                        console.error("Erro ao carregar imagem.");
-                        alert("Não foi possível carregar o documento.");
-                    };
                 }
             }
 
